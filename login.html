@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AMNA Shop</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">AMNA Shop</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li id="loginBtn"><a href="login.html" class="active">Login</a></li>
+                    <li id="signupBtn"><a href="signup.html">Sign Up</a></li>
+                    <li id="userMenu" style="display: none;"></li>
+                    <li><a href="cart.html" class="cart-button" id="cartButton">
+                        🛒 Cart <span class="cart-count" id="cartCount">0</span>
+                    </a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Login section -->
+    <section class="section">
+        <div class="container">
+            <div style="display: flex; justify-content: center; align-items: center; min-height: 60vh;">
+                <div class="form-container glass-effect">
+                    <h1 class="section-title" style="margin-bottom: 30px;">Welcome Back</h1>
+                    <p style="text-align: center; color: #7f8c8d; margin-bottom: 24px;">
+                        Sign in to your AMNA Shop account
+                    </p>
+
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required placeholder="Enter your email">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Password *</label>
+                            <input type="password" id="password" name="password" required placeholder="Enter your password">
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <label style="display: flex; align-items: center; font-size: 14px; color: #666;">
+                                <input type="checkbox" style="margin-right: 8px;">
+                                Remember me
+                            </label>
+                            <a href="#" style="color: #4a90e2; text-decoration: none; font-size: 14px;">Forgot password?</a>
+                        </div>
+                        
+                        <button type="submit" class="btn" style="width: 100%; margin-bottom: 20px;">Sign In</button>
+                        
+                        <div style="text-align: center;">
+                            <p style="color: #666; font-size: 14px;">
+                                Don't have an account? 
+                                <a href="signup.html" style="color: #4a90e2; text-decoration: none;">Sign up here</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo accounts section -->
+    <section class="section" style="background-color: #f8f9fa;">
+        <div class="container">
+            <div style="max-width: 700px; margin: 0 auto;">
+                <h2 class="section-title" style="margin-bottom: 10px;">Demo Accounts</h2>
+                <p style="color: #7f8c8d; text-align: center; margin-bottom: 30px;">
+                    For demonstration purposes, you can use these test accounts:
+                </p>
+
+                <div class="card" style="margin-bottom: 20px;">
+                    <h3 style="color: #667eea; margin-bottom: 10px;">Test User 1</h3>
+                    <p style="color: #7f8c8d; font-size: 14px; margin-bottom: 5px;"><strong>Email:</strong> test@amnashop.com</p>
+                    <p style="color: #7f8c8d; font-size: 14px;"><strong>Password:</strong> password123</p>
+                </div>
+
+                <div class="card">
+                    <h3 style="color: #667eea; margin-bottom: 10px;">Test User 2</h3>
+                    <p style="color: #7f8c8d; font-size: 14px; margin-bottom: 5px;"><strong>Email:</strong> demo@amnashop.com</p>
+                    <p style="color: #7f8c8d; font-size: 14px;"><strong>Password:</strong> demo123</p>
+                </div>
+
+                <p style="color: #7f8c8d; font-size: 12px; margin-top: 20px; text-align: center; font-style: italic;">
+                    Or create your own account using the signup form
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <!-- Footer content will be generated by navigation.js -->
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/mockdata.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/form.js"></script>
+    <script>
+        // Initialize demo accounts on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create demo accounts if they don't exist
+            let users = JSON.parse(localStorage.getItem('registeredUsers') || '[]');
+            
+            const demoUsers = [
+                {
+                    name: 'Test User',
+                    email: 'test@amnashop.com',
+                    password: 'password123',
+                    signupDate: new Date().toISOString()
+                },
+                {
+                    name: 'Demo User',
+                    email: 'demo@amnashop.com',
+                    password: 'demo123',
+                    signupDate: new Date().toISOString()
+                }
+            ];
+            
+            demoUsers.forEach(demoUser => {
+                if (!users.find(u => u.email === demoUser.email)) {
+                    users.push(demoUser);
+                }
+            });
+            
+            localStorage.setItem('registeredUsers', JSON.stringify(users));
+        });
+    </script>
+</body>
+</html>

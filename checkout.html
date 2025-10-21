@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - AMNA Shop</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">AMNA Shop</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li id="loginBtn"><a href="login.html">Login</a></li>
+                    <li id="signupBtn"><a href="signup.html">Sign Up</a></li>
+                    <li id="userMenu" style="display: none;"></li>
+                    <li><a href="cart.html" class="cart-button" id="cartButton">
+                        🛒 Cart <span class="cart-count" id="cartCount">0</span>
+                    </a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Checkout Progress -->
+    <section class="section" style="background-color: #f8f9fa; padding: 20px 0;">
+        <div class="container">
+            <div class="checkout-progress">
+                <div class="progress-step active">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Cart</div>
+                </div>
+                <div class="progress-line active"></div>
+                <div class="progress-step active">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Checkout</div>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Payment</div>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step">
+                    <div class="step-number">4</div>
+                    <div class="step-label">Confirmation</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Checkout section -->
+    <section class="section">
+        <div class="container">
+            <h1 style="text-align: center; color: #333; margin-bottom: 50px;">Checkout</h1>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: start;">
+                <!-- Order form -->
+                <div class="form-container">
+                    <h2 style="margin-bottom: 30px; color: #333;">Shipping Information</h2>
+                    
+                    <!-- Guest checkout option -->
+                    <div class="guest-checkout-option" style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 30px; border: 2px solid #e9ecef;">
+                        <h3 style="color: #4a90e2; margin-bottom: 15px;">Checkout Options</h3>
+                        <div class="checkout-options">
+                            <label class="checkout-option">
+                                <input type="radio" name="checkoutType" value="guest" checked>
+                                <span class="option-content">
+                                    <strong>Guest Checkout</strong>
+                                    <small>Quick checkout without creating an account</small>
+                                </span>
+                            </label>
+                            <label class="checkout-option">
+                                <input type="radio" name="checkoutType" value="account">
+                                <span class="option-content">
+                                    <strong>Account Checkout</strong>
+                                    <small>Sign in to save your information for future orders</small>
+                                </span>
+                            </label>
+                        </div>
+                        <div id="loginPrompt" style="display: none; margin-top: 15px; padding: 15px; background: #e3f2fd; border-radius: 8px;">
+                            <p style="margin: 0 0 10px 0; color: #1976d2;">Already have an account?</p>
+                            <a href="login.html" class="btn btn-secondary" style="margin-right: 10px;">Sign In</a>
+                            <a href="signup.html" class="btn">Create Account</a>
+                        </div>
+                    </div>
+                    
+                    <form id="checkoutForm">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="address">Shipping Address *</label>
+                            <textarea id="address" name="address" required placeholder="Enter your complete shipping address"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="paymentMethod">Payment Method *</label>
+                            <select id="paymentMethod" name="paymentMethod" required>
+                                <option value="">Select Payment Method</option>
+                                <option value="credit-card">Credit/Debit Card</option>
+                                <option value="bank-transfer">Bank Transfer</option>
+                                <option value="cash-on-delivery">Cash on Delivery</option>
+                                <option value="mobile-payment">Mobile Payment (Vodafone Cash, Orange Money)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="shippingMethod">Shipping Method *</label>
+                            <select id="shippingMethod" name="shippingMethod" required>
+                                <option value="">Select Shipping Method</option>
+                                <option value="standard">Standard Shipping (3-5 days) - Free</option>
+                                <option value="express">Express Shipping (1-2 days) - 50 EGP</option>
+                                <option value="same-day">Same Day Delivery - 100 EGP</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="notes">Order Notes (Optional)</label>
+                            <textarea id="notes" name="notes" placeholder="Any special instructions for your order..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="termsAccepted" name="termsAccepted" required>
+                                <span class="checkmark"></span>
+                                I agree to the <a href="#" onclick="showTerms()">Terms and Conditions</a> and <a href="#" onclick="showPrivacy()">Privacy Policy</a>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn" style="width: 100%;" id="checkoutBtn">Confirm Order</button>
+                    </form>
+                </div>
+
+                <!-- Order summary -->
+                <div>
+                    <h2 style="margin-bottom: 30px; color: #333;">Order Summary</h2>
+                    <div id="cartItems" style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
+                        <!-- Cart items will be populated by JavaScript -->
+                    </div>
+                    
+                    <!-- Order totals -->
+                    <div id="orderTotals" style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); margin-top: 20px;">
+                        <h3 style="color: #4a90e2; margin-bottom: 20px;">Order Totals</h3>
+                        <div class="totals-row">
+                            <span>Subtotal:</span>
+                            <span id="subtotal">0 EGP</span>
+                        </div>
+                        <div class="totals-row">
+                            <span>Shipping:</span>
+                            <span id="shippingCost">0 EGP</span>
+                        </div>
+                        <div class="totals-row" style="border-top: 2px solid #eee; padding-top: 15px; font-weight: bold; font-size: 18px;">
+                            <span>Total:</span>
+                            <span id="totalAmount">0 EGP</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Payment information -->
+                    <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); margin-top: 30px;">
+                        <h3 style="color: #4a90e2; margin-bottom: 20px;">Payment Information</h3>
+                        <p style="color: #666; margin-bottom: 15px;">
+                            <strong>Payment Method:</strong> Credit/Debit Card
+                        </p>
+                        <p style="color: #666; margin-bottom: 15px;">
+                            <strong>Security:</strong> Your payment information is encrypted and secure
+                        </p>
+                        <p style="color: #666; margin-bottom: 15px;">
+                            <strong>Processing:</strong> Payment will be processed after order confirmation
+                        </p>
+                        <div style="display: flex; align-items: center; margin-top: 20px;">
+                            <div style="font-size: 24px; margin-right: 10px;">🔒</div>
+                            <span style="color: #666; font-size: 14px;">Secure SSL encrypted checkout</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Shipping information -->
+                    <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); margin-top: 30px;">
+                        <h3 style="color: #4a90e2; margin-bottom: 20px;">Shipping Information</h3>
+                        <p style="color: #666; margin-bottom: 15px;">
+                            <strong>Standard Shipping:</strong> 3-5 business days
+                        </p>
+                        <p style="color: #666; margin-bottom: 15px;">
+                            <strong>Express Shipping:</strong> 1-2 business days (additional fee)
+                        </p>
+                        <p style="color: #666; margin-bottom: 15px;">
+                            <strong>Free Shipping:</strong> Orders over 1000 EGP
+                        </p>
+                        <div style="display: flex; align-items: center; margin-top: 20px;">
+                            <div style="font-size: 24px; margin-right: 10px;">🚚</div>
+                            <span style="color: #666; font-size: 14px;">Track your order with real-time updates</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security section -->
+    <section class="section" style="background-color: #f8f9fa;">
+        <div class="container">
+            <h2 style="text-align: center; color: #333; margin-bottom: 40px;">Your Security is Our Priority</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 800px; margin: 0 auto;">
+                <div style="text-align: center; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
+                    <div style="font-size: 48px; margin-bottom: 20px;">🔐</div>
+                    <h3 style="color: #4a90e2; margin-bottom: 15px;">Secure Payment</h3>
+                    <p style="color: #666; line-height: 1.6;">
+                        All transactions are protected with industry-standard encryption
+                    </p>
+                </div>
+                
+                <div style="text-align: center; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
+                    <div style="font-size: 48px; margin-bottom: 20px;">🛡️</div>
+                    <h3 style="color: #4a90e2; margin-bottom: 15px;">Privacy Protection</h3>
+                    <p style="color: #666; line-height: 1.6;">
+                        Your personal information is never shared with third parties
+                    </p>
+                </div>
+                
+                <div style="text-align: center; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
+                    <div style="font-size: 48px; margin-bottom: 20px;">✅</div>
+                    <h3 style="color: #4a90e2; margin-bottom: 15px;">Money Back Guarantee</h3>
+                    <p style="color: #666; line-height: 1.6;">
+                        30-day return policy with full refund guarantee
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- CSS for checkout enhancements -->
+    <style>
+        .checkout-progress {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ddd;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .progress-step.active .step-number {
+            background: #4a90e2;
+            color: white;
+        }
+        
+        .step-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .progress-step.active .step-label {
+            color: #4a90e2;
+            font-weight: 600;
+        }
+        
+        .progress-line {
+            width: 80px;
+            height: 2px;
+            background: #ddd;
+            margin: 0 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .progress-line.active {
+            background: #4a90e2;
+        }
+        
+        .totals-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px 0;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: flex-start;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .checkbox-label input[type="checkbox"] {
+            margin-right: 10px;
+            margin-top: 2px;
+        }
+        
+        .checkbox-label a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+        
+        .checkbox-label a:hover {
+            text-decoration: underline;
+        }
+        
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group select:focus {
+            outline: none;
+            border-color: #4a90e2;
+        }
+        
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        
+        .item-info {
+            flex: 1;
+        }
+        
+        .item-info h4 {
+            margin: 0 0 5px 0;
+            color: #333;
+        }
+        
+        .item-info p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .item-total {
+            font-weight: bold;
+            color: #4a90e2;
+            font-size: 16px;
+        }
+        
+        .checkout-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .checkout-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .checkout-option:hover {
+            border-color: #4a90e2;
+            background: #f8f9ff;
+        }
+        
+        .checkout-option input[type="radio"] {
+            margin-right: 15px;
+            transform: scale(1.2);
+        }
+        
+        .checkout-option input[type="radio"]:checked + .option-content {
+            color: #4a90e2;
+        }
+        
+        .checkout-option:has(input[type="radio"]:checked) {
+            border-color: #4a90e2;
+            background: #e3f2fd;
+        }
+        
+        .option-content {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .option-content strong {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .option-content small {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .checkout-progress {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .progress-line {
+                width: 40px;
+                margin: 0 10px;
+            }
+            
+            .step-label {
+                font-size: 12px;
+            }
+        }
+    </style>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/checkout.js"></script>
+</body>
+</html>
