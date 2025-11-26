@@ -232,6 +232,15 @@ function generateFooter() {
                 <div class="footer-section">
                     <h3>AMNA Shop</h3>
                     <p>Your one-stop destination for quality products and exceptional service. Built with passion by four dedicated students.</p>
+<<<<<<< HEAD
+=======
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook">📘</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="LinkedIn">💼</a>
+                    </div>
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
                 </div>
                 
                 <div class="footer-section">
@@ -241,7 +250,10 @@ function generateFooter() {
                         <li><a href="about.html">About Us</a></li>
                         <li><a href="services.html">Services</a></li>
                         <li><a href="shop.html">Shop</a></li>
+<<<<<<< HEAD
                         <li><a href="team.html">Team</a></li>
+=======
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
                 </div>
@@ -261,10 +273,17 @@ function generateFooter() {
                     <h4>Support</h4>
                     <ul>
                         <li><a href="contact.html">Contact Us</a></li>
+<<<<<<< HEAD
                         <li><a href="faq.html">FAQ</a></li>
                         <li><a href="shipping.html">Shipping Info</a></li>
                         <li><a href="returns.html">Returns</a></li>
                         <li><a href="privacy.html">Privacy Policy</a></li>
+=======
+                        <li><a href="#" onclick="showFAQ()">FAQ</a></li>
+                        <li><a href="#" onclick="showShipping()">Shipping Info</a></li>
+                        <li><a href="#" onclick="showReturns()">Returns</a></li>
+                        <li><a href="#" onclick="showPrivacy()">Privacy Policy</a></li>
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
                     </ul>
                 </div>
             </div>

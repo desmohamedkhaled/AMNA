@@ -507,7 +507,11 @@
         
         // Check if user is logged in
         function checkUserLogin() {
+<<<<<<< HEAD
             const loggedInUser = localStorage.getItem('currentUser');
+=======
+            const loggedInUser = localStorage.getItem('loggedInUser');
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
             if (!loggedInUser) {
                 showNotification('Please log in to access your dashboard', 'warning');
                 setTimeout(() => {
@@ -523,8 +527,12 @@
         // Update user information display
         function updateUserInfo() {
             if (currentUser) {
+<<<<<<< HEAD
                 const displayName = currentUser.firstName || currentUser.name || 'User';
                 document.querySelector('.dashboard-title').textContent = `Welcome back, ${displayName}!`;
+=======
+                document.querySelector('.dashboard-title').textContent = `Welcome back, ${currentUser.firstName}!`;
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
             }
         }
         
@@ -673,6 +681,7 @@
         // Initialize profile form
         function initializeProfileForm() {
             if (currentUser) {
+<<<<<<< HEAD
                 // Split name into first and last name if available
                 const fullName = currentUser.name || '';
                 const nameParts = fullName.split(' ');
@@ -684,6 +693,13 @@
                 document.getElementById('email').value = currentUser.email || '';
                 document.getElementById('phone').value = currentUser.phone || currentUser.profile?.phone || '';
                 document.getElementById('address').value = currentUser.address || currentUser.profile?.address || '';
+=======
+                document.getElementById('firstName').value = currentUser.firstName || '';
+                document.getElementById('lastName').value = currentUser.lastName || '';
+                document.getElementById('email').value = currentUser.email || '';
+                document.getElementById('phone').value = currentUser.phone || '';
+                document.getElementById('address').value = currentUser.address || '';
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
                 document.getElementById('city').value = currentUser.city || '';
             }
             
@@ -695,6 +711,7 @@
             e.preventDefault();
             
             const formData = new FormData(e.target);
+<<<<<<< HEAD
             const firstName = formData.get('firstName');
             const lastName = formData.get('lastName');
             const fullName = `${firstName} ${lastName}`.trim();
@@ -704,6 +721,12 @@
                 name: fullName,
                 firstName: firstName,
                 lastName: lastName,
+=======
+            const updatedUser = {
+                ...currentUser,
+                firstName: formData.get('firstName'),
+                lastName: formData.get('lastName'),
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
                 email: formData.get('email'),
                 phone: formData.get('phone'),
                 address: formData.get('address'),
@@ -717,7 +740,11 @@
             if (userIndex !== -1) {
                 users[userIndex] = updatedUser;
                 localStorage.setItem('registeredUsers', JSON.stringify(users));
+<<<<<<< HEAD
                 localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+=======
+                localStorage.setItem('loggedInUser', JSON.stringify(updatedUser));
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
                 currentUser = updatedUser;
                 
                 showNotification('Profile updated successfully!', 'success');

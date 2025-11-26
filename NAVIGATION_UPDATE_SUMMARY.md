@@ -53,9 +53,15 @@
 - `contact.html` - Added scripts and footer
 - `dashboard.html` - Added scripts and footer
 
+<<<<<<< HEAD
 🎯 **Mock Data Features**
 
  Products (25 items):
+=======
+## 🎯 **Mock Data Features**
+
+### Products (25 items):
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
 ```javascript
 // Example product structure
 {
@@ -71,7 +77,11 @@
 }
 ```
 
+<<<<<<< HEAD
 Users (7 accounts):
+=======
+### Users (7 accounts):
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
 ```javascript
 // Admin account
 {
@@ -89,14 +99,23 @@ Users (7 accounts):
     role: "user"
 }
 ```
+<<<<<<< HEAD
  Categories:
+=======
+
+### Categories:
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
 - 📱 **Electronics** - 5 products
 - 👕 **Fashion** - 5 products  
 - ⌚ **Accessories** - 5 products
 - 🏠 **Home** - 5 products
 - 💄 **Beauty** - 5 products
 
+<<<<<<< HEAD
 🔗 **Navigation Features**
+=======
+## 🔗 **Navigation Features**
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
 
 ### Dynamic Navigation:
 - **Home, About, Services, Shop, Gallery, Team, Contact** - Always visible
@@ -114,6 +133,7 @@ Users (7 accounts):
 - Current page is highlighted in navigation
 - Smooth transitions and hover effects
 
+<<<<<<< HEAD
 🚀 **How to Use**
 
 1. **Access the Website**
@@ -121,6 +141,15 @@ Users (7 accounts):
 - All navigation links work seamlessly
 
 2. **Test User Accounts**
+=======
+## 🚀 **How to Use**
+
+### 1. **Access the Website**
+- Open `index.html` in your browser
+- All navigation links work seamlessly
+
+### 2. **Test User Accounts**
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
 ```
 Admin Account:
 - Email: admin@amnashop.com
@@ -137,58 +166,99 @@ Demo Accounts:
 - Access: Regular user dashboard
 ```
 
+<<<<<<< HEAD
 3. **Browse Products**
+=======
+### 3. **Browse Products**
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
 - Visit `shop.html` to see all 25 products
 - Use category filters and search
 - Add products to cart
 - View product details with ratings
 
+<<<<<<< HEAD
  4. **Admin Features**
+=======
+### 4. **Admin Features**
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
 - Login with admin account
 - Access "Admin Panel" from navigation
 - Full admin dashboard with all features
 
+<<<<<<< HEAD
 🎨 **Design Features**
 
  Navigation:
+=======
+## 🎨 **Design Features**
+
+### Navigation:
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
 - **Sticky header** with blur effect
 - **Smooth animations** and transitions
 - **Responsive design** for all devices
 - **Active page highlighting**
 
+<<<<<<< HEAD
  Footer:
+=======
+### Footer:
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
 - **4-column layout** with comprehensive links
 - **Social media icons** with hover effects
 - **Company information** and branding
 - **Support links** with modal dialogs
 
+<<<<<<< HEAD
  Products:
+=======
+### Products:
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
 - **High-quality images** from Unsplash
 - **Star ratings** and review counts
 - **Price in EGP** (Egyptian Pounds)
 - **Category badges** and descriptions
 
+<<<<<<< HEAD
  🔧 **Technical Implementation**
 
  Script Loading Order:
+=======
+## 🔧 **Technical Implementation**
+
+### Script Loading Order:
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
 1. `js/mockdata.js` - Load mock data first
 2. `js/navigation.js` - Initialize navigation
 3. `js/main.js` - Main functionality
 4. `js/form.js` - Form handling (where needed)
 
+<<<<<<< HEAD
  Data Integration:
+=======
+### Data Integration:
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
 - **Mock data** is loaded globally
 - **Products** use enhanced structure with ratings
 - **Users** include role-based access
 - **Navigation** updates dynamically based on login status
 
+<<<<<<< HEAD
 Responsive Design:
+=======
+### Responsive Design:
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
 - **Mobile-first** approach
 - **Grid layouts** that adapt to screen size
 - **Touch-friendly** navigation
 - **Optimized** for all devices
 
+<<<<<<< HEAD
  🎓 **Educational Value**
+=======
+## 🎓 **Educational Value**
+
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
 This implementation demonstrates:
 - **Frontend Architecture** - Modular JavaScript organization
 - **Data Management** - Mock data with realistic structure
@@ -197,9 +267,15 @@ This implementation demonstrates:
 - **E-commerce Features** - Product catalog, user management
 - **Admin Systems** - Role-based access control
 
+<<<<<<< HEAD
 🔮 **Future Enhancements**
 
 Potential Improvements:
+=======
+## 🔮 **Future Enhancements**
+
+### Potential Improvements:
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
 - **Backend Integration** - Replace mock data with real API
 - **Database** - Store data persistently
 - **Search Enhancement** - Advanced filtering and sorting
@@ -207,9 +283,15 @@ Potential Improvements:
 - **Order Tracking** - Real-time order status
 - **Payment Integration** - Egyptian payment gateways
 
+<<<<<<< HEAD
  📞 **Support & Testing**
 
  Testing Checklist:
+=======
+## 📞 **Support & Testing**
+
+### Testing Checklist:
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
 - ✅ All navigation links work
 - ✅ User login/logout functions
 - ✅ Admin panel access
@@ -218,13 +300,21 @@ Potential Improvements:
 - ✅ Responsive design
 - ✅ Footer links and modals
 
+<<<<<<< HEAD
 Browser Compatibility:
+=======
+### Browser Compatibility:
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
 - ✅ Chrome (recommended)
 - ✅ Firefox
 - ✅ Safari
 - ✅ Edge
 - ✅ Mobile browsers
 
+<<<<<<< HEAD
+=======
+---
+>>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
 
 **AMNA Shop** - Now with comprehensive navigation and realistic mock data! 🎉
 
