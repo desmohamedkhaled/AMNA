@@ -508,7 +508,7 @@
         // Check if user is logged in
         function checkUserLogin() {
             const loggedInUser = localStorage.getItem('currentUser');
-=======
+
             const loggedInUser = localStorage.getItem('loggedInUser');
             if (!loggedInUser) {
                 showNotification('Please log in to access your dashboard', 'warning');
@@ -527,7 +527,7 @@
             if (currentUser) {
                 const displayName = currentUser.firstName || currentUser.name || 'User';
                 document.querySelector('.dashboard-title').textContent = `Welcome back, ${displayName}!`;
-=======
+
                 document.querySelector('.dashboard-title').textContent = `Welcome back, ${currentUser.firstName}!`;
             }
         }
@@ -688,7 +688,7 @@
                 document.getElementById('email').value = currentUser.email || '';
                 document.getElementById('phone').value = currentUser.phone || currentUser.profile?.phone || '';
                 document.getElementById('address').value = currentUser.address || currentUser.profile?.address || '';
-=======
+
                 document.getElementById('firstName').value = currentUser.firstName || '';
                 document.getElementById('lastName').value = currentUser.lastName || '';
                 document.getElementById('email').value = currentUser.email || '';
@@ -714,7 +714,7 @@
                 name: fullName,
                 firstName: firstName,
                 lastName: lastName,
-=======
+
             const updatedUser = {
                 ...currentUser,
                 firstName: formData.get('firstName'),
@@ -733,7 +733,7 @@
                 users[userIndex] = updatedUser;
                 localStorage.setItem('registeredUsers', JSON.stringify(users));
                 localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-=======
+
                 localStorage.setItem('loggedInUser', JSON.stringify(updatedUser));
                 currentUser = updatedUser;
                 
@@ -802,4 +802,5 @@
     </script>
 </body>
 </html>
+
 
