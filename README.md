@@ -187,4 +187,3 @@ This project is created for educational purposes as part of a university course.
 ---
 
 **AMNA Shop** - Built with ❤️ by four passionate students
->>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e

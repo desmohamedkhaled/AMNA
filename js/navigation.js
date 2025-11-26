@@ -1,4 +1,4 @@
-// AMNA Shop - Navigation Management
+﻿// AMNA Shop - Navigation Management
 // Centralized navigation functionality for all pages
 
 // ========================================
@@ -240,7 +240,6 @@ function generateFooter() {
                         <a href="#" aria-label="Instagram">📷</a>
                         <a href="#" aria-label="LinkedIn">💼</a>
                     </div>
->>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
                 </div>
                 
                 <div class="footer-section">
@@ -253,7 +252,6 @@ function generateFooter() {
 <<<<<<< HEAD
                         <li><a href="team.html">Team</a></li>
 =======
->>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
                 </div>
@@ -283,7 +281,6 @@ function generateFooter() {
                         <li><a href="#" onclick="showShipping()">Shipping Info</a></li>
                         <li><a href="#" onclick="showReturns()">Returns</a></li>
                         <li><a href="#" onclick="showPrivacy()">Privacy Policy</a></li>
->>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
                     </ul>
                 </div>
             </div>
@@ -376,3 +373,4 @@ window.addEventListener('storage', function(e) {
         updateUserMenu();
     }
 });
+

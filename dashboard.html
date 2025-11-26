@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -511,7 +511,6 @@
             const loggedInUser = localStorage.getItem('currentUser');
 =======
             const loggedInUser = localStorage.getItem('loggedInUser');
->>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
             if (!loggedInUser) {
                 showNotification('Please log in to access your dashboard', 'warning');
                 setTimeout(() => {
@@ -532,7 +531,6 @@
                 document.querySelector('.dashboard-title').textContent = `Welcome back, ${displayName}!`;
 =======
                 document.querySelector('.dashboard-title').textContent = `Welcome back, ${currentUser.firstName}!`;
->>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
             }
         }
         
@@ -699,7 +697,6 @@
                 document.getElementById('email').value = currentUser.email || '';
                 document.getElementById('phone').value = currentUser.phone || '';
                 document.getElementById('address').value = currentUser.address || '';
->>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
                 document.getElementById('city').value = currentUser.city || '';
             }
             
@@ -726,7 +723,6 @@
                 ...currentUser,
                 firstName: formData.get('firstName'),
                 lastName: formData.get('lastName'),
->>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
                 email: formData.get('email'),
                 phone: formData.get('phone'),
                 address: formData.get('address'),
@@ -744,7 +740,6 @@
                 localStorage.setItem('currentUser', JSON.stringify(updatedUser));
 =======
                 localStorage.setItem('loggedInUser', JSON.stringify(updatedUser));
->>>>>>> 7bc9b90d7b9b57c80dbf62563b83e6786450984e
                 currentUser = updatedUser;
                 
                 showNotification('Profile updated successfully!', 'success');
