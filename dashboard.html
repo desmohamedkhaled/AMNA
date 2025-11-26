@@ -507,7 +507,6 @@
         
         // Check if user is logged in
         function checkUserLogin() {
-<<<<<<< HEAD
             const loggedInUser = localStorage.getItem('currentUser');
 =======
             const loggedInUser = localStorage.getItem('loggedInUser');
@@ -526,7 +525,6 @@
         // Update user information display
         function updateUserInfo() {
             if (currentUser) {
-<<<<<<< HEAD
                 const displayName = currentUser.firstName || currentUser.name || 'User';
                 document.querySelector('.dashboard-title').textContent = `Welcome back, ${displayName}!`;
 =======
@@ -679,7 +677,6 @@
         // Initialize profile form
         function initializeProfileForm() {
             if (currentUser) {
-<<<<<<< HEAD
                 // Split name into first and last name if available
                 const fullName = currentUser.name || '';
                 const nameParts = fullName.split(' ');
@@ -708,7 +705,6 @@
             e.preventDefault();
             
             const formData = new FormData(e.target);
-<<<<<<< HEAD
             const firstName = formData.get('firstName');
             const lastName = formData.get('lastName');
             const fullName = `${firstName} ${lastName}`.trim();
@@ -736,7 +732,6 @@
             if (userIndex !== -1) {
                 users[userIndex] = updatedUser;
                 localStorage.setItem('registeredUsers', JSON.stringify(users));
-<<<<<<< HEAD
                 localStorage.setItem('currentUser', JSON.stringify(updatedUser));
 =======
                 localStorage.setItem('loggedInUser', JSON.stringify(updatedUser));
@@ -807,3 +802,4 @@
     </script>
 </body>
 </html>
+

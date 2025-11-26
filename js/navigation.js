@@ -232,7 +232,6 @@ function generateFooter() {
                 <div class="footer-section">
                     <h3>AMNA Shop</h3>
                     <p>Your one-stop destination for quality products and exceptional service. Built with passion by four dedicated students.</p>
-<<<<<<< HEAD
 =======
                     <div class="social-links">
                         <a href="#" aria-label="Facebook">📘</a>
@@ -249,7 +248,6 @@ function generateFooter() {
                         <li><a href="about.html">About Us</a></li>
                         <li><a href="services.html">Services</a></li>
                         <li><a href="shop.html">Shop</a></li>
-<<<<<<< HEAD
                         <li><a href="team.html">Team</a></li>
 =======
                         <li><a href="contact.html">Contact</a></li>
@@ -271,7 +269,6 @@ function generateFooter() {
                     <h4>Support</h4>
                     <ul>
                         <li><a href="contact.html">Contact Us</a></li>
-<<<<<<< HEAD
                         <li><a href="faq.html">FAQ</a></li>
                         <li><a href="shipping.html">Shipping Info</a></li>
                         <li><a href="returns.html">Returns</a></li>
@@ -373,4 +370,5 @@ window.addEventListener('storage', function(e) {
         updateUserMenu();
     }
 });
+
 

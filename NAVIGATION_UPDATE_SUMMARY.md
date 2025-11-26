@@ -53,7 +53,6 @@
 - `contact.html` - Added scripts and footer
 - `dashboard.html` - Added scripts and footer
 
-<<<<<<< HEAD
 🎯 **Mock Data Features**
 
  Products (25 items):
@@ -77,7 +76,6 @@
 }
 ```
 
-<<<<<<< HEAD
 Users (7 accounts):
 =======
 ### Users (7 accounts):
@@ -99,7 +97,6 @@ Users (7 accounts):
     role: "user"
 }
 ```
-<<<<<<< HEAD
  Categories:
 =======
 
@@ -111,7 +108,6 @@ Users (7 accounts):
 - 🏠 **Home** - 5 products
 - 💄 **Beauty** - 5 products
 
-<<<<<<< HEAD
 🔗 **Navigation Features**
 =======
 ## 🔗 **Navigation Features**
@@ -133,7 +129,6 @@ Users (7 accounts):
 - Current page is highlighted in navigation
 - Smooth transitions and hover effects
 
-<<<<<<< HEAD
 🚀 **How to Use**
 
 1. **Access the Website**
@@ -166,7 +161,6 @@ Demo Accounts:
 - Access: Regular user dashboard
 ```
 
-<<<<<<< HEAD
 3. **Browse Products**
 =======
 ### 3. **Browse Products**
@@ -176,7 +170,6 @@ Demo Accounts:
 - Add products to cart
 - View product details with ratings
 
-<<<<<<< HEAD
  4. **Admin Features**
 =======
 ### 4. **Admin Features**
@@ -185,7 +178,6 @@ Demo Accounts:
 - Access "Admin Panel" from navigation
 - Full admin dashboard with all features
 
-<<<<<<< HEAD
 🎨 **Design Features**
 
  Navigation:
@@ -199,7 +191,6 @@ Demo Accounts:
 - **Responsive design** for all devices
 - **Active page highlighting**
 
-<<<<<<< HEAD
  Footer:
 =======
 ### Footer:
@@ -209,7 +200,6 @@ Demo Accounts:
 - **Company information** and branding
 - **Support links** with modal dialogs
 
-<<<<<<< HEAD
  Products:
 =======
 ### Products:
@@ -219,7 +209,6 @@ Demo Accounts:
 - **Price in EGP** (Egyptian Pounds)
 - **Category badges** and descriptions
 
-<<<<<<< HEAD
  🔧 **Technical Implementation**
 
  Script Loading Order:
@@ -232,7 +221,6 @@ Demo Accounts:
 3. `js/main.js` - Main functionality
 4. `js/form.js` - Form handling (where needed)
 
-<<<<<<< HEAD
  Data Integration:
 =======
 ### Data Integration:
@@ -241,7 +229,6 @@ Demo Accounts:
 - **Users** include role-based access
 - **Navigation** updates dynamically based on login status
 
-<<<<<<< HEAD
 Responsive Design:
 =======
 ### Responsive Design:
@@ -250,7 +237,6 @@ Responsive Design:
 - **Touch-friendly** navigation
 - **Optimized** for all devices
 
-<<<<<<< HEAD
  🎓 **Educational Value**
 =======
 ## 🎓 **Educational Value**
@@ -263,7 +249,6 @@ This implementation demonstrates:
 - **E-commerce Features** - Product catalog, user management
 - **Admin Systems** - Role-based access control
 
-<<<<<<< HEAD
 🔮 **Future Enhancements**
 
 Potential Improvements:
@@ -278,7 +263,6 @@ Potential Improvements:
 - **Order Tracking** - Real-time order status
 - **Payment Integration** - Egyptian payment gateways
 
-<<<<<<< HEAD
  📞 **Support & Testing**
 
  Testing Checklist:
@@ -294,7 +278,6 @@ Potential Improvements:
 - ✅ Responsive design
 - ✅ Footer links and modals
 
-<<<<<<< HEAD
 Browser Compatibility:
 =======
 ### Browser Compatibility:
@@ -304,11 +287,11 @@ Browser Compatibility:
 - ✅ Edge
 - ✅ Mobile browsers
 
-<<<<<<< HEAD
 =======
 ---
 
 **AMNA Shop** - Now with comprehensive navigation and realistic mock data! 🎉
 
 *All pages are connected with working navigation, and the system includes 25 products, 7 user accounts, and full admin functionality.*
+
 
