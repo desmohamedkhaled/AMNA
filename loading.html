@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading - AMNA Shop</title>
+    <link rel="stylesheet" href="css/loading.css">
+</head>
+<body>
+    <!-- Loading animation container -->
+    <div class="loading-container">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading...</div>
+        <div class="loading-subtitle">Welcome to AMNA Shop</div>
+    </div>
+
+    <script>
+        // Redirect to index.html after 3 seconds
+        setTimeout(function() {
+            // Add fade out effect
+            document.body.classList.add('fade-out');
+            
+            // Redirect after fade animation
+            setTimeout(function() {
+                window.location.href = 'index.html';
+            }, 500);
+        }, 3000);
+    </script>
+</body>
+</html>

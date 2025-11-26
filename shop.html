@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - AMNA Shop</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">AMNA Shop</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li id="loginBtn"><a href="login.html">Login</a></li>
+                    <li id="signupBtn"><a href="signup.html">Sign Up</a></li>
+                    <li id="userMenu" style="display: none;"></li>
+                    <li><a href="cart.html" class="cart-button" id="cartButton">
+                        🛒 Cart <span class="cart-count" id="cartCount">0</span>
+                    </a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Combined Filter and Shop section -->
+    <section class="section">
+        <div class="container">
+            <h1 class="section-title">Our Premium Collection</h1>
+            <p style="text-align: center; color: #666; margin-bottom: 40px; font-size: 18px;">
+                Discover our curated selection of high-quality products, carefully chosen for their exceptional value and style
+            </p>
+            
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search products by name, category, or description..." onkeyup="handleSearch()">
+                    <button class="search-btn" onclick="handleSearch()">
+                        <span>🔍</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Enhanced Filter Container -->
+            <div class="filter-container">
+                <div class="filter-group">
+                    <label for="categoryFilter">Category:</label>
+                    <select id="categoryFilter" onchange="filterProducts()">
+                        <option value="">All Categories</option>
+                        <option value="Clothes">👕 Clothes</option>
+                        <option value="Electronics">📱 Electronics</option>
+                        <option value="Accessories">⌚ Accessories</option>
+                        <option value="Home">🏠 Home</option>
+                        <option value="Beauty">💄 Beauty</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="priceFilter">Price Range:</label>
+                    <select id="priceFilter" onchange="filterProducts()">
+                        <option value="">All Prices</option>
+                        <option value="0-25">💰 0 - 500 EGP</option>
+                        <option value="25-50">💰 500 - 1000 EGP</option>
+                        <option value="50-100">💰 1000 - 2000 EGP</option>
+                        <option value="100+">💰 2000+ EGP</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="sortFilter">Sort By:</label>
+                    <select id="sortFilter" onchange="filterProducts()">
+                        <option value="name">📝 Name (A-Z)</option>
+                        <option value="price-low">💵 Price (Low to High)</option>
+                        <option value="price-high">💵 Price (High to Low)</option>
+                        <option value="category">📂 Category</option>
+                        <option value="popularity">⭐ Popularity</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="availabilityFilter">Availability:</label>
+                    <select id="availabilityFilter" onchange="filterProducts()">
+                        <option value="">All Items</option>
+                        <option value="in-stock">✅ In Stock</option>
+                        <option value="low-stock">⚠️ Low Stock</option>
+                        <option value="new-arrivals">🆕 New Arrivals</option>
+                    </select>
+                </div>
+                
+                <div class="filter-actions">
+                    <!-- <button class="btn btn-secondary" onclick="clearFilters()">
+                        <span>🗑️</span> Clear Filters
+                    </button> -->
+                    <button class="btn" onclick="showAllProducts()">
+                        <span>👁️</span> Show All
+                    </button>
+                    <a href="compare.html" class="btn btn-secondary">
+                        <span>⚖️</span> Compare Products
+                    </a>
+                    <!-- </button>
+                    <button class="btn btn-secondary" onclick="toggleViewMode()" id="viewModeBtn">
+                        <span>📋</span> List View
+                    </button> -->
+                </div>
+            </div>
+            
+            <!-- Active Filters Display -->
+            <div class="active-filters" id="activeFilters" style="display: none;">
+                <h4>Active Filters:</h4>
+                <div class="filter-tags" id="filterTags"></div>
+            </div>
+            
+            
+            <div id="productsContainer">
+                <div class="product-grid" id="productGrid">
+                    <!-- Products will be dynamically loaded here -->
+                </div>
+                
+                <!-- Loading indicator -->
+                <div class="loading-indicator" id="loadingIndicator" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Loading products...</p>
+                </div>
+                
+                <!-- No results message -->
+                <div class="no-results" id="noResults" style="display: none;">
+                    <div class="no-results-icon">🔍</div>
+                    <h3>No products found</h3>
+                    <p>Try adjusting your search criteria or filters</p>
+                    <button class="btn" onclick="clearFilters()">Clear All Filters</button>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination" id="pagination" style="display: none;">
+                    <button class="btn btn-secondary" id="prevPage" onclick="changePage(-1)">← Previous</button>
+                    <span class="page-info" id="pageInfo">Page 1 of 1</span>
+                    <button class="btn btn-secondary" id="nextPage" onclick="changePage(1)">Next →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Quick View Modal -->
+    <div id="quickViewModal" class="quick-view-modal">
+        <div class="quick-view-content">
+            <span class="quick-view-close">&times;</span>
+            <div class="quick-view-body">
+                <div class="quick-view-image">
+                    <img id="quickViewImage" src="" alt="">
+                    <div class="image-zoom-controls">
+                        <button class="zoom-btn" onclick="zoomImage(1.2)">🔍+</button>
+                        <button class="zoom-btn" onclick="zoomImage(0.8)">🔍-</button>
+                        <button class="zoom-btn" onclick="resetZoom()">↺</button>
+                    </div>
+                </div>
+                <div class="quick-view-details">
+                    <div class="product-header">
+                        <h2 id="quickViewTitle"></h2>
+                        <div class="product-badges" id="productBadges">
+                            <span class="badge new">🆕 New</span>
+                            <span class="badge popular">⭐ Popular</span>
+                        </div>
+                    </div>
+                    
+                    <div class="price-section">
+                        <p id="quickViewPrice" class="quick-view-price"></p>
+                        <p id="quickViewOriginalPrice" class="original-price" style="display: none;"></p>
+                        <span class="discount-badge" id="discountBadge" style="display: none;"></span>
+                    </div>
+                    
+                    <div class="product-meta">
+                        <p id="quickViewCategory" class="quick-view-category"></p>
+                        <div class="product-rating" id="productRating">
+                            <div class="stars">⭐⭐⭐⭐⭐</div>
+                            <span class="rating-text">(4.8/5) • 127 reviews</span>
+                        </div>
+                    </div>
+                    
+                    <p id="quickViewDescription" class="quick-view-description"></p>
+                    
+                    <div class="product-features" id="productFeatures">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>✅ Premium quality materials</li>
+                            <li>✅ 30-day money-back guarantee</li>
+                            <li>✅ Free shipping on orders over 1000 EGP</li>
+                            <li>✅ 24/7 customer support</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="quantity-selector">
+                        <label for="quickViewQuantity">Quantity:</label>
+                        <div class="quantity-controls">
+                            <button class="qty-btn" onclick="changeQuantity(-1)">-</button>
+                            <input type="number" id="quickViewQuantity" value="1" min="1" max="10">
+                            <button class="qty-btn" onclick="changeQuantity(1)">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-view-actions">
+                        <button class="btn btn-primary" id="quickViewAddToCart">
+                            <span>🛒</span> Add to Cart
+                        </button>
+                        <button class="btn btn-secondary" id="quickViewWishlist">
+                            <span>❤️</span> Add to Wishlist
+                        </button>
+                        <button class="btn btn-outline" onclick="closeQuickView()">
+                            <span>✕</span> Close
+                        </button>
+                    </div>
+                    
+                    <div class="product-links">
+                        <a href="#" class="product-link" id="viewFullDetailsLink">📋 View Full Details</a>
+                        <a href="#" class="product-link">💬 Ask a Question</a>
+                        <a href="#" class="product-link">📞 Contact Support</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Comparison Modal -->
+    <div id="compareModal" class="compare-modal">
+        <div class="compare-content">
+            <div class="compare-header">
+                <h2>Product Comparison</h2>
+                <span class="compare-close" onclick="closeCompareModal()">&times;</span>
+            </div>
+            <div class="compare-body" id="compareBody">
+                <!-- Comparison content will be dynamically generated -->
+            </div>
+            <div class="compare-actions">
+                <button class="btn btn-secondary" onclick="clearComparison()">Clear All</button>
+                <button class="btn" onclick="closeCompareModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <!-- Footer content will be generated by navigation.js -->
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/mockdata.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

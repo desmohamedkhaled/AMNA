@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Comparison - AMNA Shop</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .compare-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .compare-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .compare-title {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .compare-subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+        
+        .compare-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .compare-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-clear-comparison {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        
+        .btn-clear-comparison:hover {
+            background: #c82333;
+        }
+        
+        .btn-add-more {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        
+        .btn-add-more:hover {
+            background: #357abd;
+        }
+        
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+        
+        .comparison-header {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #e1e5e9;
+        }
+        
+        .comparison-products {
+            display: grid;
+            grid-template-columns: 200px repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0;
+        }
+        
+        .comparison-feature {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e1e5e9;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .comparison-product {
+            border-right: 1px solid #e1e5e9;
+            position: relative;
+        }
+        
+        .comparison-product:last-child {
+            border-right: none;
+        }
+        
+        .product-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #e1e5e9;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .product-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .product-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .product-rating .stars {
+            color: #ffc107;
+        }
+        
+        .product-rating .rating-text {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .product-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .btn-add-to-cart {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        
+        .btn-add-to-cart:hover {
+            background: #357abd;
+        }
+        
+        .btn-view-details {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .btn-view-details:hover {
+            background: #5a6268;
+        }
+        
+        .btn-remove {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s ease;
+        }
+        
+        .btn-remove:hover {
+            background: #c82333;
+        }
+        
+        .comparison-feature-row {
+            display: grid;
+            grid-template-columns: 200px repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0;
+        }
+        
+        .feature-value {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e1e5e9;
+            border-right: 1px solid #e1e5e9;
+        }
+        
+        .feature-value:last-child {
+            border-right: none;
+        }
+        
+        .feature-value.highlight {
+            background: #e3f2fd;
+            font-weight: bold;
+        }
+        
+        .empty-comparison {
+            text-align: center;
+            padding: 60px 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+        
+        .empty-comparison-icon {
+            font-size: 80px;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        
+        .empty-comparison h3 {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .empty-comparison p {
+            color: #999;
+            margin-bottom: 30px;
+        }
+        
+        .comparison-summary {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .summary-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .summary-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .summary-item-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .summary-item-content {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison-products {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-feature-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .compare-actions {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">AMNA Shop</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li id="loginBtn"><a href="login.html">Login</a></li>
+                    <li id="signupBtn"><a href="signup.html">Sign Up</a></li>
+                    <li id="userMenu" style="display: none;"></li>
+                    <li><a href="cart.html" class="cart-button" id="cartButton">
+                        🛒 Cart <span class="cart-count" id="cartCount">0</span>
+                    </a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Comparison Section -->
+    <section class="section">
+        <div class="compare-container">
+            <div class="compare-header">
+                <h1 class="compare-title">Product Comparison</h1>
+                <p class="compare-subtitle">Compare products side by side to make the best choice</p>
+            </div>
+            
+            <!-- Comparison Controls -->
+            <div class="compare-controls">
+                <div class="compare-count">
+                    <strong id="compareCount">0</strong> products selected for comparison
+                </div>
+                <div class="compare-actions">
+                    <button class="btn-clear-comparison" onclick="clearComparison()">Clear All</button>
+                    <a href="shop.html" class="btn-add-more">Add More Products</a>
+                </div>
+            </div>
+            
+            <!-- Comparison Table -->
+            <div class="comparison-table" id="comparisonTable" style="display: none;">
+                <div class="comparison-header">
+                    <h3>Detailed Comparison</h3>
+                </div>
+                <div class="comparison-products" id="comparisonProducts">
+                    <!-- Comparison products will be populated by JavaScript -->
+                </div>
+                <div class="comparison-feature-row" id="comparisonFeatures">
+                    <!-- Comparison features will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Empty Comparison -->
+            <div class="empty-comparison" id="emptyComparison">
+                <div class="empty-comparison-icon">⚖️</div>
+                <h3>No products to compare</h3>
+                <p>Add products to your comparison list to see detailed comparisons</p>
+                <a href="shop.html" class="btn">Browse Products</a>
+            </div>
+            
+            <!-- Comparison Summary -->
+            <div class="comparison-summary" id="comparisonSummary" style="display: none;">
+                <h3 class="summary-title">Comparison Summary</h3>
+                <div class="summary-grid" id="summaryGrid">
+                    <!-- Summary will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <!-- Footer content will be generated by navigation.js -->
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/mockdata.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Comparison functionality
+        let comparisonProducts = JSON.parse(localStorage.getItem('comparisonProducts') || '[]');
+        
+        // Initialize comparison page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadComparison();
+        });
+        
+        // Load comparison data
+        function loadComparison() {
+            updateComparisonCount();
+            
+            if (comparisonProducts.length === 0) {
+                showEmptyComparison();
+                return;
+            }
+            
+            showComparisonTable();
+            loadComparisonProducts();
+            loadComparisonFeatures();
+            loadComparisonSummary();
+        }
+        
+        // Show empty comparison state
+        function showEmptyComparison() {
+            document.getElementById('comparisonTable').style.display = 'none';
+            document.getElementById('comparisonSummary').style.display = 'none';
+            document.getElementById('emptyComparison').style.display = 'block';
+        }
+        
+        // Show comparison table
+        function showComparisonTable() {
+            document.getElementById('comparisonTable').style.display = 'block';
+            document.getElementById('comparisonSummary').style.display = 'block';
+            document.getElementById('emptyComparison').style.display = 'none';
+        }
+        
+        // Load comparison products
+        function loadComparisonProducts() {
+            const comparisonProductsDiv = document.getElementById('comparisonProducts');
+            let productsHTML = '';
+            
+            comparisonProducts.forEach((productId, index) => {
+                const product = products.find(p => p.id == productId);
+                if (!product) return;
+                
+                productsHTML += `
+                    <div class="comparison-product">
+                        <div class="product-header">
+                            <img src="${product.image || product.img}" alt="${product.name}" class="product-image">
+                            <h3 class="product-name">${product.name}</h3>
+                            <div class="product-price">${product.price} EGP</div>
+                            <div class="product-rating">
+                                <span class="stars">${'⭐'.repeat(Math.floor(product.rating || 4))}</span>
+                                <span class="rating-text">(${product.reviews || 0})</span>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn-add-to-cart" onclick="addToCart('${product.id}', '${product.name}', ${product.price})">
+                                    🛒 Add to Cart
+                                </button>
+                                <a href="product.html?id=${product.id}" class="btn-view-details">
+                                    👁️ View Details
+                                </a>
+                                <button class="btn-remove" onclick="removeFromComparison(${index})">
+                                    ❌ Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            comparisonProductsDiv.innerHTML = productsHTML;
+        }
+        
+        // Load comparison features
+        function loadComparisonFeatures() {
+            const comparisonFeaturesDiv = document.getElementById('comparisonFeatures');
+            let featuresHTML = '';
+            
+            // Define features to compare
+            const features = [
+                { name: 'Price', key: 'price', format: 'currency' },
+                { name: 'Rating', key: 'rating', format: 'rating' },
+                { name: 'Reviews', key: 'reviews', format: 'number' },
+                { name: 'Category', key: 'category', format: 'text' },
+                { name: 'Availability', key: 'availability', format: 'text' },
+                { name: 'Brand', key: 'brand', format: 'text' },
+                { name: 'Warranty', key: 'warranty', format: 'text' },
+                { name: 'Weight', key: 'weight', format: 'text' },
+                { name: 'Dimensions', key: 'dimensions', format: 'text' },
+                { name: 'Color', key: 'color', format: 'text' }
+            ];
+            
+            features.forEach(feature => {
+                featuresHTML += `<div class="comparison-feature">${feature.name}</div>`;
+                
+                comparisonProducts.forEach(productId => {
+                    const product = products.find(p => p.id == productId);
+                    if (product) {
+                        const value = product[feature.key] || 'N/A';
+                        const formattedValue = formatFeatureValue(value, feature.format);
+                        featuresHTML += `<div class="feature-value">${formattedValue}</div>`;
+                    } else {
+                        featuresHTML += `<div class="feature-value">N/A</div>`;
+                    }
+                });
+            });
+            
+            comparisonFeaturesDiv.innerHTML = featuresHTML;
+        }
+        
+        // Format feature value
+        function formatFeatureValue(value, format) {
+            switch (format) {
+                case 'currency':
+                    return `${value} EGP`;
+                case 'rating':
+                    return `${'⭐'.repeat(Math.floor(value || 0))} (${value || 0}/5)`;
+                case 'number':
+                    return value || '0';
+                case 'text':
+                default:
+                    return value || 'N/A';
+            }
+        }
+        
+        // Load comparison summary
+        function loadComparisonSummary() {
+            const summaryGrid = document.getElementById('summaryGrid');
+            let summaryHTML = '';
+            
+            // Price comparison
+            const prices = comparisonProducts.map(id => {
+                const product = products.find(p => p.id == id);
+                return product ? product.price : 0;
+            });
+            
+            const minPrice = Math.min(...prices);
+            const maxPrice = Math.max(...prices);
+            const avgPrice = prices.reduce((sum, price) => sum + price, 0) / prices.length;
+            
+            summaryHTML += `
+                <div class="summary-item">
+                    <div class="summary-item-title">💰 Price Analysis</div>
+                    <div class="summary-item-content">
+                        <strong>Range:</strong> ${minPrice} - ${maxPrice} EGP<br>
+                        <strong>Average:</strong> ${avgPrice.toFixed(2)} EGP<br>
+                        <strong>Best Value:</strong> ${comparisonProducts.find(id => {
+                            const product = products.find(p => p.id == id);
+                            return product && product.price === minPrice;
+                        }) ? 'Yes' : 'No'}
+                    </div>
+                </div>
+            `;
+            
+            // Rating comparison
+            const ratings = comparisonProducts.map(id => {
+                const product = products.find(p => p.id == id);
+                return product ? (product.rating || 0) : 0;
+            });
+            
+            const maxRating = Math.max(...ratings);
+            const avgRating = ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length;
+            
+            summaryHTML += `
+                <div class="summary-item">
+                    <div class="summary-item-title">⭐ Rating Analysis</div>
+                    <div class="summary-item-content">
+                        <strong>Highest Rating:</strong> ${maxRating}/5<br>
+                        <strong>Average Rating:</strong> ${avgRating.toFixed(1)}/5<br>
+                        <strong>Top Rated:</strong> ${comparisonProducts.find(id => {
+                            const product = products.find(p => p.id == id);
+                            return product && product.rating === maxRating;
+                        }) ? 'Yes' : 'No'}
+                    </div>
+                </div>
+            `;
+            
+            // Category analysis
+            const categories = comparisonProducts.map(id => {
+                const product = products.find(p => p.id == id);
+                return product ? product.category : 'Unknown';
+            });
+            
+            const uniqueCategories = [...new Set(categories)];
+            
+            summaryHTML += `
+                <div class="summary-item">
+                    <div class="summary-item-title">📂 Category Analysis</div>
+                    <div class="summary-item-content">
+                        <strong>Categories:</strong> ${uniqueCategories.join(', ')}<br>
+                        <strong>Diversity:</strong> ${uniqueCategories.length} different categories<br>
+                        <strong>Mix:</strong> ${uniqueCategories.length > 1 ? 'Mixed categories' : 'Same category'}
+                    </div>
+                </div>
+            `;
+            
+            // Recommendation
+            const bestProduct = comparisonProducts.reduce((best, id) => {
+                const product = products.find(p => p.id == id);
+                const bestProduct = products.find(p => p.id == best);
+                
+                if (!product) return best;
+                if (!bestProduct) return id;
+                
+                // Score based on rating and price (higher rating, lower price = better)
+                const productScore = (product.rating || 0) * 5 - (product.price / 1000);
+                const bestScore = (bestProduct.rating || 0) * 5 - (bestProduct.price / 1000);
+                
+                return productScore > bestScore ? id : best;
+            }, comparisonProducts[0]);
+            
+            const recommendedProduct = products.find(p => p.id == bestProduct);
+            
+            summaryHTML += `
+                <div class="summary-item">
+                    <div class="summary-item-title">🏆 Recommendation</div>
+                    <div class="summary-item-content">
+                        <strong>Best Choice:</strong> ${recommendedProduct ? recommendedProduct.name : 'N/A'}<br>
+                        <strong>Reason:</strong> Best balance of rating and price<br>
+                        <strong>Score:</strong> ${recommendedProduct ? ((recommendedProduct.rating || 0) * 5 - (recommendedProduct.price / 1000)).toFixed(1) : 'N/A'}
+                    </div>
+                </div>
+            `;
+            
+            summaryGrid.innerHTML = summaryHTML;
+        }
+        
+        // Update comparison count
+        function updateComparisonCount() {
+            document.getElementById('compareCount').textContent = comparisonProducts.length;
+        }
+        
+        // Remove product from comparison
+        function removeFromComparison(index) {
+            comparisonProducts.splice(index, 1);
+            localStorage.setItem('comparisonProducts', JSON.stringify(comparisonProducts));
+            loadComparison();
+            showNotification('Product removed from comparison', 'success');
+        }
+        
+        // Clear all comparisons
+        function clearComparison() {
+            if (confirm('Are you sure you want to clear all comparisons?')) {
+                comparisonProducts = [];
+                localStorage.setItem('comparisonProducts', JSON.stringify(comparisonProducts));
+                loadComparison();
+                showNotification('Comparison cleared', 'success');
+            }
+        }
+        
+        // Add to cart function
+        function addToCart(productId, productName, productPrice) {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: productId,
+                    name: productName,
+                    price: productPrice,
+                    quantity: 1
+                });
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Update cart count
+            if (typeof updateCartCount === 'function') {
+                updateCartCount();
+            }
+            
+            showNotification(`${productName} added to cart!`, 'success');
+        }
+        
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                z-index: 10000;
+                font-weight: 600;
+                animation: slideInRight 0.3s ease-out;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease-out forwards';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+        
+        // Add CSS for notifications
+        const notificationStyle = document.createElement('style');
+        notificationStyle.textContent = `
+            @keyframes slideInRight {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideOutRight {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(notificationStyle);
+    </script>
+</body>
+</html>

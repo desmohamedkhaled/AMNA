@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipping Information - AMNA Shop</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .shipping-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .shipping-option {
+            background: #fff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .shipping-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .shipping-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #007bff, #28a745);
+        }
+        
+        .shipping-icon {
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .shipping-content h3 {
+            color: #2c3e50;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .shipping-content p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .shipping-content strong {
+            color: #007bff;
+            font-weight: 600;
+        }
+        
+        .shipping-details {
+            background: #fff;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e9ecef;
+        }
+        
+        .shipping-details h2 {
+            color: #2c3e50;
+            font-size: 1.6em;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #007bff;
+            display: inline-block;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .detail-item {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #17a2b8;
+            transition: all 0.3s ease;
+        }
+        
+        .detail-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .detail-item h4 {
+            color: #2c3e50;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .detail-item p {
+            color: #555;
+            line-height: 1.6;
+            margin: 0;
+        }
+        
+        .shipping-policy {
+            background: #fff;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e9ecef;
+        }
+        
+        .shipping-policy h2 {
+            color: #2c3e50;
+            font-size: 1.6em;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #28a745;
+            display: inline-block;
+        }
+        
+        .policy-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .policy-list li {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+            color: #555;
+            line-height: 1.5;
+            transition: all 0.3s ease;
+        }
+        
+        .policy-list li:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        .policy-list li::before {
+            content: '✓';
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .contact-shipping {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .contact-shipping h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        
+        .contact-shipping p {
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+        
+        .contact-shipping .btn {
+            background: white;
+            color: #667eea;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-shipping .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Special styling for free shipping option */
+        .shipping-option:nth-child(4) {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+        }
+        
+        .shipping-option:nth-child(4) .shipping-content h3,
+        .shipping-option:nth-child(4) .shipping-content p {
+            color: white;
+        }
+        
+        .shipping-option:nth-child(4) .shipping-content strong {
+            color: #fff;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">AMNA Shop</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li id="loginBtn"><a href="login.html">Login</a></li>
+                    <li id="signupBtn"><a href="signup.html">Sign Up</a></li>
+                    <li id="userMenu" style="display: none;"></li>
+                    <li><a href="cart.html" class="cart-button" id="cartButton">
+                        🛒 Cart <span class="cart-count" id="cartCount">0</span>
+                    </a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Shipping Information Section -->
+    <section class="section">
+        <div class="container">
+            <h1 class="section-title">Shipping Information</h1>
+            
+            <div class="shipping-info">
+                <div class="shipping-option">
+                    <div class="shipping-icon">🚚</div>
+                    <div class="shipping-content">
+                        <h3>Same-Day Delivery (Cairo)</h3>
+                        <p><strong>Delivery Time:</strong> Same day for orders placed before 2:00 PM</p>
+                        <p><strong>Cost:</strong> 50 EGP</p>
+                        <p><strong>Coverage:</strong> Greater Cairo area only</p>
+                    </div>
+                </div>
+                
+                <div class="shipping-option">
+                    <div class="shipping-icon">📦</div>
+                    <div class="shipping-content">
+                        <h3>Standard Delivery</h3>
+                        <p><strong>Delivery Time:</strong> 2-3 business days</p>
+                        <p><strong>Cost:</strong> 50 EGP</p>
+                        <p><strong>Coverage:</strong> Nationwide across Egypt</p>
+                    </div>
+                </div>
+                
+                <div class="shipping-option">
+                    <div class="shipping-icon">⚡</div>
+                    <div class="shipping-content">
+                        <h3>Express Delivery</h3>
+                        <p><strong>Delivery Time:</strong> 1-2 business days</p>
+                        <p><strong>Cost:</strong> 100 EGP</p>
+                        <p><strong>Coverage:</strong> Major cities in Egypt</p>
+                    </div>
+                </div>
+                
+                <div class="shipping-option">
+                    <div class="shipping-icon">🎁</div>
+                    <div class="shipping-content">
+                        <h3>Free Shipping</h3>
+                        <p><strong>Delivery Time:</strong> 2-3 business days</p>
+                        <p><strong>Cost:</strong> FREE</p>
+                        <p><strong>Minimum Order:</strong> 500 EGP or more</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="shipping-details">
+                <h2>Shipping Details</h2>
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <h4>🚛 Trusted Couriers</h4>
+                        <p>We partner with reliable courier services including Aramex, DHL, and local delivery companies to ensure your orders arrive safely and on time.</p>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <h4>📱 Order Tracking</h4>
+                        <p>You'll receive SMS and email notifications with tracking information. You can also track your order in your account dashboard.</p>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <h4>🕒 Delivery Hours</h4>
+                        <p>Standard delivery hours are 9:00 AM to 6:00 PM, Sunday through Thursday. Weekend deliveries available in select areas.</p>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <h4>🏠 Delivery Address</h4>
+                        <p>Please ensure your delivery address is complete and accurate. We'll contact you if there are any issues with delivery.</p>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <h4>📦 Package Handling</h4>
+                        <p>All items are carefully packaged to prevent damage during transit. Fragile items receive extra protection.</p>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <h4>🔄 Delivery Attempts</h4>
+                        <p>We make up to 3 delivery attempts. If unsuccessful, items will be held at our local depot for pickup.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="shipping-policy">
+                <h2>Shipping Policy</h2>
+                <ul class="policy-list">
+                    <li>All orders are processed within 24 hours of payment confirmation</li>
+                    <li>Delivery times are estimates and may vary due to weather or other factors</li>
+                    <li>Someone must be available to receive the package at the delivery address</li>
+                    <li>We require a signature for delivery confirmation</li>
+                    <li>If no one is available, we'll leave a delivery note with instructions</li>
+                    <li>Damaged packages must be reported within 24 hours of delivery</li>
+                    <li>We're not responsible for packages delivered to incorrect addresses provided by customers</li>
+                </ul>
+            </div>
+            
+            <div class="contact-shipping">
+                <h3>Questions about shipping?</h3>
+                <p>If you have any questions about shipping or need to modify your delivery address, please contact us.</p>
+                <a href="contact.html" class="btn">Contact Support</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <!-- Footer content will be generated by navigation.js -->
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/mockdata.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

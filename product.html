@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - AMNA Shop</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">AMNA Shop</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li id="loginBtn"><a href="login.html">Login</a></li>
+                    <li id="signupBtn"><a href="signup.html">Sign Up</a></li>
+                    <li id="userMenu" style="display: none;"></li>
+                    <li><a href="cart.html" class="cart-button" id="cartButton">
+                        🛒 Cart <span class="cart-count" id="cartCount">0</span>
+                    </a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Product Details Section -->
+    <section class="section">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb">
+                <a href="index.html">Home</a> > 
+                <a href="shop.html">Shop</a> > 
+                <a href="shop.html?category=Electronics">Electronics</a> > 
+                <span>Premium Smartphone</span>
+            </nav>
+
+            <div class="product-details-container">
+                <!-- Product Images -->
+                <div class="product-images">
+                    <div class="main-product-image">
+                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=600&fit=crop&crop=center" alt="Premium Smartphone - Main View" id="mainProductImage" />
+                        <div class="image-zoom-overlay" id="zoomOverlay">
+                            <div class="zoom-controls">
+                                <button class="zoom-btn" onclick="zoomImage(1.2)">🔍+</button>
+                                <button class="zoom-btn" onclick="zoomImage(0.8)">🔍-</button>
+                                <button class="zoom-btn" onclick="resetZoom()">↺</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Thumbnail Images -->
+                    <div class="product-thumbnails">
+                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100&h=100&fit=crop&crop=center" alt="Premium Smartphone - Front View" class="thumbnail active" onclick="changeMainImage(this)" />
+                        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=100&h=100&fit=crop&crop=center" alt="Premium Smartphone - Back View" class="thumbnail" onclick="changeMainImage(this)" />
+                        <img src="https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=100&h=100&fit=crop&crop=center" alt="Premium Smartphone - Side View" class="thumbnail" onclick="changeMainImage(this)" />
+                        <img src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=100&h=100&fit=crop&crop=center" alt="Premium Smartphone - Detail View" class="thumbnail" onclick="changeMainImage(this)" />
+                    </div>
+                </div>
+
+                <!-- Product Information -->
+                <div class="product-info">
+                    <div class="product-header">
+                        <h1 class="product-title">Premium Smartphone</h1>
+                        <div class="product-badges">
+                            <span class="badge new">🆕 New</span>
+                            <span class="badge popular">⭐ Popular</span>
+                            <span class="badge sale">🔥 Sale</span>
+                        </div>
+                    </div>
+
+                    <div class="product-rating">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <span class="rating-text">(4.8/5) • 127 reviews</span>
+                        <a href="#reviews" class="review-link">Read Reviews</a>
+                    </div>
+
+                    <div class="price-section">
+                        <p class="current-price">2,500 EGP</p>
+                        <p class="original-price">3,000 EGP</p>
+                        <span class="discount-badge">Save 500 EGP</span>
+                    </div>
+
+                    <div class="product-description">
+                        <h3>Product Description</h3>
+                        <p>
+                            Experience the future of mobile technology with our Premium Smartphone. 
+                            Featuring cutting-edge specifications, stunning design, and exceptional 
+                            performance that exceeds expectations.
+                        </p>
+                        <ul class="product-features">
+                            <li>✅ 6.7" Super AMOLED Display</li>
+                            <li>✅ 128GB Storage + 8GB RAM</li>
+                            <li>✅ Triple Camera System (108MP)</li>
+                            <li>✅ 5G Connectivity</li>
+                            <li>✅ 5000mAh Battery</li>
+                            <li>✅ Water & Dust Resistant</li>
+                        </ul>
+                    </div>
+
+                    <div class="product-options">
+                        <div class="option-group">
+                            <label>Color:</label>
+                            <div class="color-options">
+                                <button class="color-option active" data-color="black" style="background-color: #000;"></button>
+                                <button class="color-option" data-color="white" style="background-color: #fff; border: 1px solid #ddd;"></button>
+                                <button class="color-option" data-color="blue" style="background-color: #007bff;"></button>
+                                <button class="color-option" data-color="gold" style="background-color: #ffd700;"></button>
+                            </div>
+                        </div>
+
+                        <div class="option-group">
+                            <label>Storage:</label>
+                            <div class="storage-options">
+                                <button class="storage-option active" data-storage="128">128GB</button>
+                                <button class="storage-option" data-storage="256">256GB</button>
+                                <button class="storage-option" data-storage="512">512GB</button>
+                            </div>
+                        </div>
+
+                        <div class="quantity-selector">
+                            <label>Quantity:</label>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="changeQuantity(-1)">-</button>
+                                <input type="number" id="productQuantity" value="1" min="1" max="10">
+                                <button class="qty-btn" onclick="changeQuantity(1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-actions">
+                        <button class="btn btn-primary" onclick="addToCart()">
+                            <span>🛒</span> Add to Cart
+                        </button>
+                        <button class="btn btn-secondary" onclick="addToWishlist()">
+                            <span>❤️</span> Add to Wishlist
+                        </button>
+                        <button class="btn btn-outline" onclick="shareProduct()">
+                            <span>📤</span> Share
+                        </button>
+                    </div>
+
+                    <div class="product-shipping">
+                        <h4>Shipping & Returns</h4>
+                        <ul>
+                            <li>🚚 Free shipping on orders over 1000 EGP</li>
+                            <li>📦 Same-day delivery available in Cairo</li>
+                            <li>↩️ 30-day return policy</li>
+                            <li>🛡️ 2-year warranty included</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Details Tabs -->
+    <section class="section" style="background-color: white;">
+        <div class="container">
+            <div class="product-tabs">
+                <button class="tab-btn active" onclick="showTab('specifications')">Specifications</button>
+                <button class="tab-btn" onclick="showTab('reviews')">Reviews</button>
+                <button class="tab-btn" onclick="showTab('shipping')">Shipping</button>
+                <button class="tab-btn" onclick="showTab('warranty')">Warranty</button>
+            </div>
+
+            <div class="tab-content">
+                <div id="specifications" class="tab-panel active">
+                    <h3>Technical Specifications</h3>
+                    <table class="specs-table">
+                        <tr><td>Display</td><td>6.7" Super AMOLED, 120Hz</td></tr>
+                        <tr><td>Processor</td><td>Snapdragon 8 Gen 2</td></tr>
+                        <tr><td>Storage</td><td>128GB/256GB/512GB</td></tr>
+                        <tr><td>RAM</td><td>8GB/12GB</td></tr>
+                        <tr><td>Camera</td><td>108MP + 12MP + 8MP</td></tr>
+                        <tr><td>Battery</td><td>5000mAh, Fast Charging</td></tr>
+                        <tr><td>Connectivity</td><td>5G, WiFi 6, Bluetooth 5.3</td></tr>
+                        <tr><td>Operating System</td><td>Android 13</td></tr>
+                    </table>
+                </div>
+
+                <div id="reviews" class="tab-panel">
+                    <h3>Customer Reviews</h3>
+                    <div class="reviews-summary">
+                        <div class="rating-breakdown">
+                            <div class="rating-bar">
+                                <span>5⭐</span>
+                                <div class="bar"><div class="fill" style="width: 80%;"></div></div>
+                                <span>80%</span>
+                            </div>
+                            <div class="rating-bar">
+                                <span>4⭐</span>
+                                <div class="bar"><div class="fill" style="width: 15%;"></div></div>
+                                <span>15%</span>
+                            </div>
+                            <div class="rating-bar">
+                                <span>3⭐</span>
+                                <div class="bar"><div class="fill" style="width: 3%;"></div></div>
+                                <span>3%</span>
+                            </div>
+                            <div class="rating-bar">
+                                <span>2⭐</span>
+                                <div class="bar"><div class="fill" style="width: 1%;"></div></div>
+                                <span>1%</span>
+                            </div>
+                            <div class="rating-bar">
+                                <span>1⭐</span>
+                                <div class="bar"><div class="fill" style="width: 1%;"></div></div>
+                                <span>1%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="shipping" class="tab-panel">
+                    <h3>Shipping Information</h3>
+                    <p>We offer fast and reliable shipping across Egypt with multiple delivery options.</p>
+                    <ul>
+                        <li>Standard Delivery: 2-3 business days</li>
+                        <li>Express Delivery: 1-2 business days</li>
+                        <li>Same-day Delivery: Available in Cairo (order before 2 PM)</li>
+                        <li>Free shipping on orders over 1000 EGP</li>
+                    </ul>
+                </div>
+
+                <div id="warranty" class="tab-panel">
+                    <h3>Warranty Information</h3>
+                    <p>Your purchase is protected by our comprehensive warranty coverage.</p>
+                    <ul>
+                        <li>2-year manufacturer warranty</li>
+                        <li>1-year extended warranty available</li>
+                        <li>Free repair service for manufacturing defects</li>
+                        <li>24/7 technical support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Related Products</h2>
+            <div class="related-products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300&h=300&fit=crop&crop=center" alt="Phone Case" />
+                    </div>
+                    <div class="product-info">
+                        <h3>Premium Phone Case</h3>
+                        <p class="product-price">150 EGP</p>
+                        <button class="btn btn-small">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=300&h=300&fit=crop&crop=center" alt="Wireless Charger" />
+                    </div>
+                    <div class="product-info">
+                        <h3>Wireless Charger</h3>
+                        <p class="product-price">300 EGP</p>
+                        <button class="btn btn-small">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=300&h=300&fit=crop&crop=center" alt="Screen Protector" />
+                    </div>
+                    <div class="product-info">
+                        <h3>Tempered Glass Screen Protector</h3>
+                        <p class="product-price">80 EGP</p>
+                        <button class="btn btn-small">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <!-- Footer content will be generated by navigation.js -->
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/mockdata.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Product page specific JavaScript
+        function changeMainImage(thumbnail) {
+            const mainImage = document.getElementById('mainProductImage');
+            mainImage.src = thumbnail.src.replace('100x100', '600x600');
+            
+            // Update active thumbnail
+            document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+            thumbnail.classList.add('active');
+        }
+
+        function changeQuantity(delta) {
+            const quantityInput = document.getElementById('productQuantity');
+            let currentValue = parseInt(quantityInput.value);
+            let newValue = currentValue + delta;
+            
+            if (newValue >= 1 && newValue <= 10) {
+                quantityInput.value = newValue;
+            }
+        }
+
+        function addToCart() {
+            const quantity = document.getElementById('productQuantity').value;
+            alert(`Added ${quantity} Premium Smartphone(s) to cart!`);
+        }
+
+        function addToWishlist() {
+            alert('Added to wishlist!');
+        }
+
+        function shareProduct() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Premium Smartphone - AMNA Shop',
+                    text: 'Check out this amazing smartphone!',
+                    url: window.location.href
+                });
+            } else {
+                alert('Product link copied to clipboard!');
+            }
+        }
+
+        function showTab(tabName) {
+            // Hide all tab panels
+            document.querySelectorAll('.tab-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab panel
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        function zoomImage(factor) {
+            const mainImage = document.getElementById('mainProductImage');
+            const currentTransform = mainImage.style.transform || 'scale(1)';
+            const currentScale = parseFloat(currentTransform.match(/scale\(([^)]+)\)/)?.[1] || 1);
+            const newScale = currentScale * factor;
+            
+            if (newScale >= 0.5 && newScale <= 3) {
+                mainImage.style.transform = `scale(${newScale})`;
+            }
+        }
+
+        function resetZoom() {
+            const mainImage = document.getElementById('mainProductImage');
+            mainImage.style.transform = 'scale(1)';
+        }
+
+        // Load product data based on URL parameter
+        function loadProductData() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            
+            if (productId) {
+                // Find the product in the mock data
+                const product = products.find(p => p.id == productId);
+                if (product) {
+                    // Update page title
+                    document.title = `${product.name} - AMNA Shop`;
+                    
+                    // Update breadcrumb
+                    const breadcrumb = document.querySelector('.breadcrumb');
+                    breadcrumb.innerHTML = `
+                        <a href="index.html">Home</a> > 
+                        <a href="shop.html">Shop</a> > 
+                        <a href="shop.html?category=${product.category}">${product.category}</a> > 
+                        <span>${product.name}</span>
+                    `;
+                    
+                    // Update main product image
+                    const mainImage = document.getElementById('mainProductImage');
+                    mainImage.src = product.image || product.img;
+                    mainImage.alt = product.name;
+                    
+                    // Update thumbnails
+                    const thumbnails = document.querySelectorAll('.thumbnail');
+                    thumbnails.forEach((thumb, index) => {
+                        if (index === 0) {
+                            thumb.src = product.image || product.img;
+                        } else {
+                            // Use different angles/views of the same product
+                            thumb.src = product.image || product.img;
+                        }
+                        thumb.alt = `${product.name} - View ${index + 1}`;
+                    });
+                    
+                    // Update product information
+                    document.querySelector('.product-title').textContent = product.name;
+                    document.querySelector('.current-price').textContent = `${product.price} EGP`;
+                    document.querySelector('.product-description p').textContent = product.description;
+                    
+                    // Update product features based on category
+                    const featuresList = document.querySelector('.product-features ul');
+                    if (featuresList) {
+                        featuresList.innerHTML = `
+                            <li>✅ Premium quality materials</li>
+                            <li>✅ 30-day money-back guarantee</li>
+                            <li>✅ Free shipping on orders over 1000 EGP</li>
+                            <li>✅ 24/7 customer support</li>
+                            <li>✅ Category: ${product.category}</li>
+                            <li>✅ Stock: ${product.stock} available</li>
+                        `;
+                    }
+                    
+                    // Update technical specifications if available
+                    if (product.specifications) {
+                        const specsTable = document.querySelector('.specs-table tbody');
+                        if (specsTable) {
+                            specsTable.innerHTML = '';
+                            Object.entries(product.specifications).forEach(([key, value]) => {
+                                const row = document.createElement('tr');
+                                row.innerHTML = `
+                                    <td>${key}</td>
+                                    <td>${value}</td>
+                                `;
+                                specsTable.appendChild(row);
+                            });
+                        }
+                    }
+                    
+                    // Update related products (show products from same category)
+                    const relatedProducts = products.filter(p => p.category === product.category && p.id != product.id).slice(0, 3);
+                    const relatedGrid = document.querySelector('.related-products-grid');
+                    if (relatedGrid && relatedProducts.length > 0) {
+                        relatedGrid.innerHTML = relatedProducts.map(relatedProduct => `
+                            <div class="product-card">
+                                <div class="product-image">
+                                    <img src="${relatedProduct.image || relatedProduct.img}" alt="${relatedProduct.name}" />
+                                </div>
+                                <div class="product-info">
+                                    <h3>${relatedProduct.name}</h3>
+                                    <p class="product-price">${relatedProduct.price} EGP</p>
+                                    <button class="btn btn-small" onclick="addToCart('${relatedProduct.id}', '${relatedProduct.name}', ${relatedProduct.price})">Add to Cart</button>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                } else {
+                    // Product not found, redirect to shop
+                    window.location.href = 'shop.html';
+                }
+            }
+        }
+
+        // Add to cart function for related products
+        function addToCart(productId, productName, productPrice) {
+            alert(`Added ${productName} to cart for ${productPrice} EGP!`);
+        }
+
+        // Load product data when page loads
+        document.addEventListener('DOMContentLoaded', loadProductData);
+    </script>
+</body>
+</html>

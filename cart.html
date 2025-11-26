@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - AMNA Shop</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header with navigation -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">AMNA Shop</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li id="loginBtn"><a href="login.html">Login</a></li>
+                    <li id="signupBtn"><a href="signup.html">Sign Up</a></li>
+                    <li id="userMenu" style="display: none;"></li>
+                    <li><a href="cart.html" class="cart-button" id="cartButton">
+                        🛒 Cart <span class="cart-count" id="cartCount">0</span>
+                    </a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Cart section -->
+    <section class="section">
+        <div class="cart-container">
+            <h1 class="section-title">Shopping Cart</h1>
+            
+            <!-- Cart items container -->
+            <div id="cartItemsContainer">
+                <!-- Cart items will be populated by JavaScript -->
+            </div>
+            
+            <!-- Cart summary -->
+            <div id="cartSummary" class="cart-summary" style="display: none;">
+                <div class="cart-total">
+                    Total: <span id="cartTotal">0</span> EGP
+                </div>
+                <div class="cart-actions">
+                    <a href="gallery.html" class="btn btn-secondary">Continue Shopping</a>
+                    <a href="checkout.html" class="btn" id="checkoutBtn">Proceed to Checkout</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+</body>
+</html>
