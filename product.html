@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Details - AMNA Shop</title>
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Header with navigation -->
@@ -134,17 +135,17 @@
                         </div>
                     </div>
 
-                    <div class="product-actions">
-                        <button class="btn btn-primary" onclick="addToCart()">
-                            <span>🛒</span> Add to Cart
-                        </button>
-                        <button class="btn btn-secondary" onclick="addToWishlist()">
-                            <span>❤️</span> Add to Wishlist
-                        </button>
-                        <button class="btn btn-outline" onclick="shareProduct()">
-                            <span>📤</span> Share
-                        </button>
-                    </div>
+                        <div style="display: flex; gap: 15px; margin-top: 20px;" class="product-actions product-card-cta">
+                            <button class="btn btn-primary" onclick="addToCart()">
+                                <span>🛒</span> Add to Cart
+                            </button>
+                            <button class="btn btn-secondary" onclick="addToWishlist()">
+                                <span>❤️</span> Add to Wishlist
+                            </button>
+                            <button class="btn btn-outline" onclick="shareProduct()">
+                                <span>📤</span> Share
+                            </button>
+                        </div>
 
                     <div class="product-shipping">
                         <h4>Shipping & Returns</h4>
@@ -255,7 +256,7 @@
                     <div class="product-info">
                         <h3>Premium Phone Case</h3>
                         <p class="product-price">150 EGP</p>
-                        <button class="btn btn-small">Add to Cart</button>
+                        <button class="btn btn-primary btn-small">Add to Cart</button>
                     </div>
                 </div>
 
@@ -266,7 +267,7 @@
                     <div class="product-info">
                         <h3>Wireless Charger</h3>
                         <p class="product-price">300 EGP</p>
-                        <button class="btn btn-small">Add to Cart</button>
+                        <button class="btn btn-primary btn-small">Add to Cart</button>
                     </div>
                 </div>
 
@@ -277,7 +278,7 @@
                     <div class="product-info">
                         <h3>Tempered Glass Screen Protector</h3>
                         <p class="product-price">80 EGP</p>
-                        <button class="btn btn-small">Add to Cart</button>
+                        <button class="btn btn-primary btn-small">Add to Cart</button>
                     </div>
                 </div>
             </div>
@@ -453,7 +454,7 @@
                                 <div class="product-info">
                                     <h3>${relatedProduct.name}</h3>
                                     <p class="product-price">${relatedProduct.price} EGP</p>
-                                    <button class="btn btn-small" onclick="addToCart('${relatedProduct.id}', '${relatedProduct.name}', ${relatedProduct.price})">Add to Cart</button>
+                                    <button class="btn btn-primary btn-small" onclick="addToCart('${relatedProduct.id}', '${relatedProduct.name}', ${relatedProduct.price})">Add to Cart</button>
                                 </div>
                             </div>
                         `).join('');

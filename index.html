@@ -1,66 +1,66 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-<head>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMNA Shop - Home</title>
+    <meta name="description" content="AMNA Shop — Quality products, fast delivery, secure payment and 24/7 support. Shop now for great deals.">
+    <meta property="og:title" content="AMNA Shop - Home">
+    <meta property="og:description" content="AMNA Shop — Quality products, fast delivery, secure payment and 24/7 support.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://example.com/">
+    <meta property="og:image" content="images/og-image.png">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="css/style.css">
+    <!-- Use a neutral, readable font for a modern, minimal look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <!-- Header with navigation -->
     <header class="header">
         <div class="nav-container">
             <a href="index.html" class="logo">AMNA Shop</a>
-            <nav>
-                <ul class="nav-menu">
+            <!-- Hamburger menu toggle for mobile -->
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-controls="navMenu" aria-expanded="false" tabindex="0">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav aria-label="Main navigation">
+                <ul class="nav-menu" id="navMenu">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="services.html">Services</a></li>
                     <li><a href="shop.html">Shop</a></li>
-
                     <li><a href="team.html">Team</a></li>
                     <li><a href="contact.html">Contact</a></li>
                     <li id="loginBtn"><a href="login.html">Login</a></li>
                     <li id="signupBtn"><a href="signup.html">Sign Up</a></li>
                     <li id="userMenu" style="display: none;"></li>
                     <li><a href="cart.html" class="cart-button" id="cartButton">
-                        🛒 Cart <span class="cart-count" id="cartCount">0</span>
+                        🛒 Cart <span class="cart-count" id="cartCount" aria-live="polite">0</span>
                     </a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-
+    <main id="main-content">
     <!-- Hero section -->
     <section class="hero">
         <div class="container">
-            <h1>Welcome to AMNA Shop</h1>
-            <p>Your one-stop destination for quality products and exceptional service</p>
-            <!-- End of Selection -->
-        </div>
-    </section>
-
-
-        </div>
-    </section>
-
-
-
-    <!-- About preview section -->
-    <section class="section" style="background-color: white;">
-        <div class="container">
-            <h2 class="section-title">About AMNA Shop</h2>
-            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
-                <p style="font-size: 18px; color: #666; margin-bottom: 30px;">
-                    AMNA Shop is a student-run e-commerce platform created by four passionate developers: 
-                    Ahmed, Mohamed, Abdallah, and Nour. We're dedicated to providing quality products 
-                    and exceptional customer service.
-                </p>
-                <a href="about.html" class="btn">Read More About Us</a>
+            <h1>Welcome to <span class="brand">AMNA Shop</span></h1>
+            <p>Your one-stop destination for <span class="accent-text">quality products</span> and <span class="accent-text">exceptional service</span></p>
+            <div class="hero-cta">
+                <a href="shop.html" class="btn btn-cta">Shop Now <span aria-hidden="true">➤</span></a>
+                <a href="about.html" class="btn btn-secondary" style="margin-left: 12px;">Learn More</a>
             </div>
         </div>
     </section>
+
+    <!-- Spacer for visual separation -->
+    <div class="spacer spacer-lg" aria-hidden="true"></div>
 
     <!-- Services preview section -->
     <section class="section">
@@ -68,21 +68,24 @@
             <h2 class="section-title">Why Choose AMNA Shop?</h2>
             <div class="services-list">
                 <div class="service-item">
-                    <div class="service-icon">🚚</div>
+                    <div class="service-icon" aria-hidden="true">🚚</div>
+                    <span class="sr-only">Fast delivery</span>
                     <div class="service-content">
                         <h3>Fast Delivery</h3>
                         <p>Get your orders delivered quickly and safely to your doorstep.</p>
                     </div>
                 </div>
                 <div class="service-item">
-                    <div class="service-icon">🔒</div>
+                    <div class="service-icon" aria-hidden="true">🔒</div>
+                    <span class="sr-only">Secure payment</span>
                     <div class="service-content">
                         <h3>Secure Payment</h3>
                         <p>Your payment information is protected with industry-standard security.</p>
                     </div>
                 </div>
                 <div class="service-item">
-                    <div class="service-icon">💬</div>
+                    <div class="service-icon" aria-hidden="true">💬</div>
+                    <span class="sr-only">24/7 support</span>
                     <div class="service-content">
                         <h3>24/7 Support</h3>
                         <p>Our customer support team is always here to help you.</p>
@@ -92,6 +95,51 @@
         </div>
     </section>
 
+    <!-- Spacer for visual separation -->
+    <div class="spacer spacer-lg" aria-hidden="true"></div>
+
+
+    <!-- Testimonials section -->
+    <section id="testimonials" class="section" aria-label="Customer testimonials">
+        <div class="container">
+            <h2 class="section-title">What our customers say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial reveal" tabindex="0">
+                    <div class="testimonial-header">
+                        <img loading="lazy" src="https://i.pravatar.cc/80?img=12" alt="Samar avatar" class="avatar">
+                        <div>
+                            <div class="author">Samar A.</div>
+                            <div class="role">Frequent buyer</div>
+                        </div>
+                    </div>
+                    <div class="quote">"Fast delivery and amazing support. I will shop again!"</div>
+                </div>
+                <div class="testimonial reveal" tabindex="0">
+                    <div class="testimonial-header">
+                        <img loading="lazy" src="https://i.pravatar.cc/80?img=22" alt="Karim avatar" class="avatar">
+                        <div>
+                            <div class="author">Karim F.</div>
+                            <div class="role">Verified customer</div>
+                        </div>
+                    </div>
+                    <div class="quote">"Great quality and the product matches the description perfectly."</div>
+                </div>
+                <div class="testimonial reveal" tabindex="0">
+                    <div class="testimonial-header">
+                        <img loading="lazy" src="https://i.pravatar.cc/80?img=14" alt="Nada avatar" class="avatar">
+                        <div>
+                            <div class="author">Nada M.</div>
+                            <div class="role">New customer</div>
+                        </div>
+                    </div>
+                    <div class="quote">"Excellent support team helped me with my order. Highly recommend!"</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    </main>
 
     <!-- Footer -->
     <footer class="footer">
@@ -102,6 +150,38 @@
     <script src="js/mockdata.js"></script>
     <script src="js/navigation.js"></script>
     <script src="js/main.js"></script>
+    <script>
+    // Hamburger menu toggle for mobile navigation (improved accessibility)
+    (function() {
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+        if (!menuToggle || !navMenu) return;
+
+        function toggleMenu() {
+            const isOpen = navMenu.classList.toggle('is-open');
+            menuToggle.classList.toggle('is-open');
+            menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+        // keyboard support for Enter and Space
+        menuToggle.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+                e.preventDefault();
+                toggleMenu();
+            }
+        });
+
+        // Close menu when focus moves away (optional improvement)
+        document.addEventListener('click', function(e) {
+            if (!navMenu.contains(e.target) && !menuToggle.contains(e.target) && navMenu.classList.contains('is-open')) {
+                navMenu.classList.remove('is-open');
+                menuToggle.classList.remove('is-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+    })();
+    </script>
 </body>
 </html>
 

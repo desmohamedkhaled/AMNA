@@ -1,5 +1,177 @@
-﻿/* AMNA Shop - Enhanced Main Stylesheet */
-/* Modern design with perfect aesthetics and smooth animations */
+﻿/*
+  AMNA - Minimal, Modern UI stylesheet
+  Goals (applied across the site):
+  - Tight, consistent spacing to reduce empty white areas
+  - Unified card sizes, consistent image ratios (cover)
+  - Simple, readable typography and hierarchy
+  - Unified button styles with smooth transitions
+  - Neutral palette with a single accent color for a professional look
+  - Responsive rules for mobile-first behavior
+  Comments explain why each section exists and what it improves.
+*/
+
+/* Reset */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Root variables - change these to tweak the whole site */
+:root{
+    --bg: #fbfcfd;
+    --card-bg: #ffffff;
+    --muted: #6b7280;
+    --text: #1f2937;
+    /* Brighter, modern accent pair for headings and highlights */
+    --accent: #4f46e5; /* indigo */
+    --accent-2: #06b6d4; /* teal */
+  --radius: 10px;
+  --gap: 18px; /* unified spacing */
+  --transition: 200ms cubic-bezier(.2,.9,.2,1);
+  --container: 1200px;
+}
+
+body{
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height:100vh;
+}
+
+/* Accessibility helper */
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+/* Spacing utilities: small, medium, large */
+.spacer{height:12px}
+.spacer-md{height:20px}
+.spacer-lg{height:32px}
+.spacer-xl{height:48px}
+
+/* Containers: center content and control max width */
+.container{max-width:var(--container);margin:0 auto;padding:0 20px}
+
+/* Typography: headings and leads tuned for readability */
+.lead{font-size:16px;color:var(--muted);max-width:820px;margin:0 auto 20px;text-align:center}
+.section-title{text-align:center;font-size:28px;margin-bottom:22px;color:var(--text);font-weight:700}
+.section-title::after{content:'';display:block;height:3px;width:56px;margin:10px auto 0;background:var(--accent);border-radius:3px;opacity:.9}
+
+/* Header: sticky, compact, minimal shadow when scrolled */
+.header{position:sticky;top:0;z-index:1000;background:transparent;padding:10px 0}
+.nav-container{max-width:var(--container);margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:20px;font-weight:700;color:var(--text);text-decoration:none}
+
+/* Navigation: compact, collapses on mobile */
+.nav-menu{display:flex;gap:14px;align-items:center;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+.nav-menu a{color:var(--text);text-decoration:none;font-weight:600;font-size:14px;padding:6px 8px;border-radius:8px;position:relative}
+.nav-menu a::after{content:'';position:absolute;left:12px;right:12px;bottom:6px;height:2px;border-radius:2px;transform:scaleX(0);background:var(--accent);transition:transform var(--transition)}
+.nav-menu a:hover{color:var(--accent);background:rgba(37,99,235,0.06);transform:translateY(-2px)}
+
+.menu-toggle{display:none;background:transparent;border:0;cursor:pointer;padding:8px}
+
+/* Cart and small action buttons */
+.cart-button{background:var(--accent);color:#fff;padding:8px 12px;border-radius:8px;display:inline-flex;align-items:center;gap:8px;border:0;font-weight:600}
+
+/* Hero: tight padding, centered text, readable sizes */
+.hero{background:transparent;text-align:center;padding:48px 0}
+.hero h1{font-size:34px;margin-bottom:8px;font-weight:800;line-height:1.15}
+
+/* Make hero title use a smooth gradient and stand out */
+.hero h1{
+    background: linear-gradient(90deg,var(--accent),var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Accent text used inside paragraphs for emphasis */
+.accent-text{
+    color: var(--accent);
+    font-weight:700;
+    /* subtle gradient treatment if desired (comment/uncomment) */
+    /* background: linear-gradient(90deg,var(--accent),var(--accent-2)); -webkit-background-clip:text; color:transparent; */
+}
+.hero p{font-size:15px;color:var(--muted);max-width:780px;margin:0 auto}
+.hero-cta{margin-top:18px;display:inline-flex;gap:12px;align-items:center}
+
+/* Buttons: unified, accessible sizes and smooth transitions */
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 16px;border-radius:10px;border:0;cursor:pointer;font-weight:600;transition:transform var(--transition),box-shadow var(--transition);min-height:40px}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-secondary{background:transparent;border:1px solid #e6eefb;color:var(--text)}
+.btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(16,24,40,0.08)}
+.btn-primary:active,.btn-secondary:active{transform:translateY(0)}
+
+/* Cards: consistent padding, subtle shadow, compact spacing */
+.card,.product-card{background:var(--card-bg);border-radius:var(--radius);padding:16px;box-shadow:0 6px 18px rgba(15,23,42,0.04);border:1px solid #eef2f6}
+.product-card{display:flex;flex-direction:column;overflow:hidden;min-height:340px}
+
+/* Product image: same height for all cards, images use object-fit:cover to stay uniform */
+.product-image{width:100%;height:200px;border-radius:8px;overflow:hidden;background:#f8fafc;display:flex;align-items:center;justify-content:center}
+.product-image img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .28s ease}
+.product-card:hover .product-image img{transform:scale(1.03)}
+
+.product-title{font-size:16px;color:var(--text);font-weight:700;margin:12px 0 6px;line-height:1.25}
+.product-price{font-size:18px;color:var(--accent);font-weight:700;margin:6px 0}
+.product-snippet{color:var(--muted);font-size:14px;margin:8px 0}
+.product-meta{display:flex;gap:8px;align-items:center;justify-content:center;color:var(--muted);font-size:13px}
+.product-card-cta{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:auto}
+.product-card-cta .btn{flex:1}
+
+/* Form styles: match card appearance */
+.form-container{max-width:560px;margin:0 auto;background:var(--card-bg);padding:20px;border-radius:10px;box-shadow:0 8px 20px rgba(15,23,42,0.04);border:1px solid #eef2f6}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;margin-bottom:8px;font-weight:600;color:var(--text);font-size:13px}
+.form-group input,.form-group textarea{width:100%;padding:12px 14px;border:1px solid #e6eef3;border-radius:8px;background:#fff;transition:box-shadow var(--transition)}
+.form-group input:focus,.form-group textarea:focus{outline:none;box-shadow:0 6px 18px rgba(37,99,235,0.08);border-color:var(--accent)}
+
+/* Services and teams grid: consistent gaps and smaller min widths for responsiveness */
+.services-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--gap);align-items:stretch}
+.service-item{background:var(--card-bg);padding:14px;border-radius:10px;display:flex;gap:12px;align-items:center;border:1px solid #eef2f6;box-shadow:0 6px 18px rgba(15,23,42,0.03)}
+.service-icon{width:64px;height:64px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--accent),#1e40af);color:#fff;font-size:24px}
+
+/* Footer: compact and readable */
+.footer{padding:24px 0;background:transparent;color:var(--muted)}
+.footer .footer-content{display:flex;gap:16px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.footer .footer-section{flex:1 1 180px;min-width:160px;margin-bottom:8px}
+
+/* Simple responsive navigation behavior */
+@media (max-width:900px){
+  .nav-menu{display:none}
+  .menu-toggle{display:block}
+  .nav-menu.is-open{display:flex;flex-direction:column;position:absolute;top:64px;left:20px;right:20px;background:var(--card-bg);padding:12px;border-radius:10px;box-shadow:0 12px 40px rgba(2,6,23,0.08)}
+}
+
+@media (max-width:600px){
+  :root{--gap:12px}
+  .hero{padding:36px 0}
+  .section{padding:28px 0}
+  .product-image{height:160px}
+  .section-title{font-size:20px}
+}
+
+/* Small helpers for alignment and text */
+.text-center{text-align:center}
+.muted{color:var(--muted)}
+
+/* End of minimal UI stylesheet */
+/* AMNA Shop - Chinese-Inspired Design Stylesheet */
+/* Modern Chinese e-commerce design with red/gold palette and Asian patterns */
+/*
+ * DESIGN IMPROVEMENTS:
+ * 1. Reduced white space: Section padding reduced from 100px to 40px, hero padding reduced
+ * 2. Improved spacing: Card gaps reduced to 20px, margins tightened throughout
+ * 3. Better typography: Consistent font sizes, Chinese-inspired fonts (Noto Serif), better hierarchy
+ * 4. Enhanced product cards: Balanced size (380px min-height), unified image sizes (200px), better padding (18px)
+ * 5. Improved buttons: Uniform size (44px min-height, 120px min-width), smooth hover, rounded corners (8px), clear contrast
+ * 6. Chinese design: Red (#c41e3a) and gold (#d4a574) color palette, subtle Asian patterns, bold typography
+ * 7. Responsive: All styles work on mobile devices
+ * 
+ * TRANSITION IMPROVEMENTS:
+ * - All transitions use consistent timing: var(--transition-smooth) = 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+ * - Smooth hover effects on all interactive elements (buttons, cards, links, inputs)
+ * - Consistent fade-in animations for sections and elements
+ * - Smooth image zoom effects on card hover
+ * - Unified transition system for maintainability
+ */
 
 /* Reset and base styles */
 * {
@@ -8,34 +180,159 @@
     box-sizing: border-box;
 }
 
+/* Screen-reader only helper */
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    border: 0 !important;
+}
+
+/* Chinese-inspired default body styles - Red and Gold color palette */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', 'Segoe UI', Arial, sans-serif;
     line-height: 1.6;
-    color: #2c3e50;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    color: #2b2b2b;
+    /* Soft ivory/paper background with subtle Asian pattern */
+    background: #fffaf0 url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><defs><pattern id='chinese-pattern' x='0' y='0' width='20' height='20' patternUnits='userSpaceOnUse'><circle cx='10' cy='10' r='0.5' fill='%23d4a574' opacity='0.15'/></pattern></defs><rect width='100' height='100' fill='url(%23chinese-pattern)'/></svg>");
     min-height: 100vh;
     overflow-x: hidden;
 }
 
-/* Smooth scrolling */
+/* Skip link - accessibility */
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    background: #fff;
+    color: #2c3e50;
+    z-index: 2000;
+    padding: 8px 12px;
+    border-radius: 6px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+.skip-link:focus {
+    left: 12px;
+    top: 12px;
+    width: auto;
+    height: auto;
+    overflow: visible;
+}
+
+/* Utility spacers - Reduced for tighter spacing */
+.spacer { height: 12px; width: 100%; }
+.spacer.spacer-md { height: 20px; }
+.spacer.spacer-lg { height: 24px; }
+.spacer.spacer-xl { height: 40px; }
+
+/* Lead paragraph - Improved typography and spacing */
+.lead { 
+    font-size: 18px; /* Slightly smaller */
+    color: #444; 
+    margin-bottom: 24px; /* Reduced spacing */
+    max-width: 800px; 
+    margin-left: auto; 
+    margin-right: auto; 
+    text-align: center; 
+    line-height: 1.6;
+} 
+.lead-wrapper { 
+    max-width: 800px; 
+    margin: 0 auto; 
+    text-align: center; 
+}
+
+/* Hero CTA alignment */
+.hero-cta { margin-top: 20px; display: inline-flex; gap: 12px; align-items: center; justify-content: center; }
+.hero-cta .btn + .btn { margin-left: 12px; }
+
+/* Navigation search element */
+.nav-search { display: flex; align-items: center; gap: 8px; }
+.search-form { display: flex; align-items: center; gap: 8px; }
+/* Navigation search input - Smooth transitions */
+.search-input { 
+    padding: 8px 12px; 
+    border-radius: 10px; 
+    border: 2px solid rgba(212, 165, 116, 0.2); /* Gold border */
+    min-width: 160px; 
+    font-size: 14px; 
+    background: rgba(255, 250, 242, 0.9); /* Ivory background */
+    transition: var(--transition-smooth); /* Smooth transitions */
+}
+.search-input:focus {
+    border-color: var(--cn-red); /* Red border on focus */
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.1);
+}
+
+.search-button { 
+    padding: 8px 12px; 
+    border-radius: 10px; 
+    border: 0; 
+    background-color: var(--cn-red); /* Chinese red */
+    color: #fff; 
+    cursor: pointer; 
+    box-shadow: 0 4px 12px rgba(196, 30, 58, 0.25); /* Red-tinted shadow */
+    transition: var(--transition-smooth); /* Smooth transitions */
+} 
+.search-button:hover { 
+    transform: translateY(-2px);
+    background-color: var(--cn-red-dark); /* Darker red */
+    box-shadow: 0 6px 18px rgba(196, 30, 58, 0.35);
+}
+
+/* Smooth scrolling - Consistent page transitions */
 html {
     scroll-behavior: smooth;
+}
+
+/* Global transition improvements - Apply smooth transitions to all interactive elements */
+a, button, input, select, textarea, .card, .product-card, .btn {
+    transition: var(--transition-smooth);
+}
+
+/* Image transitions - Smooth fade and scale */
+img {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Section entrance animations - Smooth fade in */
+section {
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ========================================
    ENHANCED NAVIGATION BAR
    ======================================== */
 
-/* Main header container with modern styling */
+/* Header - Chinese-inspired styling with smooth transitions */
 .header {
-    background: rgba(255, 255, 255, 0.98);
+    background: rgba(255, 250, 242, 0.98); /* Ivory background */
     backdrop-filter: blur(15px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 12px rgba(196, 30, 58, 0.08); /* Red-tinted shadow */
     position: sticky;
     top: 0;
     z-index: 1000;
-    border-bottom: 1px solid rgba(102, 126, 234, 0.1);
-    transition: all 0.3s ease;
+    border-bottom: 2px solid rgba(212, 165, 116, 0.2); /* Gold border */
+    transition: var(--transition-smooth); /* Consistent smooth transition */
 }
 
 /* Condensed shadow on scroll */
@@ -56,32 +353,34 @@ html {
 }
 
 /* Hamburger toggle (hidden on desktop) */
+/* Hamburger menu toggle - Smooth transitions */
 .menu-toggle {
     display: none;
     width: 44px;
     height: 44px;
     border-radius: 10px;
-    border: 1px solid rgba(102, 126, 234, 0.2);
-    background: rgba(255, 255, 255, 0.8);
+    border: 2px solid rgba(212, 165, 116, 0.3); /* Gold border */
+    background: rgba(255, 250, 242, 0.9); /* Ivory background */
     backdrop-filter: blur(6px);
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: var(--transition-smooth); /* Consistent smooth transition */
 }
 
 .menu-toggle:hover {
-    box-shadow: 0 6px 18px rgba(102, 126, 234, 0.2);
-    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(196, 30, 58, 0.2); /* Red-tinted shadow */
+    transform: translateY(-2px);
+    border-color: var(--cn-gold); /* Gold border on hover */
 }
 
 .menu-toggle span {
     display: block;
     width: 22px;
     height: 2px;
-    background: #667eea;
+    background: var(--cn-red); /* Chinese red */
     margin: 3px 0;
-    transition: all 0.3s ease;
+    transition: var(--transition-smooth); /* Consistent smooth transition */
     border-radius: 2px;
 }
 
@@ -97,18 +396,16 @@ html {
     transform: translateY(-5px) rotate(-45deg);
 }
 
-/* Logo styling with gradient text effect */
+/* Logo - Chinese red color */
 .logo {
     font-size: 22px;
     font-weight: 700;
-    background: var(--primary-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--cn-red); /* Chinese red */
     text-decoration: none;
     transition: all 0.3s ease;
     letter-spacing: -0.5px;
-    white-space: nowrap; /* Keep "AMNA Shop" on one line */
+    white-space: nowrap;
+    font-family: 'Noto Serif', Georgia, serif; /* Chinese-inspired typography */
 }
 
 /* Logo hover effect - subtle scale and glow */
@@ -116,6 +413,8 @@ html {
     transform: scale(1.02);
     filter: drop-shadow(0 2px 8px rgba(102, 126, 234, 0.2));
 }
+
+.logo:focus { outline: none; }
 
 /* Navigation menu with improved spacing */
 .nav-menu {
@@ -128,21 +427,21 @@ html {
     flex-wrap: nowrap; /* keep on one line on desktop */
 }
 
-/* Navigation links with modern styling */
+/* Navigation links - Smooth transitions */
 .nav-menu a {
     text-decoration: none;
     color: var(--text-primary);
-    font-weight: 500;
-    font-size: 14px; /* slightly smaller to fit */
+    font-weight: 600;
+    font-size: 14px;
     position: relative;
-    transition: all 0.3s ease;
-    padding: 6px 10px; /* reduced padding */
-    border-radius: 8px;
-    letter-spacing: 0.3px;
-    white-space: nowrap; /* prevent wrapping per item */
+    transition: var(--transition-smooth); /* Consistent transition */
+    padding: 6px 10px;
+    border-radius: 6px;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
 }
 
-/* Underline animation on hover */
+/* Red underline animation on hover - Smooth */
 .nav-menu a::after {
     content: '';
     position: absolute;
@@ -150,16 +449,16 @@ html {
     left: 50%;
     width: 0;
     height: 2px;
-    background: var(--primary-gradient);
-    transition: all 0.3s ease;
+    background-color: var(--cn-red); /* Chinese red */
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth width animation */
     border-radius: 1px;
     transform: translateX(-50%);
 }
 
-/* Hover effects for navigation links */
+/* Hover effects for navigation links - Smooth */
 .nav-menu a:hover {
-    color: var(--text-accent);
-    background: rgba(102, 126, 234, 0.05);
+    color: var(--cn-red); /* Chinese red on hover */
+    background: rgba(196, 30, 58, 0.08); /* Light red background */
     transform: translateY(-1px);
 }
 
@@ -167,37 +466,33 @@ html {
     width: 80%;
 }
 
-/* Cart button with modern styling */
+/* Cart button - Chinese red styling */
 .cart-button {
     position: relative;
-    background: var(--primary-gradient);
+    background-color: var(--cn-red); /* Chinese red */
     color: white;
     border: none;
-    border-radius: 25px;
-    padding: 8px 12px; /* tighter so it fits text */
+    border-radius: 8px; /* Rounded corners */
+    padding: 8px 14px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    display: inline-flex; /* shrink to content */
-    flex: 0 0 auto; /* prevent stretching in flex container */
+    display: inline-flex;
+    flex: 0 0 auto;
     align-items: center;
     gap: 6px;
     text-decoration: none;
-    white-space: nowrap; /* keep content on one line */
+    white-space: nowrap;
     font-size: 14px;
-    box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
-
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+    box-shadow: 0 2px 8px rgba(196, 30, 58, 0.25); /* Red-tinted shadow */
+    min-height: 36px; /* Uniform height */
 }
 
 /* Cart button hover effect */
 .cart-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
-    background: linear-gradient(135deg, #357abd 0%, #2c5aa0 100%);
-
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
-    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    box-shadow: 0 4px 16px rgba(196, 30, 58, 0.35);
+    background-color: var(--cn-red-dark); /* Darker red */
 }
 
 /* Cart count badge */
@@ -231,19 +526,19 @@ html {
     }
 }
 
-/* Main content container */
+/* Main content container - Reduced padding */
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 20px; /* Consistent horizontal padding */
 }
 
-/* Hero section */
+/* Hero section - Reduced padding for tighter spacing */
 .hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-color: var(--cn-red);
     color: white;
     text-align: center;
-    padding: 120px 0;
+    padding: 32px 0; /* Reduced padding for less white space */
     position: relative;
     overflow: hidden;
 }
@@ -274,43 +569,48 @@ html {
     z-index: 2;
 }
 
+/* Hero typography - Improved hierarchy */
 .hero h1 {
-    font-size: 56px;
-    margin-bottom: 24px;
+    font-size: 40px; /* Reduced for better proportion */
+    margin-bottom: 16px; /* Reduced spacing */
     font-weight: 700;
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     animation: fadeInUp 1s ease-out;
+    font-family: 'Noto Serif', Georgia, serif; /* Chinese-inspired typography */
+    line-height: 1.2;
 }
 
 .hero p {
-    font-size: 22px;
-    margin-bottom: 40px;
+    font-size: 17px; /* Slightly smaller */
+    margin-bottom: 24px; /* Reduced spacing */
     opacity: 0.95;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
     animation: fadeInUp 1s ease-out 0.2s both;
+    line-height: 1.5;
 }
 
+/* Base button - Uniform size, rounded corners, smooth hover */
 .btn {
-    display: inline-block;
-    padding: 16px 36px;
-    background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
-
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 28px; /* Uniform padding */
+    background-color: var(--btn-primary-gradient); /* Chinese red */
     color: white;
     text-decoration: none;
-    border-radius: 50px;
+    border-radius: 8px; /* Rounded corners (not fully round for modern look) */
     font-weight: 600;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth transition */
     border: none;
     cursor: pointer;
-    font-size: 16px;
-    box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4);
-
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    font-size: 15px; /* Consistent font size */
+    box-shadow: 0 4px 12px rgba(196, 30, 58, 0.25); /* Red-tinted shadow */
     position: relative;
     overflow: hidden;
+    min-height: 44px; /* Uniform minimum height */
+    min-width: 120px; /* Uniform minimum width */
 }
 
 .btn::before {
@@ -328,43 +628,38 @@ html {
     left: 100%;
 }
 
+/* Button hover - Smooth effect with clear contrast */
 .btn:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 15px 35px rgba(74, 144, 226, 0.5);
-    background: linear-gradient(135deg, #357abd 0%, #2c5aa0 100%);
+    transform: translateY(-2px); /* Smooth lift */
+    box-shadow: 0 6px 20px rgba(196, 30, 58, 0.35); /* Enhanced shadow */
+    background-color: var(--btn-primary-gradient-hover); /* Darker red */
 }
 
+/* Secondary button - Clear contrast with gold border */
 .btn-secondary {
-    background: rgba(74, 144, 226, 0.1);
-    border: 2px solid rgba(74, 144, 226, 0.3);
-    color: #4a90e2;
-
-    box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+    background-color: var(--btn-secondary-bg); /* Ivory background */
+    border: 2px solid var(--btn-secondary-border); /* Gold border */
+    color: var(--btn-secondary-color); /* Dark text */
+    box-shadow: 0 2px 8px rgba(212, 165, 116, 0.15); /* Gold-tinted shadow */
+    backdrop-filter: blur(0);
+    min-height: 44px; /* Uniform size */
+    min-width: 120px;
 }
 
-.btn-secondary {
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    color: white;
-    backdrop-filter: blur(10px);
-}
-
+/* Secondary button hover */
 .btn-secondary:hover {
-    background: rgba(74, 144, 226, 0.2);
-    border-color: rgba(74, 144, 226, 0.6);
-    color: #4a90e2;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
-
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.5);
-    color: white;
+    background-color: var(--btn-secondary-hover-bg); /* Slightly darker ivory */
+    border-color: var(--cn-gold); /* Gold border */
+    color: var(--btn-secondary-color);
+    transform: translateY(-2px); /* Smooth lift */
+    box-shadow: 0 4px 16px rgba(212, 165, 116, 0.25); /* Enhanced shadow */
 }
 
+/* Smooth fade in up animation - Consistent timing */
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -372,13 +667,47 @@ html {
     }
 }
 
+/* Smooth fade in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Smooth slide in from left */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Smooth slide in from right */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
 /* ========================================
    SECTION STYLING - FIXED POSITIONING
    ======================================== */
 
-/* Main section container with fixed positioning to prevent scroll movement */
+/* Main section container - Reduced padding for tighter spacing */
 .section {
-    padding: 100px 0;
+    padding: 40px 0; /* Significantly reduced from 100px for less white space */
     position: relative;
     /* Remove any transform animations that cause movement on scroll */
     transform: none !important;
@@ -395,35 +724,36 @@ html {
     transform: none !important;
 }
 
-/* Modern section title styling - centered, bold, dark text with gradient line */
+/* Section title - Improved typography with better spacing */
 .section-title {
     text-align: center;
-    font-size: 42px;
-    margin-bottom: 60px;
-    color: #2c3e50; /* Dark text color as requested */
+    font-size: 36px; /* Slightly smaller for better proportion */
+    margin-bottom: 32px; /* Reduced from 60px for tighter spacing */
+    color: #2b2b2b; /* Dark text */
     font-weight: 700; /* Bold font weight */
     position: relative;
-    display: block; /* Changed from inline-block to block for better centering */
+    display: block;
     width: 100%;
-    /* Clean, modern font styling */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    letter-spacing: -0.5px;
+    /* Chinese-inspired typography */
+    font-family: 'Noto Serif', Georgia, 'Times New Roman', serif;
+    letter-spacing: -0.3px;
+    line-height: 1.2; /* Tighter line height */
     /* Remove any transform animations */
     transform: none !important;
     /* Ensure title stays fixed during scroll */
     will-change: auto;
 }
 
-/* Modern gradient line underneath the title */
+/* Red accent line underneath the title */
 .section-title::after {
     content: '';
     position: absolute;
-    bottom: -15px; /* Increased spacing for better visual separation */
+    bottom: -12px; /* Reduced spacing */
     left: 50%;
     transform: translateX(-50%);
-    width: 100px; /* Slightly wider line for modern look */
-    height: 3px; /* Slightly thinner for elegance */
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    width: 80px; /* Slightly narrower for elegance */
+    height: 3px;
+    background-color: var(--cn-red); /* Chinese red */
     border-radius: 2px;
     /* Remove any transform animations */
     transition: none;
@@ -433,40 +763,340 @@ html {
    UNIFIED CARD DESIGN SYSTEM
    ======================================== */
 
-/* Card base variables */
+/* Chinese-inspired color variables - Red and Gold palette */
 :root {
-    --card-bg: rgba(255, 255, 255, 0.98);
-    --card-border: rgba(255, 255, 255, 0.3);
-    --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-    --card-shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.12);
-    --card-radius: 16px;
-    --card-padding: 24px;
-    --card-gap: 32px;
-    --primary-gradient: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
-    --text-primary: #2c3e50;
-    --text-secondary: #7f8c8d;
-    --text-accent: #4a90e2;
-
-    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --text-primary: #2c3e50;
-    --text-secondary: #7f8c8d;
-    --text-accent: #667eea;
+    /* Chinese color palette */
+    --cn-red: #c41e3a; /* Traditional Chinese red */
+    --cn-red-dark: #8b1a1a; /* Darker red for hover */
+    --cn-gold: #d4a574; /* Gold accent */
+    --cn-gold-light: #e8c99a; /* Light gold */
+    --cn-ivory: #fffaf0; /* Paper/ivory background */
+    --cn-jade: #0d6b59; /* Jade green accent */
+    
+    /* Card styling - reduced padding and gaps for tighter spacing */
+    --card-bg: rgba(255, 250, 242, 0.96); /* Light paper tone */
+    --card-border: rgba(212, 165, 116, 0.25); /* Subtle gold border */
+    --card-shadow: 0 4px 20px rgba(196, 30, 58, 0.08); /* Soft red-tinted shadow */
+    --card-shadow-hover: 0 8px 32px rgba(196, 30, 58, 0.15); /* Enhanced shadow on hover */
+    --card-radius: 12px; /* Slightly smaller radius for modern look */
+    --card-padding: 18px; /* Reduced padding */
+    --card-gap: 20px; /* Reduced gap between cards */
+    
+    /* Primary colors - Red as main color */
+    --primary-gradient: #c41e3a; /* Solid red instead of gradient */
+    --text-primary: #2b2b2b; /* Dark text */
+    --text-secondary: #6b6b6b; /* Medium gray */
+    --text-accent: #c41e3a; /* Red accent */
+    
+    /* Consistent transitions - Smooth and unified */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --container-max-width: 1200px;
+    
+    /* Button color system - Red and Gold */
+    --btn-primary-gradient: #c41e3a; /* Solid red */
+    --btn-primary-gradient-hover: #8b1a1a; /* Darker red on hover */
+    --btn-secondary-bg: #fffaf0; /* Ivory background */
+    --btn-secondary-border: #d4a574; /* Gold border */
+    --btn-secondary-color: #2b2b2b; /* Dark text */
+    --btn-secondary-hover-bg: #f5f0e6; /* Slightly darker ivory */
 }
 
-/* Base card styles */
-.card {
-    background: var(--card-bg);
-    backdrop-filter: blur(12px);
-    border-radius: var(--card-radius);
-    padding: var(--card-padding);
-    box-shadow: var(--card-shadow);
-    border: 1px solid var(--card-border);
+/* ========================================
+   CHINESE DESIGN ELEMENTS (Applied by default)
+   ======================================== */
+
+/* Hero section with Chinese red background and subtle pattern */
+.hero {
+    background-color: var(--cn-red);
+    color: #fff;
+    /* Subtle Asian pattern overlay */
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><defs><pattern id='hero-pattern' x='0' y='0' width='40' height='40' patternUnits='userSpaceOnUse'><circle cx='20' cy='20' r='1' fill='rgba(255,255,255,0.05)'/></pattern></defs><rect width='80' height='80' fill='url(%23hero-pattern)'/></svg>");
+    background-repeat: repeat;
+    position: relative;
+}
+
+/* Soft cloud-like pattern overlay for hero */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="%23ffffff" stop-opacity="0.06"/><stop offset="1" stop-color="%23fbe8be" stop-opacity="0.04"/></linearGradient></defs><path d="M0,150 C50,90 150,90 200,150 L200,200 L0,200 Z" fill="url(%23g)" /></svg>');
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* Product card decorative corner accent (subtle) */
+.product-card::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: -6px;
+    width: 36px;
+    height: 36px;
+    background: radial-gradient(circle, var(--cn-red) 0%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0.15;
+    transform: rotate(18deg);
+    pointer-events: none;
+}
+
+/* Badges with Chinese-inspired colors */
+.badge {
+    background-color: rgba(255, 240, 240, 0.95);
+    color: var(--cn-red-dark);
+    border: 1px solid rgba(212, 165, 116, 0.2);
+    font-weight: 700;
+}
+.badge.sale { background-color: var(--cn-red); color: #fff; }
+.badge.low-stock { background-color: #d4a574; color: #5a3a1a; }
+.badge.shipping { background-color: var(--cn-jade); color: #fff; }
+
+/* Typography - Bold headings with Chinese-inspired fonts */
+.product-title { 
+    font-family: 'Noto Serif', 'Noto Sans SC', 'Microsoft YaHei', 'PingFang SC', serif; 
+    font-weight: 700; 
+}
+h1, h2, h3, .section-title { 
+    font-family: 'Noto Serif', Georgia, 'Times New Roman', serif; 
+    font-weight: 700; 
+}
+
+/* Section title accent line in red */
+.section-title::after { 
+    background-color: var(--cn-red); 
+    height: 3px;
+}
+
+
+/* Reveal and subtle animation helpers */
+@keyframes slideInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Reveal animation - Smooth entrance */
+.reveal { 
+    opacity: 0; 
+    transform: translateY(20px); 
+    transition: var(--transition-slow); /* Slower for reveal effect */
+}
+.reveal.in-view { 
+    opacity: 1; 
+    transform: translateY(0); 
+}
+
+/* Primary and CTA buttons - Uniform styling */
+.btn-primary, .btn-cta {
+    background-color: var(--btn-primary-gradient); /* Chinese red */
+    color: #fff;
+    padding: 12px 28px; /* Uniform padding */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 12px rgba(196, 30, 58, 0.25);
+    font-weight: 700; /* Bold for Chinese-inspired design */
+    border: none;
+    min-height: 44px; /* Uniform height */
+    min-width: 120px; /* Uniform width */
+}
+
+/* Universal button alignment and sizing */
+.btn, .btn-primary, .btn-secondary, .btn-outline, .btn-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Consistent button sizes */
+.btn { padding: 12px 28px; min-height: 44px; min-width: 120px; }
+.btn-small { padding: 10px 20px; min-height: 40px; min-width: 100px; }
+.btn-primary, .btn-secondary, .btn-outline { min-width: 120px; min-height: 44px; }
+
+/* Center buttons in containers like product cards */
+.product-card-cta {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+}
+.product-card-cta .btn { flex: 1; min-width: 120px; }
+
+/* Ensure simple "btn" links don't break layout */
+.btn a, .btn > a { color: inherit; text-decoration: none; }
+
+/* Primary button hover - Smooth effect */
+.btn-primary:hover, .btn-cta:hover {
+    transform: translateY(-2px); /* Smooth lift */
+    background-color: var(--btn-primary-gradient-hover); /* Darker red */
+    box-shadow: 0 6px 20px rgba(196, 30, 58, 0.35); /* Enhanced shadow */
+}
+
+.btn:focus, .btn-primary:focus, .btn-cta:focus, .menu-toggle:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+}
+
+/* Hero CTA button - Slightly larger for emphasis */
+.hero .btn-cta { 
+    font-size: 16px; 
+    padding: 14px 32px; 
+    min-height: 48px; /* Slightly taller */
+}
+
+/* Testimonials - Enhanced Chinese colors */
+.testimonials-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+    gap: 20px;
+    margin-top: 24px; 
+}
+.testimonial { 
+    /* Rich gradient background */
+    background: linear-gradient(135deg, rgba(255, 250, 242, 0.98) 0%, rgba(245, 240, 230, 0.95) 100%);
+    padding: 18px;
+    border-radius: var(--card-radius); 
+    box-shadow: 0 4px 20px rgba(196, 30, 58, 0.12), 0 2px 8px rgba(212, 165, 116, 0.1);
+    border: 2px solid var(--card-border); /* Enhanced gold border */
+    text-align: left; 
     transition: var(--transition-smooth);
     position: relative;
     overflow: hidden;
 }
 
+/* Testimonial accent line */
+.testimonial::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--cn-gold), var(--cn-red), var(--cn-gold));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.testimonial:hover::before {
+    transform: scaleX(1);
+}
+
+.testimonial:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(196, 30, 58, 0.2), 0 4px 16px rgba(212, 165, 116, 0.15);
+    border-color: var(--cn-gold);
+    transition: var(--transition-smooth); /* Smooth transition */
+} 
+.testimonial .quote { 
+    font-size: 18px; /* Slightly smaller */
+    color: #444; 
+    margin-bottom: 10px; /* Reduced spacing */
+    line-height: 1.5;
+} 
+.testimonial .author { 
+    font-weight: 700; 
+    color: var(--cn-red); /* Chinese red */
+    font-family: 'Noto Serif', Georgia, serif;
+} 
+.testimonial .role { 
+    font-size: 13px; 
+    color: var(--text-secondary); 
+}
+
+/* Featured products - Reduced spacing */
+.featured-products { padding: 24px 0; } /* Reduced padding */
+.featured-header { 
+    display:flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    gap: 12px; 
+    margin-bottom: 16px; /* Reduced spacing */
+} 
+.badge { 
+    background: rgba(255,240,240,0.95); 
+    padding: 5px 10px; /* Slightly reduced */
+    border-radius: 6px; /* Smaller radius */
+    font-weight: 700; 
+    font-size: 11px; /* Consistent size */
+} 
+.original-price { 
+    text-decoration: line-through; 
+    color: #9aa4b2; 
+    font-size: 14px; 
+    margin-left: 8px; 
+    font-weight: 600; 
+} 
+.discount-badge { 
+    background-color: var(--cn-red); /* Chinese red */
+    color:#fff; 
+    padding: 5px 8px; 
+    border-radius: 6px; 
+    margin-left: 8px; 
+    font-weight:700; 
+    font-size: 11px; 
+} 
+.badge.sale { 
+    background-color: var(--cn-red); /* Chinese red */
+    color: #fff; 
+}
+
+
+/* Wishlist badge in nav */
+.nav-menu .wishlist-button .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    background: linear-gradient(135deg,#ff9a9e,#fecfef);
+    color: #fff;
+    font-size: 12px;
+    margin-left: 6px;
+    border-radius: 12px;
+}
+
+/* Alternating backgrounds */
+.section.alternate { background: linear-gradient(180deg, #fff 0%, #fbfcfe 100%); }
+
+/* Accessibility focus-visible - better focus for keyboard users */
+a:focus-visible, button:focus-visible, .menu-toggle:focus-visible {
+    outline: 3px solid rgba(102, 126, 234, 0.28);
+    outline-offset: 3px;
+}
+
+/* Social links in footer */
+.footer .social-links a { font-size: 18px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; width:44px; height:44px; border-radius:50%; }
+.footer .footer-section { text-align: left; }
+
+/* Small visual tweak to alternating sections for clearer hierarchy */
+/* Section container - Minimal padding for tighter spacing */
+.section .container { padding-top: 4px; padding-bottom: 4px; }
+
+/* Base card styles - Enhanced Chinese-inspired colors */
+.card {
+    /* Rich gradient background: ivory to light gold */
+    background: linear-gradient(135deg, rgba(255, 250, 242, 0.98) 0%, rgba(245, 240, 230, 0.95) 100%);
+    backdrop-filter: blur(12px);
+    border-radius: var(--card-radius);
+    padding: var(--card-padding);
+    box-shadow: var(--card-shadow);
+    border: 2px solid var(--card-border); /* Enhanced gold border */
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+}
+.btn-full { width: 100%; display: inline-block; }
+.card.card-center { text-align: center; padding: 30px; }
+
+/* Gold accent line on top */
 .card::before {
     content: '';
     position: absolute;
@@ -474,7 +1104,7 @@ html {
     left: 0;
     right: 0;
     height: 3px;
-    background: var(--primary-gradient);
+    background: linear-gradient(90deg, var(--cn-gold), var(--cn-red), var(--cn-gold)); /* Gold to red gradient */
     transform: scaleX(0);
     transition: transform 0.3s ease;
 }
@@ -484,58 +1114,60 @@ html {
 }
 
 .card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-6px);
     box-shadow: var(--card-shadow-hover);
+    border-color: var(--cn-gold); /* Gold border on hover */
+    transition: var(--transition-smooth); /* Smooth transition */
 }
 
 /* ========================================
    ENHANCED PRODUCT GRID AND CARDS
    ======================================== */
 
-/* Product grid with consistent spacing and alignment */
+/* Product grid - Improved spacing and alignment */
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 32px; /* Consistent spacing between cards */
-    margin-top: 20px; /* Reduced spacing to connect with filters */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Slightly smaller min-width */
+    gap: 20px; /* Reduced gap for tighter spacing */
+    margin-top: 24px; /* Reduced spacing */
     /* Ensure grid stays in place during scroll */
     transform: none !important;
     will-change: auto;
 }
 
-/* Enhanced product card design with modern styling */
+/* Enhanced product card - Rich Chinese-inspired colors */
 .product-card {
-    /* Light background color with rounded corners */
-    background: rgba(255, 255, 255, 0.95); /* Light background as requested */
+    /* Rich gradient background: ivory to light gold */
+    background: linear-gradient(135deg, rgba(255, 250, 242, 0.98) 0%, rgba(245, 240, 230, 0.95) 100%);
     backdrop-filter: blur(12px);
-    border-radius: 16px; /* Rounded corners */
-    padding: 24px; /* Consistent padding */
-    /* Soft shadow for floating look */
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth transitions */
+    border-radius: var(--card-radius);
+    padding: var(--card-padding);
+    /* Enhanced red-tinted shadow */
+    box-shadow: 0 4px 20px rgba(196, 30, 58, 0.12), 0 2px 8px rgba(212, 165, 116, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid var(--card-border); /* Enhanced gold border */
     position: relative;
     overflow: hidden;
-    min-height: 420px; /* Slightly increased for better proportions */
+    min-height: 380px;
     display: flex;
     flex-direction: column;
-    /* Ensure cards stay in place during scroll */
     transform: none !important;
-    will-change: transform; /* Only allow transform on hover */
+    will-change: transform;
 }
 
-/* Top accent line for modern look */
+/* Top accent line - Gold to red gradient */
 .product-card::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    height: 4px;
+    background: linear-gradient(90deg, var(--cn-gold), var(--cn-red), var(--cn-gold)); /* Gold to red gradient */
     transform: scaleX(0);
     transition: transform 0.3s ease;
+    box-shadow: 0 2px 8px rgba(196, 30, 58, 0.3);
 }
 
 /* Show accent line on hover */
@@ -543,23 +1175,26 @@ html {
     transform: scaleX(1);
 }
 
-/* Smooth scale-up hover effect */
+/* Smooth hover effect with enhanced colors */
+/* Product card hover - Smooth transition */
 .product-card:hover {
-    transform: scale(1.02); /* Slight scale up as requested */
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12); /* Enhanced shadow on hover */
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 8px 32px rgba(196, 30, 58, 0.2), 0 4px 16px rgba(212, 165, 116, 0.15);
+    border-color: var(--cn-gold); /* Gold border on hover */
+    transition: var(--transition-smooth); /* Smooth transition */
 }
 
 /* ========================================
    PRODUCT IMAGE AND CONTENT STYLING
    ======================================== */
 
-/* Product image container with consistent height and centered alignment */
+/* Product image - Unified size for all cards with smooth transitions */
 .product-image {
     width: 100%;
-    height: 220px; /* Fixed height for consistency */
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    border-radius: 12px;
-    margin-bottom: 20px;
+    height: 200px; /* Fixed height for unified image sizes */
+    background: linear-gradient(135deg, #fffaf0 0%, #f5f0e6 100%); /* Ivory gradient */
+    border-radius: 10px;
+    margin-bottom: 16px; /* Reduced spacing */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -569,8 +1204,21 @@ html {
     position: relative;
     overflow: hidden;
     flex-shrink: 0;
-    /* Ensure images are centered and same height */
-    object-fit: cover;
+    transition: var(--transition-smooth); /* Smooth transitions */
+}
+
+/* Ensure product images are uniform with smooth zoom */
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Unified image sizing */
+    border-radius: 10px;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth zoom */
+}
+
+/* Image zoom on card hover */
+.product-card:hover .product-image img {
+    transform: scale(1.05); /* Smooth zoom effect */
 }
 
 /* Subtle overlay effect on hover */
@@ -590,50 +1238,192 @@ html {
     opacity: 1;
 }
 
-/* Product title styling - clean and readable */
+/* Wishlist heart button overlay */
+.product-card .wishlist-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    cursor: pointer;
+    transition: transform 0.18s ease, background 0.18s ease;
+    z-index: 12;
+}
+.product-card .wishlist-btn:hover {
+    transform: scale(1.08);
+}
+.product-card .wishlist-btn .heart {
+    font-size: 18px;
+    color: #e74c3c; /* default heart color */
+    opacity: 0.85;
+}
+.product-card .wishlist-btn.active {
+    background: linear-gradient(135deg, #fff0f0, #ffecec);
+    box-shadow: 0 6px 18px rgba(231, 76, 60, 0.12);
+}
+
+/* Pulse animation for wishlist feedback */
+.wishlist-btn.pulse { animation: wishlistPulse 0.6s ease-out; }
+@keyframes wishlistPulse {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.25); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+/* Disabled CTA buttons */
+.btn[disabled], .btn[aria-disabled="true"] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: linear-gradient(135deg,#e0e0e0,#f5f5f5);
+    color: #9aa4b2;
+}
+
+.btn[disabled]:hover, .btn[aria-disabled="true"]:hover { transform: none; }
+
+
+/* Out of stock overlay */
+.product-card .out-of-stock {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    border-radius: 16px;
+    z-index: 14;
+}
+
+/* Low stock badge */
+.product-card .badge.low-stock {
+    background: linear-gradient(135deg, #ffb74d, #ff8a65);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+/* Free shipping badge */
+.product-card .badge.shipping {
+    background: linear-gradient(135deg, #76b852, #8DC26F);
+    color: #fff;
+    padding: 6px 8px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+/* Improve quick view & CTA overlays - Smooth transitions */
+.product-card .product-overlay { 
+    display:flex; 
+    gap: 8px; 
+    align-items:center; 
+    justify-content:center; 
+    padding: 10px; 
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth fade */
+}
+.product-card .product-overlay .btn-quick-view { 
+    opacity: 0; 
+    transform: translateY(6px); 
+    transition: var(--transition-smooth); /* Consistent smooth transition */
+}
+.product-card:hover .product-overlay .btn-quick-view { 
+    opacity: 1; 
+    transform: translateY(0); 
+}
+
+/* Focus styles for keyboard accessibility */
+.product-card:focus-within { outline: 3px solid rgba(102,126,234,0.15); }
+
+
+/* Product title - Improved typography */
 .product-title {
-    font-size: 20px;
-    margin-bottom: 12px;
-    color: #2c3e50; /* Dark text color */
-    font-weight: 600;
+    font-size: 18px; /* Slightly smaller for better balance */
+    margin-bottom: 10px; /* Reduced spacing */
+    color: var(--text-primary); /* Dark text */
+    font-weight: 700; /* Bolder for Chinese-inspired design */
     line-height: 1.3;
     flex-grow: 1;
-    /* Clean font styling */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Chinese-inspired typography */
+    font-family: 'Noto Serif', 'Noto Sans SC', 'Microsoft YaHei', serif;
 }
 
-/* Product price styling with gradient text */
+/* Product price - Chinese red color */
 .product-price {
-    font-size: 24px; /* Slightly larger for better visibility */
-    color: #4a90e2; /* Accent color */
+    font-size: 22px; /* Balanced size */
+    color: var(--cn-red); /* Chinese red */
     font-weight: 700;
-    margin-bottom: 20px;
-    background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
-
-    color: #667eea; /* Accent color */
-    font-weight: 700;
-    margin-bottom: 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    /* Ensure price stands out */
-    text-shadow: 0 2px 4px rgba(74, 144, 226, 0.1);
-
-    text-shadow: 0 2px 4px rgba(102, 126, 234, 0.1);
+    margin-bottom: 16px; /* Reduced spacing */
+    /* No gradient, solid red for clarity */
 }
+
+.product-snippet {
+    color: #6b7280;
+    font-size: 14px;
+    margin-top: 8px;
+    margin-bottom: 10px;
+}
+
+.product-meta {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    align-items: center;
+    color: #7f8c8d;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+.product-category { text-transform: uppercase; }
+.product-reviews { color: #9aa4b2; }
+
+.original-price { text-decoration: line-through; color: #9aa4b2; font-size: 14px; margin-left: 8px; font-weight: 600; }
+.discount-badge { background: linear-gradient(135deg,#ff7e5f,#feb47b); color:#fff; padding: 6px 8px; border-radius: 12px; margin-left: 8px; font-weight:700; font-size: 12px; }
 
 /* Form styling */
+/* Form container - Enhanced Chinese colors */
 .form-container {
     max-width: 500px;
     margin: 0 auto;
-    background: var(--card-bg);
+    /* Rich gradient background */
+    background: linear-gradient(135deg, rgba(255, 250, 242, 0.98) 0%, rgba(245, 240, 230, 0.95) 100%);
     backdrop-filter: blur(12px);
     padding: 40px;
     border-radius: var(--card-radius);
-    box-shadow: var(--card-shadow);
-    border: 1px solid var(--card-border);
+    box-shadow: 0 4px 20px rgba(196, 30, 58, 0.12), 0 2px 8px rgba(212, 165, 116, 0.1);
+    border: 2px solid var(--card-border); /* Enhanced gold border */
+    position: relative;
+    overflow: hidden;
 }
+
+.form-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--cn-gold), var(--cn-red), var(--cn-gold));
+    box-shadow: 0 2px 8px rgba(196, 30, 58, 0.3);
+}
+
+/* Form layout helpers */
+.form-center { display: flex; justify-content: center; align-items: center; min-height: 60vh; }
+.form-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.form-footer { text-align: center; }
+.muted-text { color: #666; margin-top: 15px; font-size: 14px; line-height: 1.6; }
+.checkbox-input { margin-right: 8px; margin-top: 2px; }
+.text-center { text-align: center; }
 
 .form-group {
     margin-bottom: 25px;
@@ -650,24 +1440,27 @@ html {
     letter-spacing: 0.5px;
 }
 
+/* Form inputs - Smooth transitions */
 .form-group input,
 .form-group textarea {
     width: 100%;
     padding: 16px 20px;
-    border: 2px solid rgba(102, 126, 234, 0.1);
+    border: 2px solid rgba(212, 165, 116, 0.2); /* Gold border */
     border-radius: 12px;
     font-size: 16px;
-    transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.8);
+    transition: var(--transition-smooth); /* Consistent smooth transition */
+    background: rgba(255, 250, 242, 0.9); /* Ivory background */
     backdrop-filter: blur(5px);
+    color: var(--text-primary);
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: var(--cn-red); /* Chinese red on focus */
+    box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.15); /* Red-tinted shadow */
     transform: translateY(-2px);
+    background: rgba(255, 250, 242, 1); /* Solid ivory on focus */
 }
 
 .form-group input::placeholder,
@@ -690,15 +1483,17 @@ html {
     margin-top: 60px;
 }
 
+/* Team member card - Enhanced Chinese colors */
 .team-member {
-    background: var(--card-bg);
+    /* Rich gradient background */
+    background: linear-gradient(135deg, rgba(255, 250, 242, 0.98) 0%, rgba(245, 240, 230, 0.95) 100%);
     backdrop-filter: blur(12px);
     border-radius: var(--card-radius);
     padding: 24px;
     text-align: center;
-    box-shadow: var(--card-shadow);
+    box-shadow: 0 4px 20px rgba(196, 30, 58, 0.12), 0 2px 8px rgba(212, 165, 116, 0.1);
     transition: var(--transition-smooth);
-    border: 1px solid var(--card-border);
+    border: 2px solid var(--card-border); /* Enhanced gold border */
     position: relative;
     overflow: hidden;
     min-height: 320px;
@@ -707,16 +1502,18 @@ html {
     align-items: center;
 }
 
+/* Team member accent line */
 .team-member::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
-    background: var(--primary-gradient);
+    height: 4px;
+    background: linear-gradient(90deg, var(--cn-gold), var(--cn-red), var(--cn-gold));
     transform: scaleX(0);
     transition: transform 0.3s ease;
+    box-shadow: 0 2px 8px rgba(196, 30, 58, 0.3);
 }
 
 .team-member:hover::before {
@@ -724,15 +1521,18 @@ html {
 }
 
 .team-member:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-6px);
+    box-shadow: 0 8px 32px rgba(196, 30, 58, 0.2), 0 4px 16px rgba(212, 165, 116, 0.15);
+    border-color: var(--cn-gold); /* Gold border on hover */
+    transition: var(--transition-smooth); /* Smooth transition */
 }
 
+/* Team photo - Enhanced Chinese colors */
 .team-photo {
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    background: var(--primary-gradient);
+    background: linear-gradient(135deg, var(--cn-red) 0%, var(--cn-red-dark) 100%); /* Red gradient */
     margin: 0 auto 16px;
     display: flex;
     align-items: center;
@@ -740,14 +1540,17 @@ html {
     color: white;
     font-size: 14px;
     font-weight: 700;
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.25);
+    box-shadow: 0 4px 16px rgba(196, 30, 58, 0.3), 0 2px 8px rgba(212, 165, 116, 0.2);
     transition: var(--transition-smooth);
     flex-shrink: 0;
+    border: 3px solid var(--cn-gold); /* Gold border */
 }
+.team-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 
 .team-member:hover .team-photo {
-    transform: scale(1.05);
-    box-shadow: 0 12px 32px rgba(102, 126, 234, 0.35);
+    transform: scale(1.08);
+    box-shadow: 0 8px 24px rgba(196, 30, 58, 0.4), 0 4px 12px rgba(212, 165, 116, 0.3);
+    border-color: var(--cn-gold-light); /* Lighter gold on hover */
 }
 
 .team-name {
@@ -769,6 +1572,10 @@ html {
     margin-bottom: 12px;
 }
 
+/* Testimonial header and avatar */
+.testimonial-header { display:flex; gap:12px; align-items:center; margin-bottom:12px; }
+.avatar { width:64px; height:64px; border-radius:50%; object-fit:cover; box-shadow: 0 6px 18px rgba(0,0,0,0.08); }
+
 /* Gallery grid */
 .gallery-grid {
     display: grid;
@@ -777,14 +1584,16 @@ html {
     margin-top: 60px;
 }
 
+/* Gallery item - Enhanced Chinese colors */
 .gallery-item {
-    background: var(--card-bg);
+    /* Rich gradient background */
+    background: linear-gradient(135deg, rgba(255, 250, 242, 0.98) 0%, rgba(245, 240, 230, 0.95) 100%);
     backdrop-filter: blur(12px);
     border-radius: var(--card-radius);
     overflow: hidden;
-    box-shadow: var(--card-shadow);
+    box-shadow: 0 4px 20px rgba(196, 30, 58, 0.12), 0 2px 8px rgba(212, 165, 116, 0.1);
     transition: var(--transition-smooth);
-    border: 1px solid var(--card-border);
+    border: 2px solid var(--card-border); /* Enhanced gold border */
     position: relative;
     display: flex;
     flex-direction: column;
@@ -796,11 +1605,12 @@ html {
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
-    background: var(--primary-gradient);
+    height: 4px;
+    background: linear-gradient(90deg, var(--cn-gold), var(--cn-red), var(--cn-gold));
     transform: scaleX(0);
     transition: transform 0.3s ease;
     z-index: 2;
+    box-shadow: 0 2px 8px rgba(196, 30, 58, 0.3);
 }
 
 .gallery-item:hover::before {
@@ -808,8 +1618,10 @@ html {
 }
 
 .gallery-item:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-6px);
+    box-shadow: 0 8px 32px rgba(196, 30, 58, 0.2), 0 4px 16px rgba(212, 165, 116, 0.15);
+    border-color: var(--cn-gold); /* Gold border on hover */
+    transition: var(--transition-smooth); /* Smooth transition */
 }
 
 .gallery-image {
@@ -868,38 +1680,47 @@ html {
     font-size: 14px;
 }
 
-/* Services list */
+/* Services list - Improved spacing */
 .services-list {
-    max-width: 1000px;
-    margin: 0 auto;
+    max-width: var(--container-max-width);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px; /* Consistent gap */
+    align-items: stretch;
+    margin-top: 24px; /* Reduced top margin */
 }
 
+/* Service item - Improved spacing */
+/* Service item - Enhanced Chinese colors */
 .service-item {
-    background: var(--card-bg);
+    /* Rich gradient background */
+    background: linear-gradient(135deg, rgba(255, 250, 242, 0.98) 0%, rgba(245, 240, 230, 0.95) 100%);
     backdrop-filter: blur(12px);
-    padding: 32px;
-    margin-bottom: 24px;
+    padding: 20px;
+    margin-bottom: 0;
     border-radius: var(--card-radius);
-    box-shadow: var(--card-shadow);
+    box-shadow: 0 4px 20px rgba(196, 30, 58, 0.12), 0 2px 8px rgba(212, 165, 116, 0.1);
     display: flex;
     align-items: center;
-    gap: 24px;
-    border: 1px solid var(--card-border);
+    gap: 16px;
+    border: 2px solid var(--card-border); /* Enhanced gold border */
     transition: var(--transition-smooth);
     position: relative;
     overflow: hidden;
 }
 
+/* Service item accent line */
 .service-item::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
-    background: var(--primary-gradient);
+    height: 4px;
+    background: linear-gradient(90deg, var(--cn-gold), var(--cn-red), var(--cn-gold));
     transform: scaleX(0);
     transition: transform 0.3s ease;
+    box-shadow: 0 2px 8px rgba(196, 30, 58, 0.3);
 }
 
 .service-item:hover::before {
@@ -908,13 +1729,16 @@ html {
 
 .service-item:hover {
     transform: translateY(-6px);
-    box-shadow: var(--card-shadow-hover);
+    box-shadow: 0 8px 32px rgba(196, 30, 58, 0.2), 0 4px 16px rgba(212, 165, 116, 0.15);
+    border-color: var(--cn-gold); /* Gold border on hover */
+    transition: var(--transition-smooth); /* Smooth transition */
 }
 
+/* Service icon - Enhanced Chinese colors */
 .service-icon {
     width: 72px;
     height: 72px;
-    background: var(--primary-gradient);
+    background: linear-gradient(135deg, var(--cn-red) 0%, var(--cn-red-dark) 100%); /* Red gradient */
     border-radius: 16px;
     display: flex;
     align-items: center;
@@ -922,27 +1746,31 @@ html {
     color: white;
     font-size: 28px;
     flex-shrink: 0;
-    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.25);
+    box-shadow: 0 4px 16px rgba(196, 30, 58, 0.3), 0 2px 8px rgba(212, 165, 116, 0.2);
     transition: var(--transition-smooth);
+    border: 2px solid var(--cn-gold); /* Gold border */
 }
 
 .service-item:hover .service-icon {
-    transform: scale(1.05) rotate(3deg);
-    box-shadow: 0 12px 32px rgba(102, 126, 234, 0.35);
+    transform: scale(1.08) rotate(3deg);
+    box-shadow: 0 8px 24px rgba(196, 30, 58, 0.4), 0 4px 12px rgba(212, 165, 116, 0.3);
+    background: linear-gradient(135deg, var(--cn-gold) 0%, var(--cn-gold-light) 100%); /* Gold on hover */
 }
 
+/* Service content typography */
 .service-content h3 {
-    margin-bottom: 12px;
+    margin-bottom: 10px; /* Reduced spacing */
     color: var(--text-primary);
-    font-size: 22px;
+    font-size: 20px; /* Slightly smaller */
     font-weight: 700;
     line-height: 1.3;
+    font-family: 'Noto Serif', Georgia, serif; /* Chinese-inspired typography */
 }
 
 .service-content p {
     color: var(--text-secondary);
     line-height: 1.6;
-    font-size: 15px;
+    font-size: 14px; /* Slightly smaller */
 }
 
 /* Dashboard */
@@ -964,18 +1792,20 @@ html {
     margin-top: 40px;
 }
 
+/* Dashboard action card - Enhanced Chinese colors */
 .dashboard-action {
-    background: var(--card-bg);
+    /* Rich gradient background */
+    background: linear-gradient(135deg, rgba(255, 250, 242, 0.98) 0%, rgba(245, 240, 230, 0.95) 100%);
     backdrop-filter: blur(12px);
     padding: 32px;
     border-radius: var(--card-radius);
-    box-shadow: var(--card-shadow);
+    box-shadow: 0 4px 20px rgba(196, 30, 58, 0.12), 0 2px 8px rgba(212, 165, 116, 0.1);
     text-align: center;
     transition: var(--transition-smooth);
-    border: 1px solid var(--card-border);
+    border: 2px solid var(--card-border); /* Enhanced gold border */
     position: relative;
     overflow: hidden;
-    min-height: 200px;
+    min-height: 170px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -987,10 +1817,11 @@ html {
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
-    background: var(--primary-gradient);
+    height: 4px;
+    background: linear-gradient(90deg, var(--cn-gold), var(--cn-red), var(--cn-gold));
     transform: scaleX(0);
     transition: transform 0.3s ease;
+    box-shadow: 0 2px 8px rgba(196, 30, 58, 0.3);
 }
 
 .dashboard-action:hover::before {
@@ -998,8 +1829,10 @@ html {
 }
 
 .dashboard-action:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-6px);
+    box-shadow: 0 8px 32px rgba(196, 30, 58, 0.2), 0 4px 16px rgba(212, 165, 116, 0.15);
+    border-color: var(--cn-gold); /* Gold border on hover */
+    transition: var(--transition-smooth); /* Smooth transition */
 }
 
 .dashboard-action h3 {
@@ -1010,17 +1843,18 @@ html {
     line-height: 1.3;
 }
 
-/* Success page */
+/* Success page - Enhanced Chinese colors */
 .success-container {
     text-align: center;
-    background: var(--card-bg);
+    /* Rich gradient background */
+    background: linear-gradient(135deg, rgba(255, 250, 242, 0.98) 0%, rgba(245, 240, 230, 0.95) 100%);
     backdrop-filter: blur(12px);
     padding: 64px 48px;
     border-radius: var(--card-radius);
-    box-shadow: var(--card-shadow);
+    box-shadow: 0 4px 20px rgba(196, 30, 58, 0.12), 0 2px 8px rgba(212, 165, 116, 0.1);
     max-width: 600px;
     margin: 100px auto;
-    border: 1px solid var(--card-border);
+    border: 2px solid var(--card-border); /* Enhanced gold border */
     position: relative;
     overflow: hidden;
 }
@@ -1031,8 +1865,9 @@ html {
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
-    background: var(--primary-gradient);
+    height: 4px;
+    background: linear-gradient(90deg, var(--cn-gold), var(--cn-red), var(--cn-gold));
+    box-shadow: 0 2px 8px rgba(196, 30, 58, 0.3);
 }
 
 .success-icon {
@@ -1068,100 +1903,112 @@ html {
 }
 
 /* ========================================
-   ENHANCED FOOTER DESIGN
+   COMPACT FOOTER (smaller, cleaner)
    ======================================== */
 
-/* Main footer container with modern styling */
+/* Compact footer: reduced padding, simpler background and tighter layout */
 .footer {
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    color: var(--text-primary);
-    text-align: center;
-    padding: 48px 0 32px;
-    margin-top: 80px;
+    background: linear-gradient(180deg, rgba(196,30,58,0.06) 0%, rgba(212,165,116,0.03) 100%);
+    color: #2b2b2b; /* Dark text for readability on light background */
+    text-align: left;
+    padding: 14px 0; /* Compact padding */
+    margin-top: 24px;
     position: relative;
-    border-top: 1px solid rgba(102, 126, 234, 0.1);
+    border-top: 1px solid rgba(212,165,116,0.12);
 }
 
-/* Footer content container */
+/* Footer container with compact spacing */
 .footer .container {
-    max-width: 1200px;
+    max-width: var(--container-max-width);
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 16px;
 }
 
-/* Footer content wrapper */
-.footer-content {
+/* Compact footer layout: two rows on desktop, stacked on mobile */
+.footer .footer-content {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
+    gap: 16px;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
-/* Social media links container */
-.social-links {
-    display: flex;
-    gap: 20px;
-    align-items: center;
+.footer .footer-section {
+    flex: 1 1 180px;
+    min-width: 160px;
+    margin-bottom: 8px;
 }
 
-/* Individual social media links */
-.social-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    background: var(--card-bg);
-    border-radius: 50%;
-    color: var(--text-accent);
-    text-decoration: none;
-    font-size: 18px;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(102, 126, 234, 0.1);
+.footer .footer-section h3, .footer .footer-section h4 {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: var(--text-primary);
 }
 
-/* Social link hover effects */
-.social-link:hover {
-    transform: translateY(-2px);
-    background: var(--primary-gradient);
-    color: white;
-    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);
+.footer .footer-section p { font-size: 13px; color: var(--text-secondary); margin: 0 0 8px 0; }
+
+.footer .footer-section ul { list-style: none; margin: 0; padding: 0; }
+.footer .footer-section ul li { margin: 6px 0; }
+.footer .footer-section ul li a { color: var(--text-secondary); text-decoration: none; font-size: 13px; }
+.footer .footer-section ul li a:hover { color: var(--cn-red); }
+
+/* Social links small and inline */
+.footer .social-links { display: flex; gap: 8px; align-items: center; }
+.footer .social-links a { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 6px; background: rgba(255,255,255,0.9); color: var(--cn-red); font-size: 14px; text-decoration: none; }
+
+/* Newsletter compact: hide input on very small screens */
+.newsletter-form { display:flex; gap:8px; align-items:center; }
+.newsletter-input { padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.06); min-width: 180px; font-size: 13px; }
+.newsletter-button { padding: 8px 10px; border-radius: 8px; background: var(--cn-red); color: #fff; border: none; font-weight: 600; font-size: 13px; }
+
+@media (max-width: 768px) {
+    .footer .footer-content { gap: 12px; }
+    .footer { padding: 12px 0; }
+    .newsletter-input { display: none; }
 }
 
-/* Footer copyright text */
-.footer p {
-    font-size: 15px;
-    color: var(--text-secondary);
-    font-weight: 500;
-    margin: 0;
-    letter-spacing: 0.3px;
-}
+/* Footer bottom small text */
+.footer .footer-bottom { margin-top: 10px; text-align: center; }
+.footer .footer-bottom p { font-size: 12px; color: var(--text-secondary); margin: 6px 0 0; }
 
-/* Footer divider line */
-.footer-divider {
-    width: 60px;
-    height: 2px;
-    background: var(--primary-gradient);
-    margin: 0 auto 16px;
-    border-radius: 1px;
-}
-
-/* About page content cards */
+/* About page content cards - Enhanced Chinese colors */
 .about-content-card {
-    background: var(--card-bg);
+    /* Rich gradient background */
+    background: linear-gradient(135deg, rgba(255, 250, 242, 0.98) 0%, rgba(245, 240, 230, 0.95) 100%);
     backdrop-filter: blur(12px);
     padding: 32px;
     border-radius: var(--card-radius);
-    box-shadow: var(--card-shadow);
-    border: 1px solid var(--card-border);
+    box-shadow: 0 4px 20px rgba(196, 30, 58, 0.12), 0 2px 8px rgba(212, 165, 116, 0.1);
+    border: 2px solid var(--card-border); /* Enhanced gold border */
     margin-bottom: 24px;
     transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+/* About card accent line */
+.about-content-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--cn-gold), var(--cn-red), var(--cn-gold));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 8px rgba(196, 30, 58, 0.3);
+}
+
+.about-content-card:hover::before {
+    transform: scaleX(1);
 }
 
 .about-content-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-6px);
+    box-shadow: 0 8px 32px rgba(196, 30, 58, 0.2), 0 4px 16px rgba(212, 165, 116, 0.15);
+    border-color: var(--cn-gold); /* Gold border on hover */
+    transition: var(--transition-smooth); /* Smooth transition */
 }
 
 .about-content-card h2 {
@@ -1184,21 +2031,43 @@ html {
     margin-bottom: 12px;
 }
 
-/* Team values cards */
+/* Team values cards - Enhanced Chinese colors */
 .team-value-card {
     text-align: center;
     padding: 24px;
-    background: var(--card-bg);
+    /* Rich gradient background */
+    background: linear-gradient(135deg, rgba(255, 250, 242, 0.98) 0%, rgba(245, 240, 230, 0.95) 100%);
     backdrop-filter: blur(12px);
     border-radius: var(--card-radius);
-    box-shadow: var(--card-shadow);
-    border: 1px solid var(--card-border);
+    box-shadow: 0 4px 20px rgba(196, 30, 58, 0.12), 0 2px 8px rgba(212, 165, 116, 0.1);
+    border: 2px solid var(--card-border); /* Enhanced gold border */
     transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Team value card accent line */
+.team-value-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--cn-gold), var(--cn-red), var(--cn-gold));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 8px rgba(196, 30, 58, 0.3);
+}
+
+.team-value-card:hover::before {
+    transform: scaleX(1);
 }
 
 .team-value-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-6px);
+    box-shadow: 0 8px 32px rgba(196, 30, 58, 0.2), 0 4px 16px rgba(212, 165, 116, 0.15);
+    border-color: var(--cn-gold); /* Gold border on hover */
 }
 
 .team-value-card h3 {
@@ -1218,18 +2087,18 @@ html {
    FILTER SECTION STYLING
    ======================================== */
 
-/* Filter container */
+/* Filter container - Reduced spacing */
 .filter-container {
     background: var(--card-bg);
     backdrop-filter: blur(12px);
     border-radius: var(--card-radius);
-    padding: 32px;
+    padding: 24px; /* Reduced padding */
     box-shadow: var(--card-shadow);
     border: 1px solid var(--card-border);
-    margin-top: 40px;
+    margin-top: 24px; /* Reduced margin */
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 24px;
+    gap: 20px; /* Reduced gap */
     align-items: end;
 }
 
@@ -1248,26 +2117,28 @@ html {
     letter-spacing: 0.5px;
 }
 
+/* Filter select - Smooth transitions */
 .filter-group select {
     padding: 12px 16px;
-    border: 2px solid rgba(102, 126, 234, 0.1);
+    border: 2px solid rgba(212, 165, 116, 0.2); /* Gold border */
     border-radius: 12px;
     font-size: 14px;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 250, 242, 0.9); /* Ivory background */
     backdrop-filter: blur(5px);
-    transition: all 0.3s ease;
+    transition: var(--transition-smooth); /* Consistent smooth transition */
     cursor: pointer;
+    color: var(--text-primary);
 }
 
 .filter-group select:focus {
     outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: var(--cn-red); /* Chinese red on focus */
+    box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.15); /* Red-tinted shadow */
     transform: translateY(-2px);
 }
 
 .filter-group select:hover {
-    border-color: rgba(102, 126, 234, 0.3);
+    border-color: var(--cn-gold); /* Gold border on hover */
 }
 
 /* Filter actions */
@@ -1294,14 +2165,15 @@ html {
     margin-top: 60px;
 }
 
-/* Enhanced category cards for shop by category */
+/* Enhanced category cards - Rich Chinese colors */
 .category-card {
-    background: var(--card-bg);
+    /* Rich gradient background */
+    background: linear-gradient(135deg, rgba(255, 250, 242, 0.98) 0%, rgba(245, 240, 230, 0.95) 100%);
     backdrop-filter: blur(12px);
     border-radius: var(--card-radius);
     padding: 24px;
-    box-shadow: var(--card-shadow);
-    border: 1px solid var(--card-border);
+    box-shadow: 0 4px 20px rgba(196, 30, 58, 0.12), 0 2px 8px rgba(212, 165, 116, 0.1);
+    border: 2px solid var(--card-border); /* Enhanced gold border */
     transition: var(--transition-smooth);
     text-align: center;
     position: relative;
@@ -1313,17 +2185,18 @@ html {
     justify-content: space-between;
 }
 
-/* Top accent line for category cards */
+/* Top accent line - Gold to red gradient */
 .category-card::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
-    background: var(--primary-gradient);
+    height: 4px;
+    background: linear-gradient(90deg, var(--cn-gold), var(--cn-red), var(--cn-gold));
     transform: scaleX(0);
     transition: transform 0.3s ease;
+    box-shadow: 0 2px 8px rgba(196, 30, 58, 0.3);
 }
 
 /* Show accent line on hover */
@@ -1331,10 +2204,12 @@ html {
     transform: scaleX(1);
 }
 
-/* Category card hover effect */
+/* Category card hover effect - Smooth transition */
 .category-card:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 8px 32px rgba(196, 30, 58, 0.2), 0 4px 16px rgba(212, 165, 116, 0.15);
+    border-color: var(--cn-gold); /* Gold border on hover */
+    transition: var(--transition-smooth); /* Smooth transition */
 }
 
 /* Category image container */
@@ -1351,7 +2226,11 @@ html {
     position: relative;
 }
 
-/* Category image hover effect */
+/* Category image hover effect - Smooth zoom */
+.category-image {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth zoom */
+}
+
 .category-card:hover .category-image {
     transform: scale(1.05);
 }
@@ -1570,6 +2449,13 @@ html {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Team page utility classes */
+.muted-text { color: #666; margin-top: 15px; font-size: 14px; line-height: 1.6; }
+.skill-badges { margin-top: 20px; display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+.skill-badge { background: var(--primary-gradient); color: white; padding: 6px 12px; border-radius: 12px; font-size: 12px; font-weight: 700; }
+.values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-top: 50px; }
+.value-icon { font-size: 48px; margin-bottom: 20px; display:inline-block; }
+
 .team-member:hover .team-photo img {
     transform: scale(1.08);
     box-shadow: 0 12px 32px rgba(102, 126, 234, 0.4);
@@ -1579,6 +2465,10 @@ html {
 .service-icon img {
     transition: transform 0.3s ease, filter 0.3s ease;
     filter: brightness(1);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
 }
 
 .service-item:hover .service-icon img {
@@ -1612,6 +2502,15 @@ img {
     animation: fadeIn 0.5s ease-in;
 }
 
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+    }
+}
+
 /* Cart page styles */
 .cart-container {
     max-width: 1000px;
@@ -1619,23 +2518,45 @@ img {
     padding: 40px 20px;
 }
 
+/* Cart item - Enhanced Chinese colors */
 .cart-item {
-    background: var(--card-bg);
+    /* Rich gradient background */
+    background: linear-gradient(135deg, rgba(255, 250, 242, 0.98) 0%, rgba(245, 240, 230, 0.95) 100%);
     backdrop-filter: blur(12px);
     border-radius: var(--card-radius);
     padding: 24px;
     margin-bottom: 16px;
-    box-shadow: var(--card-shadow);
-    border: 1px solid var(--card-border);
+    box-shadow: 0 4px 20px rgba(196, 30, 58, 0.12), 0 2px 8px rgba(212, 165, 116, 0.1);
+    border: 2px solid var(--card-border); /* Enhanced gold border */
     display: flex;
     align-items: center;
     gap: 20px;
     transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Cart item accent line */
+.cart-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--cn-gold), var(--cn-red), var(--cn-gold));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.cart-item:hover::before {
+    transform: scaleX(1);
 }
 
 .cart-item:hover {
     transform: translateY(-4px);
-    box-shadow: var(--card-shadow-hover);
+    box-shadow: 0 8px 32px rgba(196, 30, 58, 0.2), 0 4px 16px rgba(212, 165, 116, 0.15);
+    border-color: var(--cn-gold); /* Gold border on hover */
 }
 
 .cart-item-image {
@@ -1665,7 +2586,7 @@ img {
 
 .cart-item-price {
     font-size: 18px;
-    color: #667eea;
+    color: var(--cn-red); /* Chinese red */
     font-weight: 600;
     margin-bottom: 10px;
 }
@@ -1676,8 +2597,9 @@ img {
     gap: 15px;
 }
 
+/* Quantity button - Smooth transitions */
 .quantity-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-color: var(--cn-red); /* Chinese red */
     color: white;
     border: none;
     border-radius: 50%;
@@ -1688,12 +2610,14 @@ img {
     justify-content: center;
     cursor: pointer;
     font-weight: bold;
-    transition: all 0.3s ease;
+    transition: var(--transition-smooth); /* Consistent smooth transition */
+    box-shadow: 0 2px 8px rgba(196, 30, 58, 0.2);
 }
 
 .quantity-btn:hover {
     transform: scale(1.1);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 4px 12px rgba(196, 30, 58, 0.35);
+    background-color: var(--cn-red-dark); /* Darker red */
 }
 
 .quantity-input {
@@ -1706,31 +2630,49 @@ img {
     font-size: 16px;
 }
 
+/* Remove button - Smooth transitions */
 .remove-btn {
-    background: #e74c3c;
+    background-color: #e74c3c;
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 8px; /* Consistent border radius */
     padding: 10px 20px;
     cursor: pointer;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: var(--transition-smooth); /* Consistent smooth transition */
     margin-left: auto;
+    box-shadow: 0 2px 8px rgba(231, 76, 60, 0.25);
 }
 
 .remove-btn:hover {
-    background: #c0392b;
+    background-color: #c0392b;
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.35);
 }
 
+/* Cart summary - Enhanced Chinese colors */
 .cart-summary {
-    background: var(--card-bg);
+    /* Rich gradient background */
+    background: linear-gradient(135deg, rgba(255, 250, 242, 0.98) 0%, rgba(245, 240, 230, 0.95) 100%);
     backdrop-filter: blur(12px);
     border-radius: var(--card-radius);
     padding: 32px;
-    box-shadow: var(--card-shadow);
-    border: 1px solid var(--card-border);
+    box-shadow: 0 4px 20px rgba(196, 30, 58, 0.12), 0 2px 8px rgba(212, 165, 116, 0.1);
+    border: 2px solid var(--card-border); /* Enhanced gold border */
     margin-top: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.cart-summary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--cn-gold), var(--cn-red), var(--cn-gold));
+    box-shadow: 0 2px 8px rgba(196, 30, 58, 0.3);
 }
 
 .cart-total {
@@ -1748,14 +2690,29 @@ img {
     flex-wrap: wrap;
 }
 
+/* Empty cart - Enhanced Chinese colors */
 .empty-cart {
     text-align: center;
     padding: 64px 32px;
-    background: var(--card-bg);
+    /* Rich gradient background */
+    background: linear-gradient(135deg, rgba(255, 250, 242, 0.98) 0%, rgba(245, 240, 230, 0.95) 100%);
     backdrop-filter: blur(12px);
     border-radius: var(--card-radius);
-    box-shadow: var(--card-shadow);
-    border: 1px solid var(--card-border);
+    box-shadow: 0 4px 20px rgba(196, 30, 58, 0.12), 0 2px 8px rgba(212, 165, 116, 0.1);
+    border: 2px solid var(--card-border); /* Enhanced gold border */
+    position: relative;
+    overflow: hidden;
+}
+
+.empty-cart::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--cn-gold), var(--cn-red), var(--cn-gold));
+    box-shadow: 0 2px 8px rgba(196, 30, 58, 0.3);
 }
 
 .empty-cart-icon {
@@ -1808,7 +2765,7 @@ img {
         align-self: flex-start; /* Keep logo aligned to the left on mobile */
     }
     
-    /* Navigation menu for mobile */
+    /* Navigation menu for mobile - Chinese design */
     .nav-menu {
         flex-direction: column;
         align-items: stretch;
@@ -1817,8 +2774,8 @@ img {
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.3s ease;
-        background: rgba(255, 255, 255, 0.9);
-        border: 1px solid rgba(102, 126, 234, 0.1);
+        background: rgba(255, 250, 242, 0.95); /* Ivory background */
+        border: 1px solid rgba(212, 165, 116, 0.2); /* Gold border */
         border-radius: 12px;
         padding: 0 12px;
     }
@@ -1869,7 +2826,7 @@ img {
     .gallery-grid,
     .category-grid {
         grid-template-columns: 1fr;
-        gap: 24px;
+        gap: 20px; /* Consistent gap */
     }
     
     /* Filter responsive adjustments */
@@ -1948,15 +2905,15 @@ img {
     }
     
     .hero {
-        padding: 80px 0;
+        padding: 48px 0;
     }
     
     .hero h1 {
-        font-size: 32px;
+        font-size: 36px;
     }
     
     .section {
-        padding: 80px 0;
+        padding: 32px 0; /* Reduced padding for mobile */
     }
     
     .form-container {
@@ -2027,16 +2984,23 @@ img {
     justify-content: center;
 }
 
+/* Search box - Smooth transitions */
 .search-box {
     position: relative;
     max-width: 600px;
     width: 100%;
     display: flex;
     background: var(--card-bg);
-    border-radius: 25px;
+    border-radius: 12px; /* Consistent border radius */
     box-shadow: var(--card-shadow);
-    border: 1px solid var(--card-border);
+    border: 2px solid var(--card-border); /* Enhanced gold border */
     overflow: hidden;
+    transition: var(--transition-smooth); /* Smooth transitions */
+}
+
+.search-box:focus-within {
+    box-shadow: 0 6px 20px rgba(196, 30, 58, 0.15); /* Enhanced shadow on focus */
+    border-color: var(--cn-gold); /* Gold border on focus */
 }
 
 .search-box input {
@@ -2047,6 +3011,7 @@ img {
     font-size: 16px;
     color: var(--text-primary);
     outline: none;
+    transition: var(--transition-smooth); /* Smooth transitions */
 }
 
 .search-box input::placeholder {
@@ -2055,20 +3020,20 @@ img {
 }
 
 .search-btn {
-    background: var(--primary-gradient);
+    background-color: var(--cn-red); /* Chinese red */
     color: white;
     border: none;
     padding: 16px 24px;
     cursor: pointer;
     font-size: 18px;
-    transition: all 0.3s ease;
+    transition: var(--transition-smooth); /* Consistent smooth transition */
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .search-btn:hover {
-    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    background-color: var(--cn-red-dark); /* Darker red */
     transform: scale(1.05);
 }
 
@@ -2442,6 +3407,39 @@ img {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
+.quick-view-thumbs {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    align-items: center;
+    justify-content: center;
+}
+.quick-view-thumbs img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.18s ease;
+}
+.quick-view-thumbs img.active {
+    border-color: var(--btn-primary-gradient-hover);
+    transform: translateY(-4px);
+}
+
+.quick-view-availability {
+    font-weight: 700;
+    color: #10b981; /* green */
+}
+.quick-view-availability.out-of-stock { color: #e11d48; }
+
+.quick-view-variants { display:flex; }
+.quick-view-variants .variant-swatch {
+    width: 28px; height: 28px; border-radius: 50%; border: 1px solid #e6edf2; cursor:pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+.quick-view-variants .variant-swatch[aria-pressed="true"] { outline: 3px solid rgba(74,144,226,0.25); }
+
 .quick-view-details {
     flex: 1;
     padding: 40px;
@@ -2460,7 +3458,7 @@ img {
 .quick-view-price {
     font-size: 24px;
     font-weight: 700;
-    color: #007bff;
+    color: var(--text-accent);
     margin-bottom: 10px;
 }
 
@@ -2754,20 +3752,23 @@ img {
     gap: 10px;
 }
 
+/* Quantity control button - Smooth transitions */
 .qty-btn {
-    background: #f8f9fa;
-    border: 1px solid #ddd;
+    background: rgba(255, 250, 242, 0.9); /* Ivory background */
+    border: 2px solid rgba(212, 165, 116, 0.3); /* Gold border */
     border-radius: 8px;
     width: 35px;
     height: 35px;
     cursor: pointer;
     font-weight: bold;
-    transition: all 0.3s ease;
+    transition: var(--transition-smooth); /* Consistent smooth transition */
+    color: var(--text-primary);
 }
 
 .qty-btn:hover {
-    background: #e9ecef;
-    border-color: #667eea;
+    background: rgba(212, 165, 116, 0.1); /* Light gold background */
+    border-color: var(--cn-red); /* Red border on hover */
+    transform: scale(1.05);
 }
 
 #quickViewQuantity {
@@ -2787,7 +3788,7 @@ img {
 }
 
 .btn-primary {
-    background: var(--primary-gradient);
+    background: var(--btn-primary-gradient);
     color: white;
     border: none;
     padding: 12px 24px;
@@ -2804,17 +3805,13 @@ img {
 }
 
 .btn-primary:hover {
-    background: linear-gradient(135deg, #357abd 0%, #2c5aa0 100%);
+    background: var(--btn-primary-gradient-hover);
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(74, 144, 226, 0.4);
 
 }
 
-.btn-primary:hover {
-    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-}
+/* Additional hover override removed (use single hover state via var) */
 
 .btn-outline {
     background: transparent;
@@ -3045,13 +4042,8 @@ img {
    FOOTER STYLES
    ======================================== */
 
-.footer {
-    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-    color: white;
-    padding: 60px 0 20px;
-    margin-top: 80px;
-}
-
+/* Footer styling - Updated to match Chinese design */
+/* Footer section styles - Enhanced Chinese colors */
 .footer-content {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -3061,13 +4053,16 @@ img {
 
 .footer-section h3,
 .footer-section h4 {
-    color: #ecf0f1;
+    color: var(--cn-gold); /* Gold headings */
     margin-bottom: 20px;
     font-size: 18px;
+    font-weight: 700;
+    font-family: 'Noto Serif', Georgia, serif; /* Chinese-inspired typography */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .footer-section p {
-    color: #bdc3c7;
+    color: rgba(255, 250, 242, 0.85); /* Light ivory text */
     line-height: 1.6;
     margin-bottom: 20px;
 }
@@ -3082,15 +4077,19 @@ img {
 }
 
 .footer-section ul li a {
-    color: #bdc3c7;
+    color: rgba(255, 250, 242, 0.8); /* Light ivory links */
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    display: inline-block;
 }
 
 .footer-section ul li a:hover {
-    color: #3498db;
+    color: var(--cn-gold); /* Gold on hover */
+    transform: translateX(4px); /* Slight slide effect */
+    text-shadow: 0 2px 4px rgba(212, 165, 116, 0.3);
 }
 
+/* Social links in footer - Enhanced */
 .social-links {
     display: flex;
     gap: 15px;
@@ -3101,24 +4100,30 @@ img {
     display: inline-block;
     width: 40px;
     height: 40px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 250, 242, 0.15); /* Semi-transparent ivory */
     border-radius: 50%;
     text-align: center;
     line-height: 40px;
     font-size: 18px;
     transition: all 0.3s ease;
+    border: 2px solid rgba(212, 165, 116, 0.3); /* Gold border */
+    color: var(--cn-gold); /* Gold icon */
+    box-shadow: 0 2px 8px rgba(212, 165, 116, 0.2);
 }
 
 .social-links a:hover {
-    background: #3498db;
+    background-color: var(--cn-red); /* Red on hover */
+    border-color: var(--cn-red);
+    color: #fff;
     transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(196, 30, 58, 0.4);
 }
 
 .footer-bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 2px solid rgba(212, 165, 116, 0.3); /* Gold divider */
     padding-top: 20px;
     text-align: center;
-    color: #95a5a6;
+    color: rgba(255, 250, 242, 0.8); /* Light ivory */
 }
 
 .footer-bottom p {
@@ -3583,6 +4588,7 @@ img {
     justify-content: center;
 }
 
+/* Thumbnail - Smooth transitions */
 .thumbnail {
     width: 80px;
     height: 80px;
@@ -3590,14 +4596,14 @@ img {
     overflow: hidden;
     cursor: pointer;
     border: 3px solid transparent;
-    transition: all 0.3s ease;
+    transition: var(--transition-smooth); /* Consistent smooth transition */
     opacity: 0.7;
 }
 
 .thumbnail:hover,
 .thumbnail.active {
     opacity: 1;
-    border-color: #4a90e2;
+    border-color: var(--cn-red); /* Chinese red */
     transform: scale(1.05);
 }
 
@@ -3736,19 +4742,21 @@ img {
     gap: 10px;
 }
 
+/* Color option - Smooth transitions */
 .color-option {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     border: 3px solid transparent;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: var(--transition-smooth); /* Consistent smooth transition */
 }
 
 .color-option:hover,
 .color-option.active {
-    border-color: #4a90e2;
+    border-color: var(--cn-red); /* Chinese red */
     transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(196, 30, 58, 0.3);
 }
 
 .storage-options {
@@ -3756,21 +4764,25 @@ img {
     gap: 10px;
 }
 
+/* Storage option - Smooth transitions */
 .storage-option {
     padding: 10px 20px;
-    border: 2px solid #e0e0e0;
-    border-radius: 25px;
-    background: white;
+    border: 2px solid rgba(212, 165, 116, 0.3); /* Gold border */
+    border-radius: 8px; /* Consistent border radius */
+    background: rgba(255, 250, 242, 0.9); /* Ivory background */
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: var(--transition-smooth); /* Consistent smooth transition */
     font-weight: 500;
+    color: var(--text-primary);
 }
 
 .storage-option:hover,
 .storage-option.active {
-    border-color: #4a90e2;
-    background: #4a90e2;
+    border-color: var(--cn-red); /* Chinese red */
+    background-color: var(--cn-red); /* Chinese red */
     color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(196, 30, 58, 0.25);
 }
 
 .quantity-selector {
@@ -3841,21 +4853,22 @@ img {
     margin-bottom: 30px;
 }
 
+/* Tab button - Smooth transitions */
 .tab-btn {
     padding: 15px 25px;
     border: none;
     background: none;
     cursor: pointer;
     font-weight: 600;
-    color: #7f8c8d;
+    color: var(--text-secondary);
     border-bottom: 3px solid transparent;
-    transition: all 0.3s ease;
+    transition: var(--transition-smooth); /* Consistent smooth transition */
 }
 
 .tab-btn:hover,
 .tab-btn.active {
-    color: #4a90e2;
-    border-bottom-color: #4a90e2;
+    color: var(--cn-red); /* Chinese red */
+    border-bottom-color: var(--cn-red);
 }
 
 .tab-panel {

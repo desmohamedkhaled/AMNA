@@ -1,10 +1,11 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-<head>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop - AMNA Shop</title>
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Header with navigation -->
@@ -148,12 +149,13 @@
     </section>
 
     <!-- Enhanced Quick View Modal -->
-    <div id="quickViewModal" class="quick-view-modal">
+    <div id="quickViewModal" class="quick-view-modal" role="dialog" aria-hidden="true" aria-label="Product quick view">
         <div class="quick-view-content">
             <span class="quick-view-close">&times;</span>
             <div class="quick-view-body">
                 <div class="quick-view-image">
                     <img id="quickViewImage" src="" alt="">
+                    <div id="quickViewThumbs" class="quick-view-thumbs" aria-hidden="false"></div>
                     <div class="image-zoom-controls">
                         <button class="zoom-btn" onclick="zoomImage(1.2)">🔍+</button>
                         <button class="zoom-btn" onclick="zoomImage(0.8)">🔍-</button>
@@ -194,6 +196,8 @@
                             <li>✅ 24/7 customer support</li>
                         </ul>
                     </div>
+                    <div id="quickViewAvailability" class="quick-view-availability" aria-live="polite" style="margin-bottom: 12px; font-weight:700"></div>
+                    <div id="quickViewColorOptions" class="quick-view-variants" style="margin-bottom: 12px; display:flex; gap:8px; align-items:center;"></div>
                     
                     <div class="quantity-selector">
                         <label for="quickViewQuantity">Quantity:</label>
@@ -210,6 +214,9 @@
                         </button>
                         <button class="btn btn-secondary" id="quickViewWishlist">
                             <span>❤️</span> Add to Wishlist
+                        </button>
+                        <button class="btn btn-outline" id="quickViewShare">
+                            <span>🔗</span> Share
                         </button>
                         <button class="btn btn-outline" onclick="closeQuickView()">
                             <span>✕</span> Close

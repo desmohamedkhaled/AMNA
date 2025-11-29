@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize navigation
     initializeNavigation();
+    // Init theme toggle for Chinese theme
+    // Theme toggle removed - Chinese design is now the default
     
     // Initialize forms
     initializeForms();
@@ -24,11 +26,20 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize cart count
     updateCartCountOnLoad();
+    // Initialize wishlist count
+    updateWishlistCount();
     
     // Initialize product display
     initializeProductDisplay();
+    // Render featured products if productGrid exists on homepage
+    if (document.getElementById('productGrid')) {
+        renderFeaturedProducts();
+    }
     
 });
+
+// Theme handling moved to CSS: use `css/themes/china.css`.
+// Legacy JS helpers for toggling themes have been removed to simplify runtime.
 
 // Update cart count on page load
 function updateCartCountOnLoad() {
@@ -210,9 +221,18 @@ function addToCart(productId, productName, productPrice) {
     let cart = JSON.parse(localStorage.getItem('cart') || '[]');
     
     // Check if product already in cart
-    const existingItem = cart.find(item => item.id === productId);
+    const existingItem = cart.find(item => String(item.id) === String(productId));
+    const prod = products.find(p => String(p.id) === String(productId));
+    if (prod && prod.stock !== undefined && prod.stock === 0) {
+        showNotification('This product is currently out of stock', 'warning');
+        return;
+    }
     
     if (existingItem) {
+        if (prod && prod.stock !== undefined && existingItem.quantity >= prod.stock) {
+            showNotification(`Only ${prod.stock} left in stock`, 'warning');
+            return;
+        }
         existingItem.quantity += 1;
     } else {
         cart.push({
@@ -230,7 +250,7 @@ function addToCart(productId, productName, productPrice) {
         updateCartCount();
     }
     
-    alert(`${productName} has been added to cart!`);
+    showNotification(`${productName} has been added to cart!`, 'success');
 }
 
 // Get cart total
@@ -311,19 +331,30 @@ function initializeScrollEffects() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
+                // Add 'in-view' for reveal elements, otherwise use 'animate-in'
+                if (entry.target.classList.contains('reveal')) {
+                    entry.target.classList.add('in-view');
+                } else {
+                    entry.target.classList.add('animate-in');
+                }
             }
         });
     }, observerOptions);
     
-    // Observe elements for animation
-    document.querySelectorAll('.section-title, .product-card, .team-member, .service-item').forEach(el => {
+    // Observe elements for animation and reveal
+    document.querySelectorAll('.section-title, .product-card, .team-member, .service-item, .reveal, .testimonial').forEach(el => {
         observer.observe(el);
     });
 }
 
 // Enhanced add to cart with animation
 function addToCartWithAnimation(productId, productName, productPrice) {
+    // Check stock before adding to cart
+    const prod = products.find(p => String(p.id) === String(productId));
+    if (prod && prod.stock !== undefined && prod.stock === 0) {
+        showNotification('Cannot add to cart: Product is out of stock', 'warning');
+        return;
+    }
     // Add to cart
     addToCart(productId, productName, productPrice);
     
@@ -470,11 +501,16 @@ function clearFilters() {
 // Show all products (enhanced)
 function showAllProducts() {
     // Reset filters
-    document.getElementById('searchInput').value = '';
-    document.getElementById('categoryFilter').value = '';
-    document.getElementById('priceFilter').value = '';
-    document.getElementById('availabilityFilter').value = '';
-    document.getElementById('sortFilter').value = 'name';
+    const searchInputEl = document.getElementById('searchInput');
+    if (searchInputEl) searchInputEl.value = '';
+    const categoryFilterEl = document.getElementById('categoryFilter');
+    if (categoryFilterEl) categoryFilterEl.value = '';
+    const priceFilterEl = document.getElementById('priceFilter');
+    if (priceFilterEl) priceFilterEl.value = '';
+    const availabilityFilterEl = document.getElementById('availabilityFilter');
+    if (availabilityFilterEl) availabilityFilterEl.value = '';
+    const sortFilterEl = document.getElementById('sortFilter');
+    if (sortFilterEl) sortFilterEl.value = 'name';
     
     // Reset pagination
     currentPage = 1;
@@ -527,32 +563,72 @@ function displayProducts(productsToShow, title) {
     animateProductCards();
 }
 
+// Render featured products for the homepage (top 6)
+function renderFeaturedProducts() {
+    const productGrid = document.getElementById('productGrid');
+    if (!productGrid || !products || products.length === 0) return;
+
+    // Choose top 6 highest-rated products as featured
+    const featured = [...products]
+        .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+        .slice(0, 6);
+
+    productGrid.innerHTML = '';
+    featured.forEach((product, index) => {
+        const card = createProductCard(product, index);
+        productGrid.appendChild(card);
+    });
+    // Animate product cards
+    animateProductCards();
+}
+
 // Create a product card element
 function createProductCard(product, index) {
     const card = document.createElement('div');
     card.className = 'product-card';
     card.style.opacity = '0';
     card.style.transform = 'translateY(30px)';
+    card.dataset.productId = product.id;
     
     // Use image from mock data (image property) or fallback to img
     const productImage = product.image || product.img;
     
+    const inWishlist = isInWishlist(product.id);
+    const outOfStock = (product.stock === 0);
+    const lowStock = (product.stock > 0 && product.stock <= 5);
+    const hasShipping = (product.price >= 1000);
+    const isOnSale = Math.random() > 0.8;
+    const originalPrice = product.price;
+    const discountPercent = isOnSale ? Math.floor(Math.random() * 21) + 5 : 0; // 5% - 25%
+    const salePrice = isOnSale ? Math.round(originalPrice * (1 - discountPercent / 100)) : originalPrice;
+
     card.innerHTML = `
         <div class="product-image">
-            <img src="${productImage}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">
+            <button class="wishlist-btn ${inWishlist ? 'active' : ''}" title="Add to wishlist" aria-pressed="${inWishlist}" onclick="toggleWishlistFromCard('${product.id}', this)">
+                <span class="heart">❤️</span>
+            </button>
+            <img loading="lazy" src="${productImage}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">
             <div class="product-overlay">
                 <button class="btn btn-quick-view" onclick="openQuickView('${product.id}')">Quick View</button>
             </div>
+            ${outOfStock ? '<div class=\"out-of-stock\">Out of stock</div>' : ''}
+            ${lowStock ? `<div class=\"badge low-stock\">⚠️ Low stock (${product.stock} left)</div>` : ''}
+            ${hasShipping ? '<div class=\"badge shipping\">🚚 Free Shipping</div>' : ''}
         </div>
         <h3 class="product-title">${product.name}</h3>
-        <p class="product-price">${product.price} EGP</p>
-        <div class="product-rating" style="display: flex; align-items: center; gap: 5px; margin: 10px 0;">
+        <div class="product-meta">
+            <span class="product-category">${product.category}</span>
+            <span class="product-reviews"> • (${product.reviews || 0})</span>
+        </div>
+        <p class="product-snippet">${product.description ? (product.description.length > 80 ? product.description.slice(0,80) + '...' : product.description) : ''}</p>
+        <p class="product-price">${isOnSale ? salePrice + ' EGP' : product.price + ' EGP'} ${isOnSale ? `<span class="original-price">${originalPrice} EGP</span> <span class="discount-badge">-${discountPercent}%</span>` : ''}</p>
+        <div class="product-rating" style="display: flex; align-items: center; gap: 5px; margin: 10px 0;" aria-label="Rating: ${product.rating || 4} out of 5">
             <span style="color: #ffc107;">${'⭐'.repeat(Math.floor(product.rating || 4))}</span>
             <span style="color: #666; font-size: 14px;">(${product.reviews || 0})</span>
         </div>
-        <div style="display: flex; gap: 10px; margin-top: 15px;">
-            <button class="btn" onclick="addToCartWithAnimation('${product.id}', '${product.name}', ${product.price})" style="flex: 1;">Add to Cart</button>
-            <a href="product.html?id=${product.id}" class="btn btn-secondary" style="flex: 1; text-align: center; text-decoration: none; padding: 10px 15px;">View Details</a>
+            <div class="product-card-cta" role="group" aria-label="Product actions">
+            <button class="btn btn-primary" ${outOfStock ? 'aria-disabled="true" disabled' : ''} onclick="addToCartWithAnimation('${product.id}', '${product.name}', ${product.price})">${outOfStock ? 'Out of stock' : 'Add to Cart'}</button>
+            <a href="product.html?id=${product.id}" class="btn btn-secondary" style="text-align: center; text-decoration: none;">View Details</a>
         </div>
     `;
     
@@ -576,21 +652,53 @@ function animateProductCards() {
 // ========================================
 
 // Open quick view modal
+let lastFocusedElementBeforeModal = null;
 function openQuickView(productId) {
     const product = products.find(p => p.id == productId);
     if (!product) return;
     
-    // Use image from mock data (image property) or fallback to img
-    const productImage = product.image || product.img;
+    // Use images array or single image from mock data
+    const images = (product.images && product.images.length) ? product.images : ((product.image || product.img) ? [product.image || product.img] : []);
+    const productImage = images.length ? images[0] : (product.image || product.img);
     
     // Populate modal with product data
     document.getElementById('quickViewImage').src = productImage;
     document.getElementById('quickViewImage').alt = product.name;
     document.getElementById('quickViewTitle').textContent = product.name;
-    document.getElementById('quickViewPrice').textContent = `${product.price} EGP`;
+    const isOnSale = product.onSale || (Math.random() > 0.82);
+    const originalPriceQV = product.price;
+    const discountPercentQV = isOnSale ? Math.floor(Math.random() * 21) + 8 : 0; // 8% - 28%
+    const salePriceQV = isOnSale ? Math.round(originalPriceQV * (1 - discountPercentQV / 100)) : originalPriceQV;
+    document.getElementById('quickViewPrice').textContent = `${isOnSale ? salePriceQV : originalPriceQV} EGP`;
+    const originalPriceEl = document.getElementById('quickViewOriginalPrice');
+    const discountBadge = document.getElementById('discountBadge');
+    if (isOnSale) {
+        if (originalPriceEl) { originalPriceEl.textContent = `${originalPriceQV} EGP`; originalPriceEl.style.display = 'inline-block'; }
+        if (discountBadge) { discountBadge.textContent = `-${discountPercentQV}%`; discountBadge.style.display = 'inline-block'; }
+    } else {
+        if (originalPriceEl) originalPriceEl.style.display = 'none';
+        if (discountBadge) discountBadge.style.display = 'none';
+    }
     document.getElementById('quickViewCategory').textContent = `Category: ${product.category}`;
     document.getElementById('quickViewDescription').textContent = product.description || 'A high-quality product from AMNA Shop. Perfect for your needs with excellent value and reliability.';
     
+    // Populate thumbnails
+    const thumbsContainer = document.getElementById('quickViewThumbs');
+    if (thumbsContainer) {
+        thumbsContainer.innerHTML = '';
+        images.forEach((imgUrl, idx) => {
+            const t = document.createElement('img');
+            t.src = imgUrl;
+            t.alt = `${product.name} thumbnail ${idx + 1}`;
+            t.className = idx === 0 ? 'active' : '';
+            t.tabIndex = 0;
+            t.setAttribute('role', 'button');
+            t.onclick = () => setQuickViewImage(imgUrl, idx);
+            t.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setQuickViewImage(imgUrl, idx); } };
+            thumbsContainer.appendChild(t);
+        });
+    }
+
     // Update product features with specifications if available
     const productFeatures = document.getElementById('productFeatures');
     if (productFeatures && product.specifications) {
@@ -609,10 +717,30 @@ function openQuickView(productId) {
     
     // Set up add to cart button
     const addToCartBtn = document.getElementById('quickViewAddToCart');
+    // Track selected variant (color/storage)
+    let selectedColor = null;
+    let selectedStorage = null;
+
     addToCartBtn.onclick = () => {
-        addToCartWithAnimation(product.id, product.name, product.price);
+        const quantity = parseInt(document.getElementById('quickViewQuantity').value) || 1;
+        // Check stock
+        if (product.stock === 0) {
+            showNotification('This product is out of stock', 'warning');
+            return;
+        }
+        for (let i = 0; i < quantity; i++) {
+            addToCartWithAnimation(product.id, product.name, salePriceQV || product.price);
+        }
         closeQuickView();
     };
+    // disable if out of stock
+    if (product.stock === 0) {
+        addToCartBtn.disabled = true;
+        addToCartBtn.setAttribute('aria-disabled', 'true');
+    } else {
+        addToCartBtn.disabled = false;
+        addToCartBtn.setAttribute('aria-disabled', 'false');
+    }
     
     // Set up view full details link
     const viewFullDetailsLink = document.getElementById('viewFullDetailsLink');
@@ -621,12 +749,94 @@ function openQuickView(productId) {
         viewFullDetailsLink.onclick = (e) => {
             e.preventDefault();
             closeQuickView();
-            window.location.href = `product.html?id=${product.id}`;
+            let href = `product.html?id=${product.id}`;
+            if (selectedColor) href += `&color=${encodeURIComponent(selectedColor)}`;
+            window.location.href = href;
+        };
+    }
+
+    // Update rating and reviews if available
+    const productRatingEl = document.getElementById('productRating');
+    if (productRatingEl) {
+        const starsEl = productRatingEl.querySelector('.stars');
+        const ratingText = productRatingEl.querySelector('.rating-text');
+        if (starsEl) starsEl.textContent = '⭐'.repeat(Math.floor(product.rating || 4));
+        if (ratingText) ratingText.textContent = `(${(product.rating || 4).toFixed(1)}/5) • ${product.reviews || 0} reviews`;
+    }
+
+    // Quick view share button (copy link)
+    const quickViewShareBtn = document.getElementById('quickViewShare');
+    if (quickViewShareBtn) {
+        quickViewShareBtn.onclick = () => {
+            const productUrl = `${window.location.origin}/product.html?id=${product.id}`;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(productUrl).then(() => {
+                    showNotification('Product link copied to clipboard', 'success');
+                }).catch(() => {
+                    alert(`Product link: ${productUrl}`);
+                });
+            } else {
+                alert(`Product link: ${productUrl}`);
+            }
         };
     }
     
+    // Availability
+    const availabilityEl = document.getElementById('quickViewAvailability');
+    if (availabilityEl) {
+        if (product.stock === 0) {
+            availabilityEl.textContent = 'Out of stock';
+            availabilityEl.classList.add('out-of-stock');
+        } else if (product.stock <= 5) {
+            availabilityEl.textContent = `Only ${product.stock} left`;
+            availabilityEl.classList.remove('out-of-stock');
+        } else {
+            availabilityEl.textContent = 'In stock';
+            availabilityEl.classList.remove('out-of-stock');
+        }
+    }
+
+    // Colors / variants
+    const colorContainer = document.getElementById('quickViewColorOptions');
+    if (colorContainer) {
+        colorContainer.innerHTML = '';
+        // Look for product.colors or specifications Colors key
+        let colors = product.colors;
+        if (!colors && product.specifications) {
+            // try to find any key with 'color' substring (case-insensitive)
+            const colorKey = Object.keys(product.specifications).find(k => /color/i.test(k));
+            if (colorKey) {
+                colors = String(product.specifications[colorKey]).split(/,\s*/).slice(0, 6);
+            }
+        }
+        if (Array.isArray(colors) && colors.length) {
+            colors.forEach((c, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'variant-swatch';
+                btn.setAttribute('aria-pressed', idx === 0 ? 'true' : 'false');
+                btn.style.background = c.trim().toLowerCase();
+                btn.title = c.trim();
+                btn.onclick = () => {
+                    selectedColor = c.trim();
+                    // set active aria-pressed
+                    colorContainer.querySelectorAll('.variant-swatch').forEach(s => s.setAttribute('aria-pressed', 'false'));
+                    btn.setAttribute('aria-pressed', 'true');
+                    // update image alt to include selected color
+                    const qImg = document.getElementById('quickViewImage');
+                    if (qImg) qImg.alt = `${product.name} - ${selectedColor}`;
+                };
+                colorContainer.appendChild(btn);
+                if (idx === 0) selectedColor = c.trim();
+            });
+        }
+    }
+
     // Show modal
     const modal = document.getElementById('quickViewModal');
+    if (!modal) return;
+    lastFocusedElementBeforeModal = document.activeElement;
+    modal.setAttribute('aria-hidden', 'false');
+    modal.setAttribute('aria-modal', 'true');
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden'; // Prevent background scrolling
     
@@ -634,6 +844,41 @@ function openQuickView(productId) {
     setTimeout(() => {
         modal.classList.add('show');
     }, 10);
+
+    // Focus trap and keyboard handling inside modal
+    const focusableSelector = 'a[href], button:not([disabled]), textarea, input[type="text"], input[type="number"], select, [tabindex]:not([tabindex="-1"])';
+    const focusableEls = modal.querySelectorAll(focusableSelector);
+    let firstFocusable = focusableEls[0];
+    let lastFocusable = focusableEls[focusableEls.length - 1];
+
+    function quickViewKeyHandler(e) {
+        if (e.key === 'Tab') {
+            if (e.shiftKey) { // shift + tab
+                if (document.activeElement === firstFocusable) {
+                    e.preventDefault();
+                    lastFocusable.focus();
+                }
+            } else { // tab
+                if (document.activeElement === lastFocusable) {
+                    e.preventDefault();
+                    firstFocusable.focus();
+                }
+            }
+        } else if (e.key === 'Escape') {
+            closeQuickView();
+        }
+    }
+    document.addEventListener('keydown', quickViewKeyHandler);
+    // Attach handler to modal so we can remove later
+    modal._quickViewKeyHandler = quickViewKeyHandler;
+    if (firstFocusable) firstFocusable.focus();
+
+    // Set quantity max to available stock if present
+    const quickQty = document.getElementById('quickViewQuantity');
+    if (quickQty) {
+        quickQty.max = product.stock || 10;
+        if (Number(quickQty.value) > quickQty.max) quickQty.value = quickQty.max;
+    }
 }
 
 // Close quick view modal
@@ -644,7 +889,27 @@ function closeQuickView() {
     
     setTimeout(() => {
         modal.style.display = 'none';
+        modal.setAttribute('aria-hidden', 'true');
+        // Remove key handler if set
+        if (modal._quickViewKeyHandler) {
+            document.removeEventListener('keydown', modal._quickViewKeyHandler);
+            delete modal._quickViewKeyHandler;
+        }
+        // Return focus to the element that opened the modal
+        try { if (lastFocusedElementBeforeModal) lastFocusedElementBeforeModal.focus(); } catch (err) {}
     }, 300);
+}
+
+// Helper to set main image in quick view and update active thumbnail
+function setQuickViewImage(src, idx) {
+    const img = document.getElementById('quickViewImage');
+    if (!img) return;
+    img.src = src;
+    // Update active class on thumbnails
+    const thumbContainer = document.getElementById('quickViewThumbs');
+    if (thumbContainer) {
+        thumbContainer.querySelectorAll('img').forEach((t, i) => t.classList.toggle('active', i === idx));
+    }
 }
 
 // Close modal when clicking outside
@@ -800,13 +1065,13 @@ function createGalleryProductCard(product, index) {
     
     card.innerHTML = `
         <div class="gallery-image">
-            <img src="${product.image || product.img}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;">
+            <img loading="lazy" src="${product.image || product.img}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
         <div class="gallery-caption">
             <h3>${product.name}</h3>
             <p>High-quality ${product.category.toLowerCase()} product</p>
             <p style="color: #667eea; font-weight: bold; margin-top: 10px;">${product.price} EGP</p>
-            <button class="btn" onclick="addToCartWithAnimation('${product.id}', '${product.name}', ${product.price})" style="margin-top: 10px;">Add to Cart</button>
+            <button class="btn btn-primary" onclick="addToCartWithAnimation('${product.id}', '${product.name}', ${product.price})" style="margin-top: 10px;">Add to Cart</button>
         </div>
     `;
     
@@ -1013,12 +1278,12 @@ function displayProductsWithPagination(productsToShow) {
     // Show/hide no results
     if (productsToShow.length === 0) {
         productGrid.style.display = 'none';
-        noResults.style.display = 'block';
-        pagination.style.display = 'none';
+        if (noResults) noResults.style.display = 'block';
+        if (pagination) pagination.style.display = 'none';
         return;
     } else {
         productGrid.style.display = 'grid';
-        noResults.style.display = 'none';
+        if (noResults) noResults.style.display = 'none';
     }
     
     // Calculate pagination
@@ -1053,28 +1318,49 @@ function createEnhancedProductCard(product, index) {
     
     // Add product badges
     const badges = [];
-    if (product.id > 15) badges.push('<span class="badge new">🆕 New</span>');
-    if (Math.random() > 0.7) badges.push('<span class="badge popular">⭐ Popular</span>');
-    if (Math.random() > 0.8) badges.push('<span class="badge sale">🔥 Sale</span>');
+    if (product.id > 15) badges.push(`<span class=\"badge new\">🆕 New</span>`);
+    if (Math.random() > 0.7) badges.push(`<span class=\"badge popular\">⭐ Popular</span>`);
+    const isOnSale = Math.random() > 0.8;
+    if (isOnSale) badges.push(`<span class=\"badge sale\">🔥 Sale</span>`);
+    // Low stock
+    const lowStock = (product.stock > 0 && product.stock <= 5);
+    if (lowStock) badges.push(`<span class=\"badge low-stock\">⚠️ Low stock (${product.stock} left)</span>`);
+    if (product.stock === 0) badges.push(`<span class=\"badge out-of-stock\">⛔ Out</span>`);
+    // Free shipping badge for higher priced items
+    if (product.price >= 1000) badges.push(`<span class=\"badge shipping\">🚚 Free Shipping</span>`);
     
+    // Sale price logic
+    const originalPrice = product.price;
+    const discountPercent = isOnSale ? Math.floor(Math.random() * 21) + 10 : 0; // 10% - 30%
+    const salePrice = isOnSale ? Math.round(originalPrice * (1 - discountPercent / 100)) : originalPrice;
+
     card.innerHTML = `
-        <div class="compare-checkbox" onclick="toggleProductComparison('${product.id}')"></div>
+        <div class="compare-checkbox" onclick="toggleProductComparison('${product.id}')" onkeydown="if(event.key==='Enter'||event.key===' ') toggleProductComparison('${product.id}')" role="checkbox" aria-checked="false" tabindex="0"></div>
+        <button class="wishlist-btn ${isInWishlist(product.id) ? 'active' : ''}" title="Add to wishlist" aria-pressed="${isInWishlist(product.id)}" onclick="toggleWishlistFromCard('${product.id}', this)">
+            <span class="heart">❤️</span>
+        </button>
         <div class="product-image">
-            <img src="${product.image || product.img}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">
+            <img loading="lazy" src="${product.image || product.img}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">
             <div class="product-overlay">
-                <button class="btn btn-quick-view" onclick="openQuickView('${product.id}')">Quick View</button>
+                    <button class="btn btn-quick-view" onclick="openQuickView('${product.id}')">Quick View</button>
             </div>
+            ${product.stock === 0 ? '<div class="out-of-stock">Out of stock</div>' : ''}
         </div>
         <div class="product-badges">${badges.join('')}</div>
         <h3 class="product-title">${product.name}</h3>
-        <p class="product-price">${product.price} EGP</p>
-        <div class="product-rating">
+        <div class="product-meta">
+            <span class="product-category">${product.category}</span>
+            <span class="product-reviews"> • (${product.reviews || Math.floor(Math.random()*200)})</span>
+        </div>
+        <p class="product-snippet">${product.description ? (product.description.length > 80 ? product.description.slice(0,80) + '...' : product.description) : ''}</p>
+        <p class="product-price">${isOnSale ? salePrice + ' EGP' : product.price + ' EGP'} ${isOnSale ? `<span class=\"original-price\">${originalPrice} EGP</span> <span class=\"discount-badge\">-${discountPercent}%</span>` : ''}</p>
+        <div class="product-rating" aria-label="Rating: ${Math.floor(Math.random() * 2) + 4} out of 5">
             <div class="stars">${'⭐'.repeat(Math.floor(Math.random() * 2) + 4)}</div>
             <span class="rating-count">(${Math.floor(Math.random() * 200) + 10})</span>
         </div>
-        <div style="display: flex; gap: 10px; margin-top: 15px;">
-            <button class="btn" onclick="addToCartWithAnimation('${product.id}', '${product.name}', ${product.price})" style="flex: 1;">Add to Cart</button>
-            <a href="product.html?id=${product.id}" class="btn btn-secondary" style="flex: 1; text-align: center; text-decoration: none; padding: 10px 15px;">View Details</a>
+            <div class="product-card-cta" role="group" aria-label="Product actions">
+            <button class="btn btn-primary" ${product.stock === 0 ? 'aria-disabled="true" disabled' : ''} onclick="addToCartWithAnimation('${product.id}', '${product.name}', ${product.price})">${product.stock === 0 ? 'Out of stock' : 'Add to Cart'}</button>
+            <a href="product.html?id=${product.id}" class="btn btn-secondary" style="text-align: center; text-decoration: none;">View Details</a>
         </div>
     `;
     
@@ -1088,6 +1374,7 @@ function updatePagination(totalPages) {
     const prevPage = document.getElementById('prevPage');
     const nextPage = document.getElementById('nextPage');
     
+    if (!pagination || !pageInfo || !prevPage || !nextPage) return;
     if (totalPages <= 1) {
         pagination.style.display = 'none';
         return;
@@ -1232,7 +1519,9 @@ function updateCompareCheckboxes() {
     const checkboxes = document.querySelectorAll('.compare-checkbox');
     checkboxes.forEach(checkbox => {
         const productId = checkbox.closest('.product-card').dataset.productId;
-        checkbox.classList.toggle('checked', selectedProducts.includes(productId));
+        const checked = selectedProducts.includes(productId);
+        checkbox.classList.toggle('checked', checked);
+        checkbox.setAttribute('aria-checked', checked ? 'true' : 'false');
     });
 }
 
@@ -1357,8 +1646,23 @@ function openQuickView(productId) {
         closeQuickView();
     };
     
+    if (wishlistBtn) {
+        wishlistBtn.classList.toggle('active', isInWishlist(product.id));
+        wishlistBtn.setAttribute('aria-pressed', isInWishlist(product.id));
+    }
     wishlistBtn.onclick = () => {
-        addToWishlist(product.id, product.name, product.price);
+        if (isInWishlist(product.id)) {
+            removeFromWishlist(product.id);
+            showNotification(`${product.name} removed from wishlist`, 'info');
+        } else {
+            addToWishlist(product.id, product.name, product.price);
+        }
+        // Update wishlist button state
+        if (wishlistBtn) {
+            wishlistBtn.classList.toggle('active', isInWishlist(product.id));
+            wishlistBtn.setAttribute('aria-pressed', isInWishlist(product.id));
+        }
+        updateWishlistCount();
         closeQuickView();
     };
     
@@ -1375,9 +1679,12 @@ function openQuickView(productId) {
     
     // Show modal
     const modal = document.getElementById('quickViewModal');
+    if (!modal) return;
+    lastFocusedElementBeforeModal = document.activeElement;
+    modal.setAttribute('aria-hidden', 'false');
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
-    
+
     setTimeout(() => {
         modal.classList.add('show');
     }, 10);
@@ -1408,7 +1715,7 @@ function changeQuantity(delta) {
 function addToWishlist(productId, productName, productPrice) {
     let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     
-    if (!wishlist.find(item => item.id === productId)) {
+    if (!wishlist.find(item => String(item.id) === String(productId))) {
         wishlist.push({
             id: productId,
             name: productName,
@@ -1427,16 +1734,26 @@ function addToWishlist(productId, productName, productPrice) {
 function updateWishlistCount() {
     const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
     const wishlistCountElements = document.querySelectorAll('#wishlistCount');
+    const wishlistNavBadge = document.getElementById('wishlistCountNav');
+    const wishlistNavBadgeSmall = document.getElementById('wishlistCountNavSmall');
     wishlistCountElements.forEach(element => {
         element.textContent = wishlist.length;
         element.style.display = wishlist.length > 0 ? 'flex' : 'none';
     });
+    if (wishlistNavBadge) {
+        wishlistNavBadge.textContent = wishlist.length;
+        wishlistNavBadge.style.display = wishlist.length > 0 ? 'inline-flex' : 'none';
+    }
+    if (wishlistNavBadgeSmall) {
+        wishlistNavBadgeSmall.textContent = wishlist.length;
+        wishlistNavBadgeSmall.style.display = wishlist.length > 0 ? 'inline-flex' : 'none';
+    }
 }
 
 // Remove from wishlist
 function removeFromWishlist(productId) {
     let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-    wishlist = wishlist.filter(item => item.id !== productId);
+    wishlist = wishlist.filter(item => String(item.id) !== String(productId));
     localStorage.setItem('wishlist', JSON.stringify(wishlist));
     updateWishlistCount();
     showNotification('Item removed from wishlist', 'success');
@@ -1445,7 +1762,33 @@ function removeFromWishlist(productId) {
 // Check if product is in wishlist
 function isInWishlist(productId) {
     const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-    return wishlist.find(item => item.id === productId) !== undefined;
+    return wishlist.find(item => String(item.id) === String(productId)) !== undefined;
+}
+
+
+// Toggle wishlist state from card button
+function toggleWishlistFromCard(productId, btn) {
+    const id = Number(productId);
+    if (isInWishlist(id)) {
+        removeFromWishlist(id);
+        if (btn) {
+            btn.classList.remove('active');
+            btn.setAttribute('aria-pressed', 'false');
+            btn.classList.add('pulse');
+            setTimeout(() => { btn.classList.remove('pulse'); }, 700);
+        }
+    } else {
+        // Ideally product name/price would be passed, but we can fetch product
+        const product = products.find(p => p.id == id);
+        addToWishlist(id, product ? product.name : 'Product', product ? product.price : 0);
+        if (btn) {
+            btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
+            btn.classList.add('pulse');
+            setTimeout(() => { btn.classList.remove('pulse'); }, 700);
+        }
+    }
+    updateWishlistCount();
 }
 
 // Show notification function
@@ -1466,6 +1809,8 @@ function showNotification(message, type = 'info') {
         animation: slideInRight 0.3s ease-out;
     `;
     notification.textContent = message;
+    notification.setAttribute('role', 'status');
+    notification.setAttribute('aria-live', 'polite');
     
     document.body.appendChild(notification);
     

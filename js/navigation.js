@@ -11,7 +11,6 @@ const navigationConfig = {
         { name: "About", url: "about.html", icon: "ℹ️" },
         { name: "Services", url: "services.html", icon: "🛠️" },
         { name: "Shop", url: "shop.html", icon: "🛍️" },
-        { name: "Gallery", url: "gallery.html", icon: "🖼️" },
         { name: "Team", url: "team.html", icon: "👥" },
         { name: "Contact", url: "contact.html", icon: "📞" }
     ],
@@ -22,6 +21,18 @@ const navigationConfig = {
     userPages: [
         { name: "Dashboard", url: "dashboard.html", icon: "📊" },
         { name: "Admin Panel", url: "admin-dashboard.html", icon: "👨‍💼", adminOnly: true }
+    ],
+    // Additional pages for footer and navigation
+    additionalPages: [
+        { name: "Cart", url: "cart.html", icon: "🛒" },
+        { name: "Checkout", url: "checkout.html", icon: "💳" },
+        { name: "Wishlist", url: "wishlist.html", icon: "❤️" },
+        { name: "Search", url: "search.html", icon: "🔍" },
+        { name: "Compare", url: "compare.html", icon: "⚖️" },
+        { name: "FAQ", url: "faq.html", icon: "❓" },
+        { name: "Shipping", url: "shipping.html", icon: "🚚" },
+        { name: "Returns", url: "returns.html", icon: "↩️" },
+        { name: "Privacy", url: "privacy.html", icon: "🔒" }
     ]
 };
 
@@ -31,11 +42,47 @@ const navigationConfig = {
 
 // Initialize navigation on page load
 function initializeNavigation() {
+    insertSkipLink();
+    ensureMainWrapper();
     updateNavigation();
     updateActivePage();
     updateUserMenu();
     setupMenuToggle();
     setupHeaderScrollEffect();
+}
+
+// Insert a skip link at the top of the page for accessibility if not already present
+function insertSkipLink() {
+    if (!document.querySelector('.skip-link')) {
+        const link = document.createElement('a');
+        link.href = '#main-content';
+        link.className = 'skip-link';
+        link.textContent = 'Skip to main content';
+        document.body.insertBefore(link, document.body.firstChild);
+    }
+}
+
+// Ensure there is a <main id="main-content"> wrapper so skip-link has a proper anchor
+function ensureMainWrapper() {
+    if (!document.getElementById('main-content')) {
+        const header = document.querySelector('header');
+        const footer = document.querySelector('footer');
+        if (!footer || !header) return;
+
+        const main = document.createElement('main');
+        main.id = 'main-content';
+
+        // Move all nodes between header and footer into main
+        let node = header.nextSibling;
+        while (node && node !== footer) {
+            const next = node.nextSibling;
+            main.appendChild(node);
+            node = next;
+        }
+
+        // Insert main before footer
+        footer.parentNode.insertBefore(main, footer);
+    }
 }
 
 // Update navigation based on current page and user status
@@ -54,6 +101,18 @@ function updateNavigation() {
         navMenu.appendChild(li);
     });
 
+    // Add search form to navigation
+    const searchLi = document.createElement('li');
+    searchLi.className = 'nav-search';
+    searchLi.innerHTML = `
+        <form class="search-form" action="search.html" method="get" role="search" aria-label="Site search">
+            <label class="sr-only" for="navSearch">Search</label>
+            <input id="navSearch" class="search-input" type="search" name="q" placeholder="Search products" aria-label="Search products" />
+            <button class="search-button" type="submit" aria-label="Search">🔍</button>
+        </form>
+    `;
+    navMenu.appendChild(searchLi);
+
     // Add authentication or user menu based on login status
     const currentUser = localStorage.getItem('currentUser');
     if (currentUser) {
@@ -66,7 +125,7 @@ function updateNavigation() {
         
         let userMenuHTML = `
             <a href="dashboard.html">📊 Dashboard</a>
-            <a href="wishlist.html">❤️ Wishlist</a>
+            <a href="wishlist.html">❤️ Wishlist <span id="wishlistCountNavSmall" class="badge" style="display:none;margin-left:8px;">0</span></a>
             <a href="cart.html">🛒 Cart</a>
         `;
         
@@ -91,6 +150,13 @@ function updateNavigation() {
         navMenu.appendChild(signupLi);
     }
 
+    // Add wishlist button (nav)
+    const wishlistLi = document.createElement('li');
+    wishlistLi.innerHTML = `
+        <a href="wishlist.html" class="wishlist-button">❤️ Wishlist <span id="wishlistCountNav" class="badge" style="display:none; margin-left:6px;">0</span></a>
+    `;
+    navMenu.appendChild(wishlistLi);
+
     // Add cart button
     if (cartItem) {
         navMenu.appendChild(cartItem);
@@ -110,6 +176,10 @@ function updateNavigation() {
             }
         });
     });
+    // Update wishlist count badges (if available)
+    if (typeof updateWishlistCount === 'function') {
+        updateWishlistCount();
+    }
 }
 
 // Update active page highlighting
@@ -190,6 +260,14 @@ function setupMenuToggle() {
         toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
 
+    // Allow opening/closing the menu with Enter or Space for keyboard users
+    toggle.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggle.click();
+        }
+    });
+
     // Reset menu state on resize to desktop
     window.addEventListener('resize', () => {
         if (window.innerWidth > 768) {
@@ -221,7 +299,7 @@ function setupHeaderScrollEffect() {
 // FOOTER FUNCTIONS
 // ========================================
 
-// Generate footer content
+// Generate a compact footer (smaller and cleaner)
 function generateFooter() {
     const footer = document.querySelector('footer');
     if (!footer) return;
@@ -231,61 +309,37 @@ function generateFooter() {
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>AMNA Shop</h3>
-                    <p>Your one-stop destination for quality products and exceptional service. Built with passion by four dedicated students.</p>
-
-                    <div class="social-links">
+                    <p>Quality products • Fast delivery • Secure payments</p>
+                    <div class="social-links" aria-label="Social links">
                         <a href="#" aria-label="Facebook">📘</a>
                         <a href="#" aria-label="Twitter">🐦</a>
                         <a href="#" aria-label="Instagram">📷</a>
-                        <a href="#" aria-label="LinkedIn">💼</a>
                     </div>
                 </div>
-                
+
                 <div class="footer-section">
                     <h4>Quick Links</h4>
                     <ul>
                         <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="services.html">Services</a></li>
                         <li><a href="shop.html">Shop</a></li>
-                        <li><a href="team.html">Team</a></li>
-
+                        <li><a href="cart.html">Cart</a></li>
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
                 </div>
-                
-                <div class="footer-section">
-                    <h4>Categories</h4>
-                    <ul>
-                        <li><a href="shop.html?category=Electronics">Electronics</a></li>
-                        <li><a href="shop.html?category=Fashion">Fashion</a></li>
-                        <li><a href="shop.html?category=Accessories">Accessories</a></li>
-                        <li><a href="shop.html?category=Home">Home</a></li>
-                        <li><a href="shop.html?category=Beauty">Beauty</a></li>
-                    </ul>
-                </div>
-                
+
                 <div class="footer-section">
                     <h4>Support</h4>
                     <ul>
-                        <li><a href="contact.html">Contact Us</a></li>
                         <li><a href="faq.html">FAQ</a></li>
-                        <li><a href="shipping.html">Shipping Info</a></li>
+                        <li><a href="shipping.html">Shipping</a></li>
                         <li><a href="returns.html">Returns</a></li>
-                        <li><a href="privacy.html">Privacy Policy</a></li>
-
-                        <li><a href="#" onclick="showFAQ()">FAQ</a></li>
-                        <li><a href="#" onclick="showShipping()">Shipping Info</a></li>
-                        <li><a href="#" onclick="showReturns()">Returns</a></li>
-                        <li><a href="#" onclick="showPrivacy()">Privacy Policy</a></li>
+                        <li><a href="privacy.html">Privacy</a></li>
                     </ul>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
-                <p style="font-size: 12px; color: #999; margin-top: 10px;">
-                    This is a university project for educational purposes. All prices are in Egyptian Pounds (EGP).
-                </p>
+                <p>This is a university project — prices shown in EGP.</p>
             </div>
         </div>
     `;
