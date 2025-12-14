@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
 });
 
-// Theme handling moved to CSS: use `css/themes/china.css`.
+// Theme handling moved to CSS: using `css/style.css` (old China theme removed).
 // Legacy JS helpers for toggling themes have been removed to simplify runtime.
 
 // Update cart count on page load
@@ -86,13 +86,14 @@ function checkLoginStatus() {
 
 // Initialize navigation functionality
 function initializeNavigation() {
-    // Mobile menu toggle (if needed)
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const navMenu = document.getElementById('navMenu');
-    
+    // Mobile menu toggle (use class-based toggle so CSS controls sliding)
+    const mobileMenuBtn = document.querySelector('.menu-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+
     if (mobileMenuBtn && navMenu) {
         mobileMenuBtn.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
+            navMenu.classList.toggle('is-open');
+            mobileMenuBtn.classList.toggle('is-open');
         });
     }
 }
@@ -299,52 +300,44 @@ function initializeAnimations() {
 
 // Initialize scroll effects
 function initializeScrollEffects() {
-    // Smooth scroll for anchor links
+    // Smooth scroll for anchor links (enhanced)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            const href = this.getAttribute('href');
+            const target = document.querySelector(href);
             if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
     });
-    
-    // Parallax effect for hero section
+
+    // Parallax effect for hero section (kept simple)
     window.addEventListener('scroll', function() {
         const scrolled = window.pageYOffset;
         const hero = document.querySelector('.hero');
         if (hero) {
-            hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            // reduce transform intensity to avoid large layout shifts
+            hero.style.transform = `translateY(${scrolled * 0.2}px)`;
         }
     });
-    
-    // Intersection Observer for scroll animations
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
+
+    // Intersection Observer for unified fade-in animations
+    const observerOptions = { threshold: 0.12, rootMargin: '0px 0px -40px 0px' };
+
+    const observer = new IntersectionObserver((entries, obs) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Add 'in-view' for reveal elements, otherwise use 'animate-in'
-                if (entry.target.classList.contains('reveal')) {
-                    entry.target.classList.add('in-view');
-                } else {
-                    entry.target.classList.add('animate-in');
-                }
+                entry.target.classList.add('fade-in');
+                // stop observing after animation triggered
+                obs.unobserve(entry.target);
             }
         });
     }, observerOptions);
-    
-    // Observe elements for animation and reveal
-    document.querySelectorAll('.section-title, .product-card, .team-member, .service-item, .reveal, .testimonial').forEach(el => {
-        observer.observe(el);
-    });
+
+    // Observe a broad set of elements: cards, sections, hero blocks and event items
+    const toObserve = document.querySelectorAll('.product-card, .card, .gallery-item, .team-member, .service-item, .section, .hero, .section-title, .event-item');
+    toObserve.forEach(el => observer.observe(el));
 }
 
 // Enhanced add to cart with animation
@@ -1794,33 +1787,25 @@ function toggleWishlistFromCard(productId, btn) {
 // Show notification function
 function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: ${type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : type === 'warning' ? '#f39c12' : '#3498db'};
-        color: white;
-        padding: 15px 20px;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        z-index: 10000;
-        font-weight: 600;
-        max-width: 300px;
-        animation: slideInRight 0.3s ease-out;
-    `;
+    const bg = type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : type === 'warning' ? '#f39c12' : '#3498db';
+    notification.style.cssText = `position: fixed; top: 20px; right: 20px; background: ${bg}; color: white; padding: 15px 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index:10000; font-weight:600; max-width:320px; opacity: 0;`;
     notification.textContent = message;
     notification.setAttribute('role', 'status');
     notification.setAttribute('aria-live', 'polite');
-    
+    // fade transition for removal
+    notification.style.transition = 'opacity 0.5s ease';
+
     document.body.appendChild(notification);
-    
+    // force reflow then show
+    void notification.offsetWidth;
+    notification.style.opacity = '1';
+
+    // Auto-hide after 3s, then fade out over 0.5s
     setTimeout(() => {
-        notification.style.animation = 'slideOutRight 0.3s ease-out forwards';
+        notification.style.opacity = '0';
         setTimeout(() => {
-            if (notification.parentNode) {
-                document.body.removeChild(notification);
-            }
-        }, 300);
+            if (notification.parentNode) document.body.removeChild(notification);
+        }, 500);
     }, 3000);
 }
 

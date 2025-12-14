@@ -323,6 +323,11 @@ function viewOrderDetails(orderId) {
 function deleteOrder(orderId) {
     if (confirm('Are you sure you want to delete this order?')) {
         let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+        const order = orders.find(o => o.orderId === orderId);
+        // If order exists and wasn't already cancelled, restore stock before deleting
+        if (order && order.status !== 'Cancelled') {
+            restoreStockForOrder(order);
+        }
         orders = orders.filter(o => o.orderId !== orderId);
         localStorage.setItem('orders', JSON.stringify(orders));
         loadOrderManagement();
@@ -1270,17 +1275,80 @@ function updateOrderStatus(orderId, newStatus) {
         const oldStatus = order.status || 'Pending';
         order.status = newStatus;
         order.statusUpdated = new Date().toISOString();
-        
+
+        // If order was cancelled now, restore stock for its items
+        if (newStatus === 'Cancelled' && oldStatus !== 'Cancelled') {
+            restoreStockForOrder(order);
+        }
+
+        // If order was previously cancelled and is being re-activated, attempt to decrement stock again
+        if (oldStatus === 'Cancelled' && newStatus !== 'Cancelled') {
+            // try to re-decrement stock; if cannot fulfill, warn admin and keep status
+            if (!canFulfillOrder(order.items)) {
+                alert('Cannot change status: one or more items no longer available in stock to re-confirm this order.');
+                return;
+            }
+            adjustStock(order.items, -1);
+        }
+
         localStorage.setItem('orders', JSON.stringify(orders));
-        
+
         // Add notification
         addNotification('order', 'Order Status Updated', 
             `Order ${orderId} status changed from ${oldStatus} to ${newStatus}`, 
             { orderId: orderId, status: newStatus });
-        
+
         alert(`Order ${orderId} status updated to ${newStatus}`);
         loadOrderManagement();
     }
+}
+
+// Restore stock for an order's items (used when cancelling an order)
+function restoreStockForOrder(order) {
+    if (!order || !Array.isArray(order.items)) return;
+    adjustStock(order.items, +1);
+    addNotification('system', 'Stock Restored', `Stock restored for cancelled order ${order.orderId}`, { orderId: order.orderId });
+}
+
+// Check if items can be fulfilled (same as checkout check)
+function canFulfillOrder(items) {
+    if (!Array.isArray(items) || items.length === 0) return false;
+    const adminProducts = JSON.parse(localStorage.getItem('adminProducts') || '[]');
+
+    for (let item of items) {
+        const prod = (typeof products !== 'undefined' ? products.find(p => String(p.id) === String(item.id)) : null) || adminProducts.find(p => String(p.id) === String(item.id));
+        const available = prod && (prod.stock || 0);
+        if (!prod || available < item.quantity) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Adjust stock levels for a list of items. multiplier = +1 to add back, -1 to subtract
+function adjustStock(items, multiplier) {
+    if (!Array.isArray(items) || items.length === 0) return;
+
+    const adminProducts = JSON.parse(localStorage.getItem('adminProducts') || '[]');
+
+    items.forEach(item => {
+        if (typeof products !== 'undefined') {
+            const p = products.find(pp => String(pp.id) === String(item.id));
+            if (p) {
+                p.stock = (p.stock || 0) + (item.quantity * multiplier);
+                if (p.stock < 0) p.stock = 0;
+            }
+        }
+
+        const apIndex = adminProducts.findIndex(pp => String(pp.id) === String(item.id));
+        if (apIndex > -1) {
+            adminProducts[apIndex].stock = (adminProducts[apIndex].stock || 0) + (item.quantity * multiplier);
+            if (adminProducts[apIndex].stock < 0) adminProducts[apIndex].stock = 0;
+        }
+    });
+
+    // Persist changes
+    localStorage.setItem('adminProducts', JSON.stringify(adminProducts));
 }
 
 function getOrderStatusBadge(status) {

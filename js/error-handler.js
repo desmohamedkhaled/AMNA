@@ -186,31 +186,18 @@ class ErrorHandler {
     showNotification({ title, message, type = 'info', icon = 'ℹ️', action = 'OK', errorId = null }) {
         const notification = document.createElement('div');
         notification.className = 'error-notification';
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: ${this.getNotificationColor(type)};
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-            z-index: 10000;
-            font-weight: 600;
-            max-width: 400px;
-            animation: slideInRight 0.3s ease-out;
-            border-left: 4px solid ${this.getNotificationBorderColor(type)};
-        `;
+        const bg = this.getNotificationColor(type);
+        const border = this.getNotificationBorderColor(type);
+        notification.style.cssText = `position: fixed; top: 20px; right: 20px; background: ${bg}; color: white; padding: 20px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); z-index:10000; font-weight:600; max-width:400px; border-left:4px solid ${border}; opacity:0;`;
 
         notification.innerHTML = `
             <div style="display: flex; align-items: flex-start; gap: 12px;">
                 <div style="font-size: 24px;">${icon}</div>
                 <div style="flex: 1;">
                     <div style="font-size: 16px; font-weight: bold; margin-bottom: 5px;">${title}</div>
-                    <div style="font-size: 14px; opacity: 0.9; margin-bottom: 15px;">${message}</div>
+                    <div style="font-size: 14px; opacity: 0.95; margin-bottom: 15px;">${message}</div>
                     <div style="display: flex; gap: 10px; align-items: center;">
-                        <button onclick="this.parentElement.parentElement.parentElement.parentElement.remove()" 
-                                style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold;">
+                        <button class="error-action-btn" style="background: rgba(255,255,255,0.12); border: none; color: white; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold;">
                             ${action}
                         </button>
                         ${errorId ? `<span style="font-size: 10px; opacity: 0.7;">ID: ${errorId}</span>` : ''}
@@ -219,17 +206,25 @@ class ErrorHandler {
             </div>
         `;
 
+        // add fade transition
+        notification.style.transition = 'opacity 0.5s ease';
         document.body.appendChild(notification);
+        // show
+        void notification.offsetWidth;
+        notification.style.opacity = '1';
 
-        // Auto-remove after 8 seconds
+        // hook action button to close
+        const btn = notification.querySelector('.error-action-btn');
+        if (btn) btn.addEventListener('click', () => {
+            notification.style.opacity = '0';
+            setTimeout(() => { if (notification.parentNode) notification.parentNode.removeChild(notification); }, 500);
+        });
+
+        // Auto-remove after 8 seconds (fade-out)
         setTimeout(() => {
             if (notification.parentNode) {
-                notification.style.animation = 'slideOutRight 0.3s ease-out forwards';
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        document.body.removeChild(notification);
-                    }
-                }, 300);
+                notification.style.opacity = '0';
+                setTimeout(() => { if (notification.parentNode) notification.parentNode.removeChild(notification); }, 500);
             }
         }, 8000);
     }
@@ -496,12 +491,13 @@ class FeedbackSystem {
     // Hide loading message
     hideLoading(notification) {
         if (notification && notification.parentNode) {
-            notification.style.animation = 'fadeOut 0.3s ease-out forwards';
+            notification.style.transition = 'opacity 0.5s ease';
+            notification.style.opacity = '0';
             setTimeout(() => {
                 if (notification.parentNode) {
                     document.body.removeChild(notification);
                 }
-            }, 300);
+            }, 500);
         }
     }
 
@@ -509,20 +505,8 @@ class FeedbackSystem {
     showNotification({ type, title, message, icon, duration = 3000 }) {
         const notification = document.createElement('div');
         notification.className = 'feedback-notification';
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: ${this.getNotificationColor(type)};
-            color: white;
-            padding: 15px 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            z-index: 10000;
-            font-weight: 600;
-            max-width: 350px;
-            animation: slideInRight 0.3s ease-out;
-        `;
+        const bg = this.getNotificationColor(type);
+        notification.style.cssText = `position: fixed; top: 20px; right: 20px; background: ${bg}; color: white; padding: 15px 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index:10000; font-weight:600; max-width:350px; opacity:0;`;
 
         notification.innerHTML = `
             <div style="display: flex; align-items: flex-start; gap: 10px;">
@@ -531,24 +515,23 @@ class FeedbackSystem {
                     <div style="font-size: 14px; font-weight: bold; margin-bottom: 3px;">${title}</div>
                     <div style="font-size: 13px; opacity: 0.9;">${message}</div>
                 </div>
-                <button onclick="this.parentElement.parentElement.remove()" 
-                        style="background: none; border: none; color: white; cursor: pointer; font-size: 16px; opacity: 0.7; padding: 0;">
-                    ×
-                </button>
+                <button class="feedback-close-btn" style="background: none; border: none; color: white; cursor: pointer; font-size: 16px; opacity: 0.7; padding: 0;">×</button>
             </div>
         `;
 
+        notification.style.transition = 'opacity 0.5s ease';
         document.body.appendChild(notification);
+        void notification.offsetWidth;
+        notification.style.opacity = '1';
+
+        const closeBtn = notification.querySelector('.feedback-close-btn');
+        if (closeBtn) closeBtn.addEventListener('click', () => { notification.style.opacity = '0'; setTimeout(() => { if (notification.parentNode) notification.parentNode.removeChild(notification); }, 500); });
 
         // Auto-remove after duration
         setTimeout(() => {
             if (notification.parentNode) {
-                notification.style.animation = 'slideOutRight 0.3s ease-out forwards';
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        document.body.removeChild(notification);
-                    }
-                }, 300);
+                notification.style.opacity = '0';
+                setTimeout(() => { if (notification.parentNode) notification.parentNode.removeChild(notification); }, 500);
             }
         }, duration);
     }

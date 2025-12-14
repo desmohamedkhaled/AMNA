@@ -163,20 +163,76 @@ function handleCheckout(e) {
     
     // Simulate processing delay
     setTimeout(() => {
+        // Before finalizing, ensure stock is available and decrement stock
+        if (!canFulfillOrder(orderData.items)) {
+            alert('One or more items in your cart are no longer in stock in the requested quantity. Please review your cart.');
+            checkoutBtn.textContent = originalText;
+            checkoutBtn.disabled = false;
+            return;
+        }
+
+        // Decrement stock for ordered items
+        adjustStock(orderData.items, -1);
+
         // Store order in localStorage
         let orders = JSON.parse(localStorage.getItem('orders') || '[]');
         orders.push(orderData);
         localStorage.setItem('orders', JSON.stringify(orders));
-        
+
         // Clear cart
         localStorage.removeItem('cart');
-        
+
         // Send confirmation email (simulation)
         sendOrderConfirmationEmail(orderData);
-        
+
         // Redirect to success page
         window.location.href = 'success.html';
     }, 2000);
+}
+
+// Check if order can be fulfilled based on current stock
+function canFulfillOrder(items) {
+    if (!Array.isArray(items) || items.length === 0) return false;
+
+    const adminProducts = JSON.parse(localStorage.getItem('adminProducts') || '[]');
+
+    for (let item of items) {
+        // Attempt to find product in runtime `products` array first, then fallback to adminProducts
+        const prod = (typeof products !== 'undefined' ? products.find(p => String(p.id) === String(item.id)) : null) || adminProducts.find(p => String(p.id) === String(item.id));
+        const available = prod && (prod.stock || 0);
+        if (!prod || available < item.quantity) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Adjust stock levels for a list of items. multiplier = +1 to add back, -1 to subtract
+function adjustStock(items, multiplier) {
+    if (!Array.isArray(items) || items.length === 0) return;
+
+    // Update products array if available
+    const adminProducts = JSON.parse(localStorage.getItem('adminProducts') || '[]');
+
+    items.forEach(item => {
+        // find in products (runtime) and adminProducts
+        if (typeof products !== 'undefined') {
+            const p = products.find(pp => String(pp.id) === String(item.id));
+            if (p) {
+                p.stock = (p.stock || 0) + (item.quantity * multiplier);
+                if (p.stock < 0) p.stock = 0;
+            }
+        }
+
+        const apIndex = adminProducts.findIndex(pp => String(pp.id) === String(item.id));
+        if (apIndex > -1) {
+            adminProducts[apIndex].stock = (adminProducts[apIndex].stock || 0) + (item.quantity * multiplier);
+            if (adminProducts[apIndex].stock < 0) adminProducts[apIndex].stock = 0;
+        }
+    });
+
+    // Persist adminProducts so admin views reflect the change
+    localStorage.setItem('adminProducts', JSON.stringify(adminProducts));
 }
 
 // Validate checkout form
@@ -309,10 +365,12 @@ function showValidationSummary(messages) {
     const form = document.getElementById('checkoutForm');
     form.insertBefore(summary, form.firstChild);
     
-    // Remove summary after 5 seconds
+    // Remove summary after 5 seconds with fade out (0.5s)
     setTimeout(() => {
         if (summary.parentNode) {
-            summary.parentNode.removeChild(summary);
+            summary.style.transition = 'opacity 0.5s ease';
+            summary.style.opacity = '0';
+            setTimeout(() => { if (summary.parentNode) summary.parentNode.removeChild(summary); }, 500);
         }
     }, 5000);
 }
@@ -610,57 +668,17 @@ function autoFillUserInfo() {
 // Show notification function
 function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: ${type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db'};
-        color: white;
-        padding: 15px 20px;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        z-index: 10000;
-        font-weight: 600;
-        max-width: 300px;
-        animation: slideInRight 0.3s ease-out;
-    `;
+    const bg = type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db';
+    notification.style.cssText = `position: fixed; top: 20px; right: 20px; background: ${bg}; color: white; padding: 15px 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index:10000; font-weight:600; max-width:320px; opacity:0;`;
     notification.textContent = message;
-    
+    notification.style.transition = 'opacity 0.5s ease';
     document.body.appendChild(notification);
-    
+    void notification.offsetWidth;
+    notification.style.opacity = '1';
     setTimeout(() => {
-        notification.style.animation = 'slideOutRight 0.3s ease-out forwards';
-        setTimeout(() => {
-            if (notification.parentNode) {
-                document.body.removeChild(notification);
-            }
-        }, 300);
+        notification.style.opacity = '0';
+        setTimeout(() => { if (notification.parentNode) document.body.removeChild(notification); }, 500);
     }, 3000);
 }
 
-// Add CSS for notifications
-const notificationStyle = document.createElement('style');
-notificationStyle.textContent = `
-    @keyframes slideInRight {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes slideOutRight {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(notificationStyle);
+// No keyframes required for unified fade notifications (handled inline)

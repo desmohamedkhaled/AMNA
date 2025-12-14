@@ -155,57 +155,21 @@ function clearCart() {
 // Show notification
 function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: ${type === 'success' ? '#27ae60' : '#3498db'};
-        color: white;
-        padding: 15px 20px;
-        border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        z-index: 10000;
-        font-weight: 600;
-        animation: slideInRight 0.3s ease-out;
-    `;
+    const bg = type === 'success' ? '#27ae60' : '#3498db';
+    notification.style.cssText = `position: fixed; top: 20px; right: 20px; background: ${bg}; color: white; padding: 15px 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); z-index:10000; font-weight:600; max-width:320px; opacity:0;`;
     notification.textContent = message;
-    
+    notification.style.transition = 'opacity 0.5s ease';
     document.body.appendChild(notification);
-    
+    void notification.offsetWidth;
+    notification.style.opacity = '1';
     setTimeout(() => {
-        notification.style.animation = 'slideOutRight 0.3s ease-out forwards';
-        setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 300);
+        notification.style.opacity = '0';
+        setTimeout(() => { if (notification.parentNode) document.body.removeChild(notification); }, 500);
     }, 3000);
 }
 
 // Add CSS for notifications
-const notificationStyle = document.createElement('style');
-notificationStyle.textContent = `
-    @keyframes slideInRight {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes slideOutRight {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(notificationStyle);
+// unified fade notifications handled inline; no keyframes required
 
 // Export functions for use in other files
 window.updateCartCount = updateCartCount;

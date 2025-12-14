@@ -697,6 +697,18 @@ const products = [
     }
 ];
 
+// If admin-managed products exist in localStorage, use them to persist runtime stock changes
+try {
+    const storedAdminProducts = JSON.parse(localStorage.getItem('adminProducts') || '[]');
+    if (Array.isArray(storedAdminProducts) && storedAdminProducts.length) {
+        products.length = 0;
+        products.push(...storedAdminProducts);
+        console.log('Loaded products from adminProducts in localStorage');
+    }
+} catch (err) {
+    // ignore JSON parse errors
+}
+
 // ========================================
 // USERS DATA
 // ========================================

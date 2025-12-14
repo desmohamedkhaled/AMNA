@@ -15,17 +15,17 @@
 
 /* Root variables - change these to tweak the whole site */
 :root{
-    --bg: #fbfcfd;
-    --card-bg: #ffffff;
-    --muted: #6b7280;
-    --text: #1f2937;
-    /* Brighter, modern accent pair for headings and highlights */
-    --accent: #4f46e5; /* indigo */
-    --accent-2: #06b6d4; /* teal */
-  --radius: 10px;
-  --gap: 18px; /* unified spacing */
-  --transition: 200ms cubic-bezier(.2,.9,.2,1);
-  --container: 1200px;
+        --bg: #fbfcfd;
+        --card-bg: #ffffff;
+        --muted: #6b7280;
+        --text: #1f2937;
+        /* Brighter, modern accent pair for headings and highlights */
+        --accent: #4f46e5; /* indigo */
+        --accent-2: #06b6d4; /* teal */
+    --radius: 10px;
+    --gap: 18px; /* unified spacing */
+    --transition: all 0.3s ease;
+    --container: 1200px;
 }
 
 body{
@@ -659,12 +659,22 @@ section {
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px);
     }
     to {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Fade-in helper class used by IntersectionObserver */
+.fade-in {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Apply the unified transition to common interactive elements */
+button, .btn, a, .nav-menu a, .product-card, .card, .gallery-item, .team-member, .service-item, .wishlist-item, .wishlist-remove-btn, .product-image img, .footer .social-links a, input, select, textarea {
+    transition: var(--transition) !important;
 }
 
 /* Smooth fade in animation */
